@@ -1,0 +1,41 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kube-prometheus-stack
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: kube-prometheus-stack
+  interval: 1h
+  values:
+    crds:
+      enabled: true
+    alertmanager:
+      enabled: false
+    prometheus:
+      prometheusSpec:
+        retention: 7d
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: longhorn
+              accessModes: [ReadWriteOnce]
+              resources:
+                requests:
+                  storage: 20Gi
+    grafana:
+      enabled: true
+      defaultDashboardsTimezone: Europe/Paris
+      persistence:
+        enabled: true
+        storageClassName: longhorn
+        size: 5Gi
+      adminPassword: admin
+      grafana.ini:
+        auth.anonymous:
+          enabled: false
+    nodeExporter:
+      enabled: true
+    kubeStateMetrics:
+      enabled: true
