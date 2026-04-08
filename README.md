@@ -1,11 +1,33 @@
 # homelab - cluster firelink
 
 Kubernetes cluster running on Proxmox VMs, managed with GitOps.
-Inspired by [onedr0p/cluster-template](https://github.com/onedr0p/cluster-template).
+Based on [onedr0p/cluster-template](https://github.com/onedr0p/cluster-template).
 
 ## Infrastructure
 
-3 Talos Linux VMs on Proxmox — HA control-plane.
+### Hardware
+
+Single node running Proxmox:
+
+| Component | Spec |
+|---|---|
+| CPU | Intel Core i5-14400 (10c, iGPU QSV) |
+| Motherboard | ASRock B760M-ITX/D4 WiFi (Mini-ITX) |
+| RAM | 32 GB DDR4 3200 MHz (2x16 GB Kingston Fury Beast) |
+| NVMe | Samsung 970 EVO Plus 1 TB (Proxmox + VMs) |
+| HDD | WD Red Plus 4 TB (future NFS storage) |
+| PSU | be quiet! Pure Power 12M 550W 80+ Gold |
+| Case | Fractal Design Node 304 (Mini-ITX) |
+
+### VMs
+
+3 Talos Linux VMs on Proxmox — HA control-plane, all nodes run workloads.
+
+| VM | Role | CPU | RAM | Disk |
+|---|---|---|---|---|
+| firelink-01 | control-plane | 4 vCPU | 8 GB | 50 GB |
+| firelink-02 | control-plane | 4 vCPU | 8 GB | 50 GB |
+| firelink-03 | control-plane | 4 vCPU | 8 GB | 50 GB |
 
 ## Stack
 
