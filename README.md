@@ -21,7 +21,7 @@ Single node running Proxmox:
 
 ### VMs
 
-3 Talos Linux VMs on Proxmox : HA control-plane, all nodes run workloads.
+3 Talos Linux VMs on Proxmox: HA control-plane, all nodes run workloads.
 
 | VM | Role | CPU | RAM | Disk |
 |---|---|---|---|---|
