@@ -1,4 +1,4 @@
-# homelab - cluster firelink
+# homelab
 
 Kubernetes cluster running on Proxmox VMs, managed with GitOps.
 Based on [onedr0p/cluster-template](https://github.com/onedr0p/cluster-template).
@@ -21,7 +21,7 @@ Single node running Proxmox:
 
 ### VMs
 
-3 Talos Linux VMs on Proxmox — HA control-plane, all nodes run workloads.
+3 Talos Linux VMs on Proxmox : HA control-plane, all nodes run workloads.
 
 | VM | Role | CPU | RAM | Disk |
 |---|---|---|---|---|
