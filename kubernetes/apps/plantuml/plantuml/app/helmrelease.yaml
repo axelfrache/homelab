@@ -81,3 +81,8 @@ spec:
                       value: "443"
                     - name: X-Forwarded-Host
                       value: plantuml.${SECRET_DOMAIN}
+              - type: ResponseHeaderModifier
+                responseHeaderModifier:
+                  set:
+                    - name: Cross-Origin-Opener-Policy
+                      value: same-origin
