@@ -1,0 +1,83 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: n8n
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: n8n
+  interval: 1h
+  values:
+    controllers:
+      n8n:
+        strategy: RollingUpdate
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: docker.n8n.io/n8nio/n8n
+              tag: 2.2.6
+            env:
+              N8N_HOST: &host n8n.${SECRET_DOMAIN}
+              N8N_PORT: &port 5678
+              N8N_PROTOCOL: https
+              N8N_EDITOR_BASE_URL: https://n8n.${SECRET_DOMAIN}/
+              WEBHOOK_URL: https://n8n.${SECRET_DOMAIN}/
+              N8N_SECURE_COOKIE: true
+              N8N_DIAGNOSTICS_ENABLED: false
+              N8N_VERSION_NOTIFICATIONS_ENABLED: false
+              GENERIC_TIMEZONE: Europe/Paris
+              TZ: Europe/Paris
+            envFrom:
+              - secretRef:
+                  name: n8n-secret
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: *port
+                  initialDelaySeconds: 30
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 6
+              readiness: *probes
+            resources:
+              requests:
+                cpu: 100m
+                memory: 256Mi
+              limits:
+                memory: 1Gi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+    service:
+      app:
+        ports:
+          http:
+            port: *port
+    route:
+      app:
+        hostnames: ["{{ .Release.Name }}.${SECRET_DOMAIN}"]
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+            sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
+    persistence:
+      data:
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 10Gi
+        storageClass: longhorn
+        globalMounts:
+          - path: /home/node/.n8n
