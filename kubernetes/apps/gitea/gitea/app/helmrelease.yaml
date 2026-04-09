@@ -1,0 +1,63 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: gitea
+spec:
+  chart:
+    spec:
+      chart: gitea
+      version: 12.5.0
+      sourceRef:
+        kind: HelmRepository
+        name: gitea
+  interval: 1h
+  values:
+    image:
+      rootless: true
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        memory: 512Mi
+    persistence:
+      enabled: true
+      storageClass: longhorn
+      size: 10Gi
+    service:
+      http:
+        clusterIP: ""
+    gitea:
+      admin:
+        existingSecret: gitea-admin-secret
+        email: axelfrache@gmail.com
+        passwordMode: keepUpdated
+      metrics:
+        enabled: true
+        serviceMonitor:
+          enabled: true
+      config:
+        server:
+          DOMAIN: gitea.${SECRET_DOMAIN}
+          ROOT_URL: https://gitea.${SECRET_DOMAIN}/
+          SSH_DOMAIN: gitea.${SECRET_DOMAIN}
+          START_SSH_SERVER: false
+          SSH_PORT: 22
+          SSH_LISTEN_PORT: 2222
+        service:
+          DISABLE_REGISTRATION: true
+        database:
+          DB_TYPE: sqlite3
+    valkey-cluster:
+      enabled: false
+    valkey:
+      enabled: false
+    postgresql-ha:
+      enabled: false
+    postgresql:
+      enabled: false
+    ingress:
+      enabled: false
+    test:
+      enabled: false
