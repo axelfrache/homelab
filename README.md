@@ -1,7 +1,13 @@
 # homelab
 
-Kubernetes cluster running on Proxmox VMs, managed with GitOps.
+[![Kubernetes](https://img.shields.io/badge/Kubernetes-v1.35.2-326CE5?logo=kubernetes&logoColor=white)](https://kubernetes.io/)
+[![Talos](https://img.shields.io/badge/Talos-v1.12.4-0F62FE)](https://www.talos.dev/)
+[![License](https://img.shields.io/github/license/axelfrache/homelab)](./LICENSE)
+
+GitOps-managed homelab Kubernetes cluster running on Proxmox VMs with Talos Linux and Flux.
 Based on [onedr0p/cluster-template](https://github.com/onedr0p/cluster-template).
+
+Pull requests that change the Kubernetes manifests are validated with `flux-local`.
 
 ## Infrastructure
 
@@ -41,6 +47,14 @@ Single node running Proxmox:
 - **TLS**: cert-manager + Let's Encrypt
 - **Tunnel**: Cloudflare Tunnel
 - **Storage**: Longhorn
+
+## Repository layout
+
+- `bootstrap/` - bootstrap assets for secrets and initial Helm/Flux setup
+- `talos/` - Talos and talhelper configuration, patches, and cluster generation inputs
+- `kubernetes/` - Flux-managed cluster state and application manifests
+- `scripts/` - helper scripts used during bootstrap
+- `docs/operations.md` - day-2 operations and common procedures
 
 ## Usage
 
