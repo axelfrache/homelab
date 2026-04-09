@@ -31,9 +31,9 @@ Single node running Proxmox:
 
 | VM | Role | CPU | RAM | Disk |
 |---|---|---|---|---|
-| firelink-01 | control-plane | 4 vCPU | 8 GB | 50 GB |
-| firelink-02 | control-plane | 4 vCPU | 8 GB | 50 GB |
-| firelink-03 | control-plane | 4 vCPU | 8 GB | 50 GB |
+| firelink-01 | control-plane | 4 vCPU | 8 GB | 100 GB |
+| firelink-02 | control-plane | 4 vCPU | 8 GB | 100 GB |
+| firelink-03 | control-plane | 4 vCPU | 8 GB | 100 GB |
 
 ## Stack
 
