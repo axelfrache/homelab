@@ -47,6 +47,7 @@ spec:
           SSH_LISTEN_PORT: 2222
         service:
           DISABLE_REGISTRATION: true
+          REQUIRE_SIGNIN_VIEW: true
         database:
           DB_TYPE: sqlite3
     valkey-cluster:
