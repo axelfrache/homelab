@@ -1,0 +1,211 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: questify-postgres-init
+data:
+  init.sh: |
+    #!/bin/bash
+    set -e
+
+    psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
+        CREATE USER quest_svc       WITH PASSWORD '${QUEST_DB_PASSWORD:-quest_svc}';
+        CREATE USER project_svc     WITH PASSWORD '${PROJECT_DB_PASSWORD:-project_svc}';
+        CREATE USER progression_svc WITH PASSWORD '${PROGRESSION_DB_PASSWORD:-progression_svc}';
+        CREATE USER stats_svc       WITH PASSWORD '${STATS_DB_PASSWORD:-stats_svc}';
+        CREATE USER admin_svc       WITH PASSWORD '${ADMIN_DB_PASSWORD:-admin_svc}';
+
+        GRANT CONNECT, CREATE ON DATABASE questify TO quest_svc;
+        GRANT CONNECT, CREATE ON DATABASE questify TO project_svc;
+        GRANT CONNECT, CREATE ON DATABASE questify TO progression_svc;
+        GRANT CONNECT, CREATE ON DATABASE questify TO stats_svc;
+        GRANT CONNECT, CREATE ON DATABASE questify TO admin_svc;
+
+        CREATE SCHEMA IF NOT EXISTS auth;
+        CREATE SCHEMA IF NOT EXISTS quests AUTHORIZATION quest_svc;
+        CREATE SCHEMA IF NOT EXISTS projects AUTHORIZATION project_svc;
+        CREATE SCHEMA IF NOT EXISTS progression AUTHORIZATION progression_svc;
+        CREATE SCHEMA IF NOT EXISTS stats AUTHORIZATION stats_svc;
+        CREATE SCHEMA IF NOT EXISTS admin AUTHORIZATION admin_svc;
+    EOSQL
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: questify-gateway-config
+data:
+  nginx.conf: |
+    events {
+        worker_connections 1024;
+    }
+
+    http {
+        keepalive_timeout 65;
+
+        upstream auth_svc        { server auth-service:8081; }
+        upstream quest_svc       { server quest-service:8082; }
+        upstream project_svc     { server project-service:8083; }
+        upstream progression_svc { server progression-service:8084; }
+        upstream stats_svc       { server stats-service:8085; }
+        upstream admin_svc       { server admin-service:8086; }
+        upstream garage_web      { server garage:3902; }
+
+        server {
+            listen 8080;
+
+            location = /_auth/validate {
+                internal;
+                proxy_pass              http://auth_svc/api/auth/validate;
+                proxy_pass_request_body off;
+                proxy_set_header        Content-Length  "";
+                proxy_set_header        Host            $host;
+                proxy_set_header        Cookie          $http_cookie;
+                proxy_set_header        Authorization   $http_authorization;
+            }
+
+            location /api/auth/ {
+                proxy_pass         http://auth_svc;
+                proxy_set_header   Host              $host;
+                proxy_set_header   X-Real-IP         $remote_addr;
+                proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
+                proxy_set_header   X-Forwarded-Proto $scheme;
+            }
+
+            location ~ ^/api/users/[^/]+/progression {
+                auth_request     /_auth/validate;
+                auth_request_set $x_user_id   $upstream_http_x_user_id;
+                auth_request_set $x_user_role $upstream_http_x_user_role;
+                rewrite ^/api/users/[^/]+/progression(.*)$ /api/progression$1 break;
+                proxy_pass       http://progression_svc;
+                proxy_set_header X-User-Id   $x_user_id;
+                proxy_set_header X-User-Role $x_user_role;
+                proxy_set_header Host        $host;
+            }
+
+            location /api/users/ {
+                auth_request     /_auth/validate;
+                auth_request_set $x_user_id   $upstream_http_x_user_id;
+                auth_request_set $x_user_role $upstream_http_x_user_role;
+                proxy_pass       http://auth_svc;
+                proxy_set_header X-User-Id   $x_user_id;
+                proxy_set_header X-User-Role $x_user_role;
+                proxy_set_header Host        $host;
+            }
+
+            location ~ ^/api/(quests|occurrences|categories|history) {
+                auth_request     /_auth/validate;
+                auth_request_set $x_user_id   $upstream_http_x_user_id;
+                auth_request_set $x_user_role $upstream_http_x_user_role;
+                proxy_pass       http://quest_svc;
+                proxy_set_header X-User-Id   $x_user_id;
+                proxy_set_header X-User-Role $x_user_role;
+                proxy_set_header Host        $host;
+            }
+
+            location /api/projects {
+                auth_request     /_auth/validate;
+                auth_request_set $x_user_id   $upstream_http_x_user_id;
+                auth_request_set $x_user_role $upstream_http_x_user_role;
+                proxy_pass       http://project_svc;
+                proxy_set_header X-User-Id   $x_user_id;
+                proxy_set_header X-User-Role $x_user_role;
+                proxy_set_header Host        $host;
+            }
+
+            location /api/stats {
+                auth_request     /_auth/validate;
+                auth_request_set $x_user_id   $upstream_http_x_user_id;
+                auth_request_set $x_user_role $upstream_http_x_user_role;
+                proxy_pass       http://stats_svc;
+                proxy_set_header X-User-Id   $x_user_id;
+                proxy_set_header X-User-Role $x_user_role;
+                proxy_set_header Host        $host;
+            }
+
+            location /api/admin {
+                auth_request     /_auth/validate;
+                auth_request_set $x_user_id   $upstream_http_x_user_id;
+                auth_request_set $x_user_role $upstream_http_x_user_role;
+                proxy_pass       http://admin_svc;
+                proxy_set_header X-User-Id   $x_user_id;
+                proxy_set_header X-User-Role $x_user_role;
+                proxy_set_header Host        $host;
+            }
+
+            location /storage/questify-profiles/ {
+                proxy_pass         http://garage_web/;
+                proxy_set_header   Host              questify-profiles.getquestify.com;
+                proxy_set_header   X-Real-IP         $remote_addr;
+                proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
+                proxy_set_header   X-Forwarded-Proto $scheme;
+            }
+        }
+    }
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: questify-garage-config
+data:
+  garage.toml: |
+    metadata_dir = "/var/lib/garage/meta"
+    data_dir = "/var/lib/garage/data"
+    db_engine = "lmdb"
+    replication_factor = 1
+    rpc_bind_addr = "0.0.0.0:3901"
+
+    [s3_api]
+    s3_region = "garage"
+    api_bind_addr = "0.0.0.0:3900"
+
+    [s3_web]
+    bind_addr = "0.0.0.0:3902"
+    root_domain = ".getquestify.com"
+    index_document = "index.html"
+    error_document = ""
+
+    [admin]
+    api_bind_addr = "0.0.0.0:3903"
+  entrypoint.sh: |
+    #!/bin/sh
+
+    if [ "$(id -u)" -eq 0 ]; then
+        mkdir -p /var/lib/garage/meta /var/lib/garage/data
+        chown -R 1000:1000 /var/lib/garage
+        exec su-exec garage /bin/sh "$0" "$@"
+    fi
+
+    garage -c /etc/garage.toml server &
+
+    echo "Waiting for Garage to be ready..."
+    until garage -c /etc/garage.toml status >/dev/null 2>&1; do
+        sleep 2
+    done
+
+    if [ ! -f /var/lib/garage/meta/.setup-done ]; then
+        echo "Running initial setup..."
+
+        NODE_ID=$(garage -c /etc/garage.toml node id | awk '{print $1}')
+        garage -c /etc/garage.toml layout assign "$NODE_ID" -z dc1 -c 1G || true
+        garage -c /etc/garage.toml layout apply --version 1 || true
+
+        garage -c /etc/garage.toml bucket create questify-profiles || true
+
+        garage -c /etc/garage.toml key import \
+            --yes \
+            -n questify-key \
+            "$GARAGE_ACCESS_KEY_ID" \
+            "$GARAGE_SECRET_ACCESS_KEY" || true
+
+        garage -c /etc/garage.toml bucket allow \
+            --read --write --owner questify-profiles \
+            --key questify-key || true
+
+        garage -c /etc/garage.toml bucket website --allow questify-profiles || true
+
+        touch /var/lib/garage/meta/.setup-done
+        echo "Garage setup complete"
+    fi
+
+    touch /tmp/garage-ready
+    wait
