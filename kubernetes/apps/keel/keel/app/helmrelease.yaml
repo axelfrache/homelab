@@ -1,0 +1,30 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: keel
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: keel
+      version: 1.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: keel
+  values:
+    polling:
+      enabled: true
+    helm:
+      enabled: false
+    rbac:
+      enabled: true
+      installClusterBindings: true
+    service:
+      enabled: false
+    resources:
+      requests:
+        cpu: 50m
+        memory: 64Mi
+      limits:
+        memory: 128Mi
