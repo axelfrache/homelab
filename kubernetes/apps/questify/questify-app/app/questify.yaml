@@ -1003,6 +1003,13 @@ spec:
   hostnames:
     - app.getquestify.com
   rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /storage/
+      backendRefs:
+        - name: questify-gateway
+          port: 8080
     - backendRefs:
         - name: questify-frontend
           port: 8080
