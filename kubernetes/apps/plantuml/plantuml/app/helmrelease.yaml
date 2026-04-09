@@ -1,0 +1,83 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: plantuml
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: plantuml
+  interval: 1h
+  values:
+    controllers:
+      plantuml:
+        strategy: RollingUpdate
+        containers:
+          app:
+            image:
+              repository: docker.io/plantuml/plantuml-server
+              tag: jetty
+            env:
+              TZ: Europe/Paris
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: &port 8080
+                  initialDelaySeconds: 15
+                  periodSeconds: 10
+                  timeoutSeconds: 2
+                  failureThreshold: 6
+              readiness: *probes
+            resources:
+              requests:
+                cpu: 50m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
+    service:
+      app:
+        ports:
+          http:
+            port: *port
+    route:
+      app:
+        hostnames: ["{{ .Release.Name }}.${SECRET_DOMAIN}"]
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+            sectionName: https
+        rules:
+          - matches:
+              - path:
+                  type: Exact
+                  value: /
+            filters:
+              - type: RequestRedirect
+                requestRedirect:
+                  scheme: https
+                  hostname: plantuml.${SECRET_DOMAIN}
+                  statusCode: 302
+                  path:
+                    type: ReplaceFullPath
+                    replaceFullPath: /uml/SyfFKj2rKt3CoKnELR1Io4ZDoSa70000
+          - backendRefs:
+              - identifier: app
+                port: *port
+            matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            filters:
+              - type: RequestHeaderModifier
+                requestHeaderModifier:
+                  set:
+                    - name: X-Forwarded-Proto
+                      value: https
+                    - name: X-Forwarded-Port
+                      value: "443"
+                    - name: X-Forwarded-Host
+                      value: plantuml.${SECRET_DOMAIN}
