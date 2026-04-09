@@ -9,3 +9,4 @@ components:
 resources:
   - ./namespace.yaml
   - ./questify-landing/ks.yaml
+  - ./questify-app/ks.yaml
