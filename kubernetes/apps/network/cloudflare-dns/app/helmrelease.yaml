@@ -28,7 +28,9 @@ spec:
     sources: ["crd", "gateway-httproute"]
     txtPrefix: k8s.
     txtOwnerId: default
-    domainFilters: ["${SECRET_DOMAIN}"]
+    domainFilters:
+      - "${SECRET_DOMAIN}"
+      - "getquestify.com"
     serviceMonitor:
       enabled: true
     podAnnotations:
