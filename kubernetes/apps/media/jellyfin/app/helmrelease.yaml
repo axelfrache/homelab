@@ -13,6 +13,14 @@ spec:
       jellyfin:
         annotations:
           reloader.stakater.com/auto: "true"
+        pod:
+          nodeSelector:
+            gpu: "true"
+          tolerations:
+            - key: gpu
+              operator: Equal
+              value: "true"
+              effect: NoSchedule
         containers:
           app:
             image:
@@ -42,15 +50,6 @@ spec:
                   timeoutSeconds: 5
                   failureThreshold: 6
               readiness: *probes
-
-    pod:
-      nodeSelector:
-        gpu: "true"
-      tolerations:
-        - key: gpu
-          operator: Equal
-          value: "true"
-          effect: NoSchedule
 
     service:
       app:
