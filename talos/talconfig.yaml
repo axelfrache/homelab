@@ -25,6 +25,8 @@ nodes:
       secureboot: false
     talosImageURL: factory.talos.dev/installer/25b18a561487b9b993d64a3fb9b9b8da8a35fc612ccb35db403cb87b37d24e7c
     controlPlane: true
+    patches:
+      - "@./patches/nodes/firelink-01.yaml"
     networkInterfaces:
       - deviceSelector:
           hardwareAddr: "bc:24:11:26:e8:ac"
