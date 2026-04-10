@@ -11,6 +11,10 @@ spec:
   values:
     controllers:
       questify-landing:
+        annotations:
+          keel.sh/policy: force
+          keel.sh/trigger: poll
+          keel.sh/pollSchedule: "@every 5m"
         strategy: RollingUpdate
         containers:
           app:
