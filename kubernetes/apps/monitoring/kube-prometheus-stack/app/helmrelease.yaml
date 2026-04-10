@@ -45,12 +45,15 @@ spec:
                 chat_id: 8790936034
                 parse_mode: HTML
                 message: |-
-                  {{ range .Alerts }}
-                  <b>{{ .Status | toUpper }} {{ .Labels.severity }}</b> — {{ .Labels.alertname }}
-                  {{ if .Labels.namespace }}<i>namespace:</i> {{ .Labels.namespace }}{{ end }}
+                  {{ range .Alerts -}}
+                  {{ if eq .Status "firing" }}🔥{{ else }}✅{{ end }} <b>{{ .Labels.alertname }}</b>
+                  {{ if eq .Labels.severity "critical" }}🔴 critical{{ else if eq .Labels.severity "warning" }}🟡 warning{{ else }}⚪ {{ .Labels.severity }}{{ end }} | {{ .Status | toUpper }}
+                  {{ if .Labels.namespace }}📦 <i>{{ .Labels.namespace }}</i>{{ end }}{{ if .Labels.node }} 🖥️ <i>{{ .Labels.node }}</i>{{ end }}
+
                   {{ if .Annotations.summary }}{{ .Annotations.summary }}{{ end }}
                   {{ if .Annotations.description }}{{ .Annotations.description }}{{ end }}
-                  {{ end }}
+                  {{ if .Annotations.runbook_url }}📖 <a href="{{ .Annotations.runbook_url }}">Runbook</a>{{ end }}
+                  {{ end -}}
         inhibit_rules:
           - source_matchers:
               - severity = "critical"
