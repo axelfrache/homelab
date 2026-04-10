@@ -1,0 +1,97 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: jellyfin
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: jellyfin
+  interval: 1h
+  values:
+    controllers:
+      jellyfin:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: jellyfin/jellyfin
+              tag: latest
+            env:
+              TZ: Europe/Paris
+              JELLYFIN_PublishedServerUrl: https://jellyfin.${SECRET_DOMAIN}
+            resources:
+              requests:
+                cpu: 100m
+                memory: 1Gi
+                gpu.intel.com/i915: 1
+              limits:
+                memory: 4Gi
+                gpu.intel.com/i915: 1
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: &port 8096
+                  initialDelaySeconds: 30
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 6
+              readiness: *probes
+
+    pod:
+      nodeSelector:
+        gpu: "true"
+      tolerations:
+        - key: gpu
+          operator: Equal
+          value: "true"
+          effect: NoSchedule
+
+    service:
+      app:
+        ports:
+          http:
+            port: *port
+
+    ingress:
+      app:
+        enabled: false
+
+    route:
+      app:
+        hostnames: ["jellyfin.${SECRET_DOMAIN}"]
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+            sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
+
+    persistence:
+      config:
+        type: persistentVolumeClaim
+        storageClass: longhorn
+        accessMode: ReadWriteOnce
+        size: 10Gi
+        globalMounts:
+          - path: /config
+
+      media:
+        type: nfs
+        server: 192.168.1.20
+        path: /mnt/tank/media
+        globalMounts:
+          - path: /media
+            readOnly: false
+
+      transcode:
+        type: emptyDir
+        globalMounts:
+          - path: /config/transcodes
