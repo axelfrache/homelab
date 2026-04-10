@@ -30,6 +30,10 @@ spec:
                 - alertname = "KubeProxyDown"
               receiver: "null"
             - matchers:
+                - alertname =~ "KubeNodeNotReady|KubeNodeUnreachable|KubeNodeReadinessFlapping"
+              receiver: telegram
+              repeat_interval: 30m
+            - matchers:
                 - severity = "critical"
               receiver: telegram
               repeat_interval: 1h
