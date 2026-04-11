@@ -20,7 +20,7 @@ spec:
         runAsUser: 1000
       containers:
         - name: mcp-k8s
-          image: flux159/mcp-server-kubernetes:latest
+          image: flux159/mcp-server-kubernetes:v3.5.0
           ports:
             - containerPort: 3000
           env:
