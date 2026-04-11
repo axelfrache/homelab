@@ -5,11 +5,11 @@ metadata:
   name: mcp-k8s
   namespace: flux-system
 spec:
-  targetNamespace: n8n
+  targetNamespace: ai
   commonMetadata:
     labels:
       app.kubernetes.io/name: mcp-k8s
-  path: ./kubernetes/apps/n8n/mcp-k8s/app
+  path: ./kubernetes/apps/ai/mcp-k8s/app
   prune: true
   sourceRef:
     kind: GitRepository

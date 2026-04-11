@@ -33,8 +33,6 @@ spec:
             envFrom:
               - secretRef:
                   name: n8n-secret
-              - secretRef:
-                  name: mcp-k8s-secret
             probes:
               liveness: &probes
                 enabled: true

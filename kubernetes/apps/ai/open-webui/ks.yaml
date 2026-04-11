@@ -2,22 +2,25 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: n8n
+  name: open-webui
+  namespace: flux-system
 spec:
   dependsOn:
-    - name: mcp-k8s
     - name: ollama
-      namespace: flux-system
-  interval: 1h
-  path: ./kubernetes/apps/n8n/n8n/app
+  targetNamespace: ai
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: open-webui
+  path: ./kubernetes/apps/ai/open-webui/app
+  prune: true
   postBuild:
     substituteFrom:
       - name: cluster-secrets
         kind: Secret
-  prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: n8n
-  wait: true
+  interval: 1h
+  retryInterval: 2m
+  timeout: 5m
