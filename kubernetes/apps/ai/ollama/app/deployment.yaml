@@ -13,6 +13,8 @@ spec:
     metadata:
       labels:
         app: ollama
+      annotations:
+        model: llama3.2:1b
     spec:
       initContainers:
         - name: pull-model
@@ -25,7 +27,7 @@ spec:
               echo "Waiting for ollama to be ready..."
               until ollama list > /dev/null 2>&1; do sleep 2; done
               echo "Pulling llama3.2:3b..."
-              ollama pull llama3.2:3b
+              ollama pull llama3.2:1b
               kill $OLLAMA_PID
               wait $OLLAMA_PID 2>/dev/null || true
           env:
@@ -56,9 +58,9 @@ spec:
           resources:
             requests:
               cpu: 500m
-              memory: 2Gi
+              memory: 1Gi
             limits:
-              memory: 4Gi
+              memory: 3Gi
           readinessProbe:
             httpGet:
               path: /api/tags
