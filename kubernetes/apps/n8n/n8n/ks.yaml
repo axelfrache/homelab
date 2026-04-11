@@ -6,8 +6,9 @@ metadata:
 spec:
   dependsOn:
     - name: mcp-k8s
+      namespace: ai
     - name: ollama
-      namespace: flux-system
+      namespace: ai
   interval: 1h
   path: ./kubernetes/apps/n8n/n8n/app
   postBuild:
