@@ -24,6 +24,8 @@ spec:
           ports:
             - containerPort: 3000
           env:
+            - name: ENABLE_UNSAFE_SSE_TRANSPORT
+              value: "true"
             - name: PORT
               value: "3000"
             - name: HOST
@@ -33,18 +35,6 @@ spec:
                 secretKeyRef:
                   name: mcp-k8s-secret
                   key: MCP_AUTH_TOKEN
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: 3000
-            initialDelaySeconds: 10
-            periodSeconds: 10
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: 3000
-            initialDelaySeconds: 15
-            periodSeconds: 20
           resources:
             requests:
               cpu: 50m
