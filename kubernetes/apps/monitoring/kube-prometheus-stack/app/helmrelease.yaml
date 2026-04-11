@@ -27,6 +27,9 @@ spec:
                 - alertname = "Watchdog"
               receiver: "null"
             - matchers:
+                - alertname = "InfoInhibitor"
+              receiver: "null"
+            - matchers:
                 - alertname = "KubeProxyDown"
               receiver: "null"
             - matchers:

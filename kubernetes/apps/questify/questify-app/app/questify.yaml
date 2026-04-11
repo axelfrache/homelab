@@ -330,6 +330,8 @@ spec:
       labels:
         app: auth-service
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: firelink-02
       enableServiceLinks: false
       initContainers:
         - name: wait-for-deps
@@ -543,6 +545,8 @@ spec:
       labels:
         app: project-service
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: firelink-02
       enableServiceLinks: false
       initContainers:
         - name: wait-for-deps
@@ -721,6 +725,8 @@ spec:
       labels:
         app: stats-service
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: firelink-02
       enableServiceLinks: false
       initContainers:
         - name: wait-for-deps
