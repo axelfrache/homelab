@@ -24,11 +24,6 @@ spec:
               value: http://ollama.ai.svc.cluster.local:11434
             - name: WEBUI_AUTH
               value: "true"
-            - name: OLLAMA_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: ollama-secret
-                  key: OLLAMA_API_KEY
           ports:
             - containerPort: 8080
           volumeMounts:
