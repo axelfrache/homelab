@@ -9,8 +9,15 @@ spec:
     name: longhorn
   interval: 1h
   values:
+    global:
+      tolerations:
+        - key: gpu
+          operator: Equal
+          value: "true"
+          effect: NoSchedule
     defaultSettings:
       defaultReplicaCount: 2
+      taintToleration: "gpu=true:NoSchedule"
       storageMinimalAvailablePercentage: 10
       storageReservedPercentageForDefaultDisk: 10
     persistence:
