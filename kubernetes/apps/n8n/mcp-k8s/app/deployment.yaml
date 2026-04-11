@@ -20,21 +20,10 @@ spec:
         runAsUser: 1000
       containers:
         - name: mcp-k8s
-          image: flux159/mcp-server-kubernetes:v3.5.0
+          image: ghcr.io/containers/kubernetes-mcp-server:v0.0.60
+          args: ["--port", "8080"]
           ports:
-            - containerPort: 3000
-          env:
-            - name: ENABLE_UNSAFE_SSE_TRANSPORT
-              value: "true"
-            - name: PORT
-              value: "3000"
-            - name: HOST
-              value: "0.0.0.0"
-            - name: MCP_AUTH_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: mcp-k8s-secret
-                  key: MCP_AUTH_TOKEN
+            - containerPort: 8080
           resources:
             requests:
               cpu: 50m
@@ -51,5 +40,5 @@ spec:
   selector:
     app: mcp-k8s
   ports:
-    - port: 3000
-      targetPort: 3000
+    - port: 8080
+      targetPort: 8080
