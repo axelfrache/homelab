@@ -4,6 +4,8 @@ kind: Kustomization
 metadata:
   name: n8n
 spec:
+  dependsOn:
+    - name: mcp-k8s
   interval: 1h
   path: ./kubernetes/apps/n8n/n8n/app
   postBuild:
