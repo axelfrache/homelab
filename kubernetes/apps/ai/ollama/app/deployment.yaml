@@ -18,6 +18,13 @@ spec:
       annotations:
         model: llama3.2:1b
     spec:
+      nodeSelector:
+        gpu: "true"
+      tolerations:
+        - key: gpu
+          operator: Equal
+          value: "true"
+          effect: NoSchedule
       initContainers:
         - name: pull-model
           image: ollama/ollama:0.7.1
@@ -28,13 +35,15 @@ spec:
               OLLAMA_PID=$!
               echo "Waiting for ollama to be ready..."
               until ollama list > /dev/null 2>&1; do sleep 2; done
-              echo "Pulling llama3.2:3b..."
+              echo "Pulling llama3.2:1b..."
               ollama pull llama3.2:1b
               kill $OLLAMA_PID
               wait $OLLAMA_PID 2>/dev/null || true
           env:
             - name: OLLAMA_MODELS
               value: /models
+            - name: OLLAMA_VULKAN
+              value: "1"
           volumeMounts:
             - name: models
               mountPath: /models
@@ -42,8 +51,10 @@ spec:
             requests:
               cpu: 500m
               memory: 512Mi
+              gpu.intel.com/i915: 1
             limits:
               memory: 4Gi
+              gpu.intel.com/i915: 1
       containers:
         - name: ollama
           image: ollama/ollama:0.7.1
@@ -52,6 +63,14 @@ spec:
               value: /models
             - name: OLLAMA_HOST
               value: "0.0.0.0:11434"
+            - name: OLLAMA_VULKAN
+              value: "1"
+            - name: OLLAMA_MAX_LOADED_MODELS
+              value: "1"
+            - name: OLLAMA_NUM_PARALLEL
+              value: "1"
+            - name: OLLAMA_KEEP_ALIVE
+              value: "2m"
           ports:
             - containerPort: 11434
           volumeMounts:
@@ -61,8 +80,10 @@ spec:
             requests:
               cpu: 500m
               memory: 1Gi
+              gpu.intel.com/i915: 1
             limits:
               memory: 3Gi
+              gpu.intel.com/i915: 1
           readinessProbe:
             httpGet:
               path: /api/tags
