@@ -1,0 +1,67 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mcp-k8s
+  namespace: n8n
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mcp-k8s
+  template:
+    metadata:
+      labels:
+        app: mcp-k8s
+    spec:
+      serviceAccountName: mcp-k8s
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+        - name: mcp-k8s
+          image: flux159/mcp-server-kubernetes:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: ENABLE_UNSAFE_SSE_TRANSPORT
+              value: "true"
+            - name: PORT
+              value: "3000"
+            - name: HOST
+              value: "0.0.0.0"
+            - name: MCP_AUTH_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: mcp-k8s-secret
+                  key: MCP_AUTH_TOKEN
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              memory: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mcp-k8s
+  namespace: n8n
+spec:
+  selector:
+    app: mcp-k8s
+  ports:
+    - port: 3000
+      targetPort: 3000
