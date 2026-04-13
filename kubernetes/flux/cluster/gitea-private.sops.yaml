@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: gitea-private-token
+  namespace: flux-system
+stringData:
+  username: ENC[AES256_GCM,data:cqWAPaejQkxxIw==,iv:rGWYOtcNXdzNVWYSWuOKFWbfyvTUHUW+M2Mx2tzRqEs=,tag:NZxapdnZ5bXyHAl7G8+Shg==,type:str]
+  password: ENC[AES256_GCM,data:k3O2xutP4yZ3hnwRL5eESElBqJUPuWjqnUEAeaRXZHZBGm3mJbLHZQ==,iv:Xzt05OJtT+aeAfQCSX0Z83n7ums6J7s5Vq1b05AQKqI=,tag:TulUFhH8kqux6V+sC/z2dQ==,type:str]
+sops:
+  age:
+    - recipient: age1j6e3ff57dhwlfv60km0l3ehmrzldvtxkwmpeh3qev06wmenyldaqfpucld
+      enc: |
+        -----BEGIN AGE ENCRYPTED FILE-----
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBzbkdULzhWMnZlaG1KTlQy
+        TjRpL2J0VmFQdk9yODRNcTNTYWlkRFExYTJJCk1rQjVtcEZ5dndqZGtEeHdDTTJZ
+        QzljMkY3WnBLT3pjVmNNZlFobkhlUTQKLS0tIFIyVURYR1ExMTBHaDZaTzZ6d2RF
+        Q1lVSy9DT3lyU25mOWI4anZ2K2NHVFkKufHVO4oBD6iMB6vlmL9hMfO9G51ssbVB
+        e++bFTOXGX812yGR2JKD3ET87+rPsdTnUayj/X2o4tzEtuEiI4Ki4g==
+        -----END AGE ENCRYPTED FILE-----
+  lastmodified: "2026-04-13T17:47:58Z"
+  mac: ENC[AES256_GCM,data:JjSHciPs/zAmCIZt2wyDHtf17O2W4pTpvF2axSbbrfLnSCJfQT43YEnNEFMEvtMriw0n6tWrgdHhVR1/8CJHzYvDFDxV9KrT2aXdWLT6nGZffh75BN+UFNIm2GD4DX+DGjRLoQSqIgaAtoMgG1wuIQ/QQp8GwzbccS/YOadbR6c=,iv:JOqCYl1dZU0NTnvVR9tMWW+VzwIdOY43k1plpCzWvw0=,tag:KnTvRIbMOsnS7JrI7YsgkA==,type:str]
+  encrypted_regex: ^(data|stringData)$
+  mac_only_encrypted: true
+  version: 3.12.1
