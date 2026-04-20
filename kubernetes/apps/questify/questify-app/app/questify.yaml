@@ -330,8 +330,6 @@ spec:
       labels:
         app: auth-service
     spec:
-      nodeSelector:
-        kubernetes.io/hostname: firelink-02
       enableServiceLinks: false
       initContainers:
         - name: wait-for-deps
@@ -424,7 +422,7 @@ spec:
               cpu: 100m
               memory: 256Mi
             limits:
-              memory: 768Mi
+              memory: 512Mi
 ---
 apiVersion: v1
 kind: Service
@@ -513,7 +511,7 @@ spec:
               cpu: 100m
               memory: 256Mi
             limits:
-              memory: 768Mi
+              memory: 512Mi
 ---
 apiVersion: v1
 kind: Service
@@ -545,8 +543,6 @@ spec:
       labels:
         app: project-service
     spec:
-      nodeSelector:
-        kubernetes.io/hostname: firelink-02
       enableServiceLinks: false
       initContainers:
         - name: wait-for-deps
@@ -604,7 +600,7 @@ spec:
               cpu: 100m
               memory: 256Mi
             limits:
-              memory: 768Mi
+              memory: 512Mi
 ---
 apiVersion: v1
 kind: Service
@@ -693,7 +689,7 @@ spec:
               cpu: 100m
               memory: 256Mi
             limits:
-              memory: 768Mi
+              memory: 512Mi
 ---
 apiVersion: v1
 kind: Service
@@ -725,8 +721,6 @@ spec:
       labels:
         app: stats-service
     spec:
-      nodeSelector:
-        kubernetes.io/hostname: firelink-02
       enableServiceLinks: false
       initContainers:
         - name: wait-for-deps
@@ -784,7 +778,7 @@ spec:
               cpu: 100m
               memory: 256Mi
             limits:
-              memory: 768Mi
+              memory: 512Mi
 ---
 apiVersion: v1
 kind: Service
@@ -888,7 +882,7 @@ spec:
               cpu: 100m
               memory: 256Mi
             limits:
-              memory: 768Mi
+              memory: 512Mi
 ---
 apiVersion: v1
 kind: Service
