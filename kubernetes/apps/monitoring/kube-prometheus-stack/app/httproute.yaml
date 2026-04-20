@@ -10,7 +10,7 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - grafana.${SECRET_DOMAIN}
+    - grafana.${SECRET_LOCAL_DOMAIN}
   rules:
     - backendRefs:
         - name: kube-prometheus-stack-grafana

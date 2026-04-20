@@ -20,7 +20,7 @@ spec:
           image: vaultwarden/server:1.32.7
           env:
             - name: DOMAIN
-              value: https://vaultwarden.${SECRET_DOMAIN}
+              value: https://vaultwarden.${SECRET_LOCAL_DOMAIN}
             - name: SIGNUPS_ALLOWED
               value: "false"
             - name: ADMIN_TOKEN

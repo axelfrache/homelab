@@ -102,7 +102,7 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - open-webui.${SECRET_DOMAIN}
+    - open-webui.${SECRET_LOCAL_DOMAIN}
   rules:
     - backendRefs:
         - name: open-webui
