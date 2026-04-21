@@ -16,8 +16,6 @@ spec:
       labels:
         app: open-webui
     spec:
-      nodeSelector:
-        kubernetes.io/hostname: firelink-02
       securityContext:
         runAsNonRoot: false
       containers:
