@@ -165,6 +165,8 @@ spec:
                 secretKeyRef:
                   name: questify-secret
                   key: rabbitmq-password
+            - name: RABBITMQ_VM_MEMORY_HIGH_WATERMARK
+              value: "0.8"
           volumeMounts:
             - name: data
               mountPath: /var/lib/rabbitmq
