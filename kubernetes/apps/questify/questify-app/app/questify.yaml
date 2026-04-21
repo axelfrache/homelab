@@ -165,11 +165,12 @@ spec:
                 secretKeyRef:
                   name: questify-secret
                   key: rabbitmq-password
-            - name: RABBITMQ_VM_MEMORY_HIGH_WATERMARK
-              value: "0.8"
           volumeMounts:
             - name: data
               mountPath: /var/lib/rabbitmq
+            - name: config
+              mountPath: /etc/rabbitmq/conf.d/memory.conf
+              subPath: memory.conf
           readinessProbe:
             tcpSocket:
               port: amqp
@@ -190,6 +191,17 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: rabbitmq-data
+        - name: config
+          configMap:
+            name: rabbitmq-config
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rabbitmq-config
+data:
+  memory.conf: |
+    vm_memory_high_watermark.relative = 0.8
 ---
 apiVersion: v1
 kind: Service
