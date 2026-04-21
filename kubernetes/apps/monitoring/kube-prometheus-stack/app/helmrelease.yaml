@@ -76,7 +76,13 @@ spec:
                   storage: 1Gi
     prometheus:
       prometheusSpec:
-        retention: 7d
+        retention: 3d
+        resources:
+          requests:
+            cpu: 50m
+            memory: 512Mi
+          limits:
+            memory: 800Mi
         storageSpec:
           volumeClaimTemplate:
             spec:
