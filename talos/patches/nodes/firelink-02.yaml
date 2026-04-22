@@ -1,6 +1,10 @@
 machine:
   nodeLabels:
     topology.kubernetes.io/zone: remote
+  kubelet:
+    nodeIP:
+      validSubnets:
+        - 100.64.0.0/10
 cluster:
   controlPlane:
     endpoint: https://100.76.198.119:6443
