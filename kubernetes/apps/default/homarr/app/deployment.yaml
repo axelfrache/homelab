@@ -54,6 +54,10 @@ spec:
               memory: 256Mi
             limits:
               memory: 1Gi
+      hostAliases:
+        - ip: "192.168.1.20"
+          hostnames:
+            - "pve.local"
       volumes:
         - name: data
           persistentVolumeClaim:
