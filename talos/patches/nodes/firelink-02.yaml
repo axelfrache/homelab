@@ -1,0 +1,6 @@
+machine:
+  nodeLabels:
+    topology.kubernetes.io/zone: remote
+cluster:
+  controlPlane:
+    endpoint: https://100.76.198.119:6443
