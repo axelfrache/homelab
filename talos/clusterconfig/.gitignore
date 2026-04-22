@@ -2,3 +2,4 @@ kubernetes-firelink-01.yaml
 kubernetes-firelink-02.yaml
 kubernetes-firelink-03.yaml
 talosconfig
+kubernetes-firelink-remote.yaml
