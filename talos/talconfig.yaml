@@ -8,6 +8,7 @@ endpoint: https://192.168.1.50:6443
 additionalApiServerCertSans: &sans
   - "127.0.0.1"
   - "192.168.1.50"
+  - "${TAILSCALE_IP_FIRELINK01}"
 additionalMachineCertSans: *sans
 
 clusterPodNets: ["10.42.0.0/16"]
@@ -23,7 +24,7 @@ nodes:
     installDisk: "/dev/sda"
     machineSpec:
       secureboot: false
-    talosImageURL: factory.talos.dev/installer/25b18a561487b9b993d64a3fb9b9b8da8a35fc612ccb35db403cb87b37d24e7c
+    talosImageURL: factory.talos.dev/installer/76bbfe365b438b441b2adb974202a3c663b58a18beb3bfb9aab6b34bf2f36cce
     controlPlane: true
     patches:
       - "@./patches/nodes/firelink-01.yaml"
@@ -39,44 +40,19 @@ nodes:
         mtu: 1500
         vip:
           ip: "192.168.1.50"
-  - hostname: "firelink-02"
-    ipAddress: "192.168.1.52"
+  - hostname: "firelink-remote"
+    ipAddress: "192.168.1.84"
     installDisk: "/dev/sda"
     machineSpec:
       secureboot: false
-    talosImageURL: factory.talos.dev/installer/25b18a561487b9b993d64a3fb9b9b8da8a35fc612ccb35db403cb87b37d24e7c
-    controlPlane: true
+    talosImageURL: factory.talos.dev/installer/708747e350d604ae9e57227d8dcf274091453ddb1097b765d4ea8884f1992c1f
+    controlPlane: false
+    patches:
+      - "@./patches/nodes/firelink-remote.yaml"
     networkInterfaces:
       - deviceSelector:
-          hardwareAddr: "bc:24:11:42:70:8e"
-        dhcp: false
-        addresses:
-          - "192.168.1.52/24"
-        routes:
-          - gateway: "192.168.1.254"
-            network: 0.0.0.0/0
-        mtu: 1500
-        vip:
-          ip: "192.168.1.50"
-  - hostname: "firelink-03"
-    ipAddress: "192.168.1.53"
-    installDisk: "/dev/sda"
-    machineSpec:
-      secureboot: false
-    talosImageURL: factory.talos.dev/installer/25b18a561487b9b993d64a3fb9b9b8da8a35fc612ccb35db403cb87b37d24e7c
-    controlPlane: true
-    networkInterfaces:
-      - deviceSelector:
-          hardwareAddr: "bc:24:11:da:34:e3"
-        dhcp: false
-        addresses:
-          - "192.168.1.53/24"
-        routes:
-          - gateway: "192.168.1.254"
-            network: 0.0.0.0/0
-        mtu: 1500
-        vip:
-          ip: "192.168.1.50"
+          busPath: "0000:*"
+        dhcp: true
 
 # Global patches
 patches:
@@ -85,6 +61,7 @@ patches:
   - "@./patches/global/machine-network.yaml"
   - "@./patches/global/machine-sysctls.yaml"
   - "@./patches/global/machine-time.yaml"
+  - "@./patches/global/machine-tailscale.yaml"
 
 # Controller patches
 controlPlane:

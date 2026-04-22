@@ -19,3 +19,5 @@ talosconfig
 .venv/
 .DS_Store
 Thumbs.db
+talos/talenv.yaml
+talos/clusterconfig/
