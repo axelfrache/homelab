@@ -1,0 +1,41 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bentopdf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bentopdf
+  template:
+    metadata:
+      labels:
+        app: bentopdf
+    spec:
+      containers:
+        - name: bentopdf
+          image: ghcr.io/alam00000/bentopdf:latest
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 6
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 15
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              memory: 512Mi
