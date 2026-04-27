@@ -77,6 +77,8 @@ spec:
     prometheus:
       prometheusSpec:
         retention: 3d
+        tsdb:
+          outOfOrderTimeWindow: 10m
         resources:
           requests:
             cpu: 50m
