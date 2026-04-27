@@ -17,11 +17,11 @@ spec:
           value: "true"
           effect: NoSchedule
     defaultSettings:
-      defaultReplicaCount: 2
+      defaultReplicaCount: 1
       storageMinimalAvailablePercentage: 10
       storageReservedPercentageForDefaultDisk: 10
     persistence:
       defaultClass: true
-      defaultClassReplicaCount: 2
+      defaultClassReplicaCount: 1
     longhornUI:
       replicas: 1
