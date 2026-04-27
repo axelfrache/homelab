@@ -11,6 +11,10 @@ spec:
   values:
     crds:
       enabled: true
+    defaultRules:
+      rules:
+        kubeApiserverBurnrate: false
+        kubeApiserverAvailability: false
     alertmanager:
       enabled: true
       config:
@@ -84,7 +88,7 @@ spec:
             cpu: 50m
             memory: 512Mi
           limits:
-            memory: 800Mi
+            memory: 1Gi
         storageSpec:
           volumeClaimTemplate:
             spec:
