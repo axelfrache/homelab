@@ -4,4 +4,3 @@ kind: Kustomization
 namespace: keel
 resources:
   - ./namespace.yaml
-  - ./keel/ks.yaml

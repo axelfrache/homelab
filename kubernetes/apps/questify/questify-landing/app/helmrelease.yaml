@@ -11,16 +11,13 @@ spec:
   values:
     controllers:
       questify-landing:
-        annotations:
-          keel.sh/policy: force
-          keel.sh/trigger: poll
-          keel.sh/pollSchedule: "@every 5m"
         strategy: RollingUpdate
         containers:
           app:
             image:
-              repository: docker.io/axelfrache/questify-landing
-              tag: latest
+              repository: docker.io/axelfrache/questify-landing # {"$imagepolicy": "flux-system:questify-landing:name"}
+              tag: latest # {"$imagepolicy": "flux-system:questify-landing:tag"}
+              digest: sha256:f08693195936f09f2717002520cb64892a793c5eb46522fa85ada0d1902d831e # {"$imagepolicy": "flux-system:questify-landing:digest"}
             probes:
               liveness: &probes
                 enabled: true

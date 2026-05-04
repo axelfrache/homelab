@@ -1,0 +1,231 @@
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: questify-garage
+spec:
+  image: docker.io/axelfrache/questify-garage
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: questify-auth-service
+spec:
+  image: docker.io/axelfrache/questify-auth-service
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: questify-quest-service
+spec:
+  image: docker.io/axelfrache/questify-quest-service
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: questify-project-service
+spec:
+  image: docker.io/axelfrache/questify-project-service
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: questify-progression-service
+spec:
+  image: docker.io/axelfrache/questify-progression-service
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: questify-stats-service
+spec:
+  image: docker.io/axelfrache/questify-stats-service
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: questify-admin-service
+spec:
+  image: docker.io/axelfrache/questify-admin-service
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: questify-frontend
+spec:
+  image: docker.io/axelfrache/questify-frontend
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: questify-landing
+spec:
+  image: docker.io/axelfrache/questify-landing
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: questify-garage
+spec:
+  imageRepositoryRef:
+    name: questify-garage
+  filterTags:
+    pattern: ^latest$
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: questify-auth-service
+spec:
+  imageRepositoryRef:
+    name: questify-auth-service
+  filterTags:
+    pattern: ^latest$
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: questify-quest-service
+spec:
+  imageRepositoryRef:
+    name: questify-quest-service
+  filterTags:
+    pattern: ^latest$
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: questify-project-service
+spec:
+  imageRepositoryRef:
+    name: questify-project-service
+  filterTags:
+    pattern: ^latest$
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: questify-progression-service
+spec:
+  imageRepositoryRef:
+    name: questify-progression-service
+  filterTags:
+    pattern: ^latest$
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: questify-stats-service
+spec:
+  imageRepositoryRef:
+    name: questify-stats-service
+  filterTags:
+    pattern: ^latest$
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: questify-admin-service
+spec:
+  imageRepositoryRef:
+    name: questify-admin-service
+  filterTags:
+    pattern: ^latest$
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: questify-frontend
+spec:
+  imageRepositoryRef:
+    name: questify-frontend
+  filterTags:
+    pattern: ^latest$
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: questify-landing
+spec:
+  imageRepositoryRef:
+    name: questify-landing
+  filterTags:
+    pattern: ^latest$
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageUpdateAutomation
+metadata:
+  name: questify
+spec:
+  interval: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  git:
+    checkout:
+      ref:
+        name: refs/heads/main
+    commit:
+      author:
+        name: fluxcdbot
+        email: fluxcdbot@users.noreply.github.com
+      messageTemplate: "chore(questify): update image digests"
+    push:
+      branch: main
+  update:
+    path: ./kubernetes/apps/questify
+    strategy: Setters

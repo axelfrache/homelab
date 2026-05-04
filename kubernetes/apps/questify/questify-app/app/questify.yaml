@@ -142,6 +142,7 @@ spec:
   replicas: 1
   strategy:
     type: Recreate
+    rollingUpdate: null
   selector:
     matchLabels:
       app: rabbitmq
@@ -224,10 +225,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: garage
-  annotations:
-    keel.sh/policy: force
-    keel.sh/trigger: poll
-    keel.sh/pollSchedule: "@every 5m"
 spec:
   replicas: 1
   selector:
@@ -241,7 +238,7 @@ spec:
       enableServiceLinks: false
       containers:
         - name: garage
-          image: docker.io/axelfrache/questify-garage:latest
+          image: docker.io/axelfrache/questify-garage:latest@sha256:ddc10577543c0939fd5298693bad5d4756a5730d3f37362180ce884550d3c822 # {"$imagepolicy": "flux-system:questify-garage"}
           imagePullPolicy: Always
           command:
             - /bin/sh
@@ -332,10 +329,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: auth-service
-  annotations:
-    keel.sh/policy: force
-    keel.sh/trigger: poll
-    keel.sh/pollSchedule: "@every 5m"
 spec:
   replicas: 1
   selector:
@@ -356,7 +349,7 @@ spec:
             - until nc -z postgres 5432; do sleep 2; done; until nc -z rabbitmq 5672; do sleep 2; done; until nc -z garage 3900; do sleep 2; done
       containers:
         - name: auth-service
-          image: docker.io/axelfrache/questify-auth-service:latest
+          image: docker.io/axelfrache/questify-auth-service:latest@sha256:f46fc12939167b485340f3d522c8b6230c62e20f11b073d496ac9078a55194ba # {"$imagepolicy": "flux-system:questify-auth-service"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8081
@@ -456,10 +449,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: quest-service
-  annotations:
-    keel.sh/policy: force
-    keel.sh/trigger: poll
-    keel.sh/pollSchedule: "@every 5m"
 spec:
   replicas: 1
   selector:
@@ -480,7 +469,7 @@ spec:
             - until nc -z postgres 5432; do sleep 2; done; until nc -z rabbitmq 5672; do sleep 2; done
       containers:
         - name: quest-service
-          image: docker.io/axelfrache/questify-quest-service:latest
+          image: docker.io/axelfrache/questify-quest-service:latest@sha256:ecf01c6429a8f92a3483eeabc5ba12a09a8f1b2c612f40d4133d240353ef8440 # {"$imagepolicy": "flux-system:questify-quest-service"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8082
@@ -545,10 +534,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: project-service
-  annotations:
-    keel.sh/policy: force
-    keel.sh/trigger: poll
-    keel.sh/pollSchedule: "@every 5m"
 spec:
   replicas: 1
   selector:
@@ -569,7 +554,7 @@ spec:
             - until nc -z postgres 5432; do sleep 2; done; until nc -z rabbitmq 5672; do sleep 2; done
       containers:
         - name: project-service
-          image: docker.io/axelfrache/questify-project-service:latest
+          image: docker.io/axelfrache/questify-project-service:latest@sha256:9192a3a07b705038b059fece86d3518d0be77a4ae5d0f7428ab2ddb48fcc3d5b # {"$imagepolicy": "flux-system:questify-project-service"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8083
@@ -634,10 +619,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: progression-service
-  annotations:
-    keel.sh/policy: force
-    keel.sh/trigger: poll
-    keel.sh/pollSchedule: "@every 5m"
 spec:
   replicas: 1
   selector:
@@ -658,7 +639,7 @@ spec:
             - until nc -z postgres 5432; do sleep 2; done; until nc -z rabbitmq 5672; do sleep 2; done
       containers:
         - name: progression-service
-          image: docker.io/axelfrache/questify-progression-service:latest
+          image: docker.io/axelfrache/questify-progression-service:latest@sha256:51e717ba91f61eecc9fda01eedfcb126201b12e1eaaae163c081f63820871f4b # {"$imagepolicy": "flux-system:questify-progression-service"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8084
@@ -723,10 +704,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: stats-service
-  annotations:
-    keel.sh/policy: force
-    keel.sh/trigger: poll
-    keel.sh/pollSchedule: "@every 5m"
 spec:
   replicas: 1
   selector:
@@ -747,7 +724,7 @@ spec:
             - until nc -z postgres 5432; do sleep 2; done; until nc -z rabbitmq 5672; do sleep 2; done
       containers:
         - name: stats-service
-          image: docker.io/axelfrache/questify-stats-service:latest
+          image: docker.io/axelfrache/questify-stats-service:latest@sha256:7647b9a875d541728f41cccac5058448f0557d2b0c7b4687912b9debb799df96 # {"$imagepolicy": "flux-system:questify-stats-service"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8085
@@ -812,10 +789,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: admin-service
-  annotations:
-    keel.sh/policy: force
-    keel.sh/trigger: poll
-    keel.sh/pollSchedule: "@every 5m"
 spec:
   replicas: 1
   selector:
@@ -836,7 +809,7 @@ spec:
             - until nc -z postgres 5432; do sleep 2; done; until nc -z rabbitmq 5672; do sleep 2; done; until nc -z auth-service 8081; do sleep 2; done; until nc -z quest-service 8082; do sleep 2; done; until nc -z project-service 8083; do sleep 2; done; until nc -z progression-service 8084; do sleep 2; done; until nc -z stats-service 8085; do sleep 2; done
       containers:
         - name: admin-service
-          image: docker.io/axelfrache/questify-admin-service:latest
+          image: docker.io/axelfrache/questify-admin-service:latest@sha256:e67ceee65476373cfd952799d19741b4d6dcd6cf5276b7a520632e3435ccd41c # {"$imagepolicy": "flux-system:questify-admin-service"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8086
@@ -982,10 +955,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: questify-frontend
-  annotations:
-    keel.sh/policy: force
-    keel.sh/trigger: poll
-    keel.sh/pollSchedule: "@every 5m"
 spec:
   replicas: 1
   selector:
@@ -1006,7 +975,7 @@ spec:
             - until nc -z questify-gateway 8080; do sleep 2; done
       containers:
         - name: questify-frontend
-          image: docker.io/axelfrache/questify-frontend:latest
+          image: docker.io/axelfrache/questify-frontend:latest@sha256:7c3bfa9651d266e9f3c78b944fcad9351afbb5ae5769ae449d092a4695d8f44b # {"$imagepolicy": "flux-system:questify-frontend"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
