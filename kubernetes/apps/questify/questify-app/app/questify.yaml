@@ -237,7 +237,7 @@ spec:
       enableServiceLinks: false
       containers:
         - name: garage
-          image: docker.io/axelfrache/questify-garage:latest@sha256:681fd46e635d0176b3787eaaa375815f1feff5ef9b1cb2e7f6180fc27c9eb8b0 # {"$imagepolicy": "flux-system:questify-garage"}
+          image: docker.io/axelfrache/questify-garage:latest@sha256:4c0238d4cc537605df7c620d782589339c93d90365a95b92bf7a8deaf7a236df # {"$imagepolicy": "flux-system:questify-garage"}
           imagePullPolicy: Always
           command:
             - /bin/sh
@@ -348,7 +348,7 @@ spec:
             - until nc -z postgres 5432; do sleep 2; done; until nc -z rabbitmq 5672; do sleep 2; done; until nc -z garage 3900; do sleep 2; done
       containers:
         - name: auth-service
-          image: docker.io/axelfrache/questify-auth-service:latest@sha256:d780644f09a44581bb4f005f614a1f6244103e7fbe9bd3e21a3625fb7d2e1768 # {"$imagepolicy": "flux-system:questify-auth-service"}
+          image: docker.io/axelfrache/questify-auth-service:latest@sha256:3db9cd6f35783ae4caad43b7bdb050f7c312077707322bee8d0e9e04070520ad # {"$imagepolicy": "flux-system:questify-auth-service"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8081
@@ -468,7 +468,7 @@ spec:
             - until nc -z postgres 5432; do sleep 2; done; until nc -z rabbitmq 5672; do sleep 2; done
       containers:
         - name: quest-service
-          image: docker.io/axelfrache/questify-quest-service:latest@sha256:c63bba986f132c81e33fe8f9d6e6d2e4a7654170563171f7161901b9356d01d6 # {"$imagepolicy": "flux-system:questify-quest-service"}
+          image: docker.io/axelfrache/questify-quest-service:latest@sha256:5d0cc814a4e9a75dfb1e5c45072d04050148c7d95c5d84cd12ab80ccf17071df # {"$imagepolicy": "flux-system:questify-quest-service"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8082
@@ -553,7 +553,7 @@ spec:
             - until nc -z postgres 5432; do sleep 2; done; until nc -z rabbitmq 5672; do sleep 2; done
       containers:
         - name: project-service
-          image: docker.io/axelfrache/questify-project-service:latest@sha256:10a0716d489cc4f48dc0189106368d893dce55bedf4679a9bdc6f91fdcec51ff # {"$imagepolicy": "flux-system:questify-project-service"}
+          image: docker.io/axelfrache/questify-project-service:latest@sha256:c80e12a560a0065fc7ab9b41ad06ed43ddc2af647e5cdba76817eabfb3ac96cd # {"$imagepolicy": "flux-system:questify-project-service"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8083
@@ -638,7 +638,7 @@ spec:
             - until nc -z postgres 5432; do sleep 2; done; until nc -z rabbitmq 5672; do sleep 2; done
       containers:
         - name: progression-service
-          image: docker.io/axelfrache/questify-progression-service:latest@sha256:536e72d156fb4a859b108b0e8cc34d7ac93939de4ccdbe421ecb72c0daee83cd # {"$imagepolicy": "flux-system:questify-progression-service"}
+          image: docker.io/axelfrache/questify-progression-service:latest@sha256:a4b72d37d8654508dc4a128e38aca8cfb2cc04c5413f40e94efcb83bd5b3b596 # {"$imagepolicy": "flux-system:questify-progression-service"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8084
@@ -723,7 +723,7 @@ spec:
             - until nc -z postgres 5432; do sleep 2; done; until nc -z rabbitmq 5672; do sleep 2; done
       containers:
         - name: stats-service
-          image: docker.io/axelfrache/questify-stats-service:latest@sha256:09fcac588b73c8add0bd6e5d4942ea811134d25d3d6f8ea793c5feb4aba73995 # {"$imagepolicy": "flux-system:questify-stats-service"}
+          image: docker.io/axelfrache/questify-stats-service:latest@sha256:9eb9670503eb187d6aa550cf81e80a400024c642f3c548bee99209f7b0bb69ce # {"$imagepolicy": "flux-system:questify-stats-service"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8085
