@@ -808,7 +808,7 @@ spec:
             - until nc -z postgres 5432; do sleep 2; done; until nc -z rabbitmq 5672; do sleep 2; done; until nc -z auth-service 8081; do sleep 2; done; until nc -z quest-service 8082; do sleep 2; done; until nc -z project-service 8083; do sleep 2; done; until nc -z progression-service 8084; do sleep 2; done; until nc -z stats-service 8085; do sleep 2; done
       containers:
         - name: admin-service
-          image: docker.io/axelfrache/questify-admin-service:latest@sha256:26f2035e57ebe08eef44027bdae75cb40e498c922d978e9651e3f81a06c8cc6e # {"$imagepolicy": "flux-system:questify-admin-service"}
+          image: docker.io/axelfrache/questify-admin-service:latest@sha256:b00bfaa06b5360680a9b1d93664df9259ec8feb6eb732b00767ca46ce8774248 # {"$imagepolicy": "flux-system:questify-admin-service"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8086
