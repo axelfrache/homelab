@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: github-homelab-token
+stringData:
+  username: ENC[AES256_GCM,data:8wHDmSQj44vU5w==,iv:TrWY23dNA2lE4jZj4hA92eMi/qwKuKKnrDX/mE5cFfM=,tag:VJGs5acajkhLOLGk1fsVkA==,type:str]
+  password: ENC[AES256_GCM,data:xPd3bOHrQJ1JLHQGJIiFsnUwMUBPMyvjNKQi88YqRD9gkeJsIjOKLuuRoP/84O63c4YzzucFxXHgZK3tuHylxFyrbf+qbOwiKoAqUENL+HYNslCSgt8JeKwPVB7e,iv:WDKDvfOId3E0p9ILmLlpd+r7VUAX/s11A1I/xeIAOOw=,tag:V5H1ABVFU1WLFn4TzyCtgQ==,type:str]
+sops:
+  age:
+    - recipient: age1j6e3ff57dhwlfv60km0l3ehmrzldvtxkwmpeh3qev06wmenyldaqfpucld
+      enc: |
+        -----BEGIN AGE ENCRYPTED FILE-----
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBPaTlMcHFVSkQ5d2o3MG5F
+        cmVRaUZEOWtLdmxkWnZFVlc2NjgyaGV2S1c4ClRWWG9ZbHFNdFNqQzhZUzAyUmFL
+        ZXNaSy9jYlJDb3ZkUmQ1QmNzZUEwSDgKLS0tIGpHeTlRbzVML1pvejBZMS9BSFFV
+        K21JbDBWbk81eU1nSDFnaTBsSDgyTW8KK6TyTWXxMqQs6asvvey5sk7x2SnC/ldy
+        3Po+gXj/sFzJpjrYoO0hvsQ7AikXEjPprraXWqackfef6xA0jGYJAA==
+        -----END AGE ENCRYPTED FILE-----
+  lastmodified: "2026-05-04T19:16:33Z"
+  mac: ENC[AES256_GCM,data:+B2C8raMGB5xMRaxT/FSMJ53hTXlC85R/JDeuoQ3+djO5l6du1rVFWcF2Vk6dI44dP4/hyhts2MWGvwYV14fNh3hq9u0f+aHdRX6cG+Py9jXLIjUbkENgkR72P5ZCRkk6ktz41H2g9n+9P++JlXdjjgfHzcbnKpINig5NT7bkJY=,iv:RRrH4y94Li7kbTBe30wWza/g7dc4XPcFFWjjV8nHgjY=,tag:EAOzFbB74/kJcIffAPI7SA==,type:str]
+  encrypted_regex: ^(data|stringData)$
+  mac_only_encrypted: true
+  version: 3.12.1
