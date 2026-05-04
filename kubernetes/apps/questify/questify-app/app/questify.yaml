@@ -974,7 +974,7 @@ spec:
             - until nc -z questify-gateway 8080; do sleep 2; done
       containers:
         - name: questify-frontend
-          image: docker.io/axelfrache/questify-frontend:latest@sha256:7c3bfa9651d266e9f3c78b944fcad9351afbb5ae5769ae449d092a4695d8f44b # {"$imagepolicy": "flux-system:questify-frontend"}
+          image: docker.io/axelfrache/questify-frontend:latest@sha256:0c6598daad163fb79e93c41b112eaf35cd7f19b5aad30aa6b0d55d7df959bfac # {"$imagepolicy": "flux-system:questify-frontend"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
