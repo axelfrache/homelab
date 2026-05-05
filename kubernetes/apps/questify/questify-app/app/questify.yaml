@@ -306,7 +306,7 @@ spec:
       enableServiceLinks: false
       containers:
         - name: garage
-          image: docker.io/axelfrache/questify-garage:latest@sha256:7ee163b1c451db08bd50664f94fbd8268309d9ee767a84642978ff41e77f93bc # {"$imagepolicy": "flux-system:questify-garage"}
+          image: docker.io/axelfrache/questify-garage:latest@sha256:e8f02eec58961b60d955f8ba99182eb9818175db1511cd3eee255c0aef8f4f2b # {"$imagepolicy": "flux-system:questify-garage"}
           imagePullPolicy: Always
           command:
             - /bin/sh
