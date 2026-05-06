@@ -12,5 +12,5 @@ spec:
     - keycloak.${SECRET_DOMAIN}
   rules:
     - backendRefs:
-        - name: keycloak
+        - name: keycloak-keycloakx-http
           port: 80

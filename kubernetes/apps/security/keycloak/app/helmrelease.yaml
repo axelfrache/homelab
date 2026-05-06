@@ -9,90 +9,87 @@ spec:
     name: keycloak
   interval: 1h
   values:
-    auth:
-      adminUser: admin
+    replicas: 1
+    image:
+      repository: quay.io/keycloak/keycloak
+      tag: "26.5.5"
+    command:
+      - /opt/keycloak/bin/kc.sh
+      - start
+      - --http-enabled=true
+      - --http-port=8080
+      - --hostname=https://keycloak.${SECRET_DOMAIN}
+      - --hostname-admin=https://keycloak.${SECRET_DOMAIN}
+      - --hostname-strict=true
+      - --proxy-headers=xforwarded
+      - --import-realm
+    extraEnv: |
+      - name: KEYCLOAK_ADMIN
+        value: admin
+      - name: KEYCLOAK_ADMIN_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: keycloak-secret
+            key: admin-password
+      - name: KC_DB
+        value: postgres
+      - name: KC_DB_URL
+        value: jdbc:postgresql://keycloak-postgres:5432/keycloak
+      - name: KC_DB_USERNAME
+        value: keycloak
+      - name: KC_DB_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: keycloak-secret
+            key: password
+      - name: KC_HEALTH_ENABLED
+        value: "true"
+      - name: KC_METRICS_ENABLED
+        value: "true"
+    extraVolumes: |
+      - name: realm-import
+        configMap:
+          name: keycloak-realm-import
+    extraVolumeMounts: |
+      - name: realm-import
+        mountPath: /opt/keycloak/data/import
+        readOnly: true
+    dbchecker:
+      enabled: true
+      image:
+        repository: docker.io/busybox
+        tag: "1.36"
+    database:
       existingSecret: keycloak-secret
-      passwordSecretKey: admin-password
-    production: true
-    proxyHeaders: xforwarded
-    hostnameStrict: true
-    httpEnabled: true
-    extraEnvVars:
-      - name: KC_HOSTNAME
-        value: https://keycloak.${SECRET_DOMAIN}
-      - name: KC_HOSTNAME_ADMIN
-        value: https://keycloak.${SECRET_DOMAIN}
-    replicaCount: 1
+      existingSecretKey: password
+      vendor: postgres
+      hostname: keycloak-postgres
+      port: 5432
+      database: keycloak
+      username: keycloak
+    http:
+      relativePath: /
+      internalPort: http-internal
+      internalScheme: HTTP
+    proxy:
+      enabled: true
+      mode: xforwarded
+      http:
+        enabled: true
+    metrics:
+      enabled: true
+    health:
+      enabled: true
+    serviceMonitor:
+      enabled: true
+      namespace: security
+      path: /metrics
+      port: http-internal
     resources:
       requests:
         cpu: 100m
         memory: 512Mi
       limits:
         memory: 1Gi
-    startupProbe:
-      enabled: true
-      initialDelaySeconds: 20
-      periodSeconds: 10
-      timeoutSeconds: 2
-      failureThreshold: 18
-    metrics:
-      enabled: true
-      serviceMonitor:
-        enabled: true
-        namespace: security
-    postgresql:
-      enabled: true
-      auth:
-        username: keycloak
-        database: keycloak
-        existingSecret: keycloak-secret
-        secretKeys:
-          userPasswordKey: password
-      primary:
-        persistence:
-          enabled: true
-          storageClass: longhorn
-          size: 5Gi
-        resources:
-          requests:
-            cpu: 50m
-            memory: 256Mi
-          limits:
-            memory: 512Mi
-    keycloakConfigCli:
-      enabled: true
-      cleanupAfterFinished:
-        enabled: true
-        seconds: 600
-      configuration:
-        questify.yaml: |
-          realm: questify
-          enabled: true
-          displayName: Questify
-          registrationAllowed: false
-          resetPasswordAllowed: true
-          loginWithEmailAllowed: true
-          duplicateEmailsAllowed: false
-          clients:
-            - clientId: questify-frontend
-              name: Questify Frontend
-              description: Browser client for the deployed Questify instance
-              enabled: true
-              publicClient: true
-              protocol: openid-connect
-              standardFlowEnabled: true
-              directAccessGrantsEnabled: false
-              implicitFlowEnabled: false
-              serviceAccountsEnabled: false
-              redirectUris:
-                - https://app.${SECRET_DOMAIN}/*
-                - https://app.getquestify.com/*
-                - http://localhost:3000/*
-                - http://localhost:5173/*
-              webOrigins:
-                - https://app.${SECRET_DOMAIN}
-                - https://app.getquestify.com
-                - http://localhost:3000
-                - http://localhost:5173
-              attributes:
-                pkce.code.challenge.method: S256
+    test:
+      enabled: false
