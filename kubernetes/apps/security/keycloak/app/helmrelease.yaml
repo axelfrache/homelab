@@ -31,21 +31,6 @@ spec:
           secretKeyRef:
             name: keycloak-secret
             key: admin-password
-      - name: KC_DB
-        value: postgres
-      - name: KC_DB_URL
-        value: jdbc:postgresql://keycloak-postgres:5432/keycloak
-      - name: KC_DB_USERNAME
-        value: keycloak
-      - name: KC_DB_PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: keycloak-secret
-            key: password
-      - name: KC_HEALTH_ENABLED
-        value: "true"
-      - name: KC_METRICS_ENABLED
-        value: "true"
     extraVolumes: |
       - name: realm-import
         configMap:
