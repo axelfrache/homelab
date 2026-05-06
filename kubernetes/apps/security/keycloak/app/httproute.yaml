@@ -9,7 +9,7 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - keycloak.${SECRET_DOMAIN}
+    - keycloak.getquestify.com
   rules:
     - backendRefs:
         - name: keycloak-keycloakx-http

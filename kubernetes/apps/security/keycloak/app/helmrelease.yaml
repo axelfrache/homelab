@@ -18,8 +18,8 @@ spec:
       - start
       - --http-enabled=true
       - --http-port=8080
-      - --hostname=https://keycloak.${SECRET_DOMAIN}
-      - --hostname-admin=https://keycloak.${SECRET_DOMAIN}
+      - --hostname=https://keycloak.getquestify.com
+      - --hostname-admin=https://keycloak.getquestify.com
       - --hostname-strict=true
       - --proxy-headers=xforwarded
       - --import-realm
