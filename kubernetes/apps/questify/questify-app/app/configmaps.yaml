@@ -136,6 +136,21 @@ data:
                 proxy_set_header Host        $host;
             }
 
+            location /api/notifications/stream {
+                auth_request     /_auth/validate;
+                auth_request_set $x_user_id   $upstream_http_x_user_id;
+                auth_request_set $x_user_role $upstream_http_x_user_role;
+                proxy_pass       http://notification_svc;
+                proxy_set_header X-User-Id   $x_user_id;
+                proxy_set_header X-User-Role $x_user_role;
+                proxy_set_header Host        $host;
+                proxy_set_header Connection  "";
+                proxy_buffering  off;
+                proxy_cache      off;
+                proxy_read_timeout 24h;
+                chunked_transfer_encoding on;
+            }
+
             location /api/notifications {
                 auth_request     /_auth/validate;
                 auth_request_set $x_user_id   $upstream_http_x_user_id;
