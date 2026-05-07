@@ -1021,7 +1021,7 @@ spec:
             - until nc -z postgres 5432; do sleep 2; done; until nc -z rabbitmq 5672; do sleep 2; done
       containers:
         - name: notification-service
-          image: docker.io/axelfrache/questify-notification-service:latest@sha256:1374aab00aa1b09c1d0a673c5deb9f746c24f9a22362e7321694d8add335fc93 # {"$imagepolicy": "flux-system:questify-notification-service"}
+          image: docker.io/axelfrache/questify-notification-service:latest@sha256:cd3b04c2ad5c52450f8d739ae3e5c8ee627647003e247ee8b79ca0d03759b964 # {"$imagepolicy": "flux-system:questify-notification-service"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8087
