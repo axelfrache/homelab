@@ -491,7 +491,7 @@ spec:
                   name: questify-secret
                   key: admin-bootstrap-password
             - name: FERRISKEY_ISSUER_URI
-              value: https://auth.getquestify.com/realms/questify
+              value: https://auth.getquestify.com/api/realms/questify
             - name: OIDC_ROLE_CLAIM
               value: roles
           readinessProbe:
