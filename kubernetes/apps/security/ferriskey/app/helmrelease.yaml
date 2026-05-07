@@ -23,7 +23,7 @@ spec:
         key: database-password
     common:
       image:
-        tag: latest
+        tag: 0.6.0
       serviceAccount:
         automountServiceAccountToken: false
     api:
