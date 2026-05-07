@@ -9,24 +9,27 @@ data:
     set -e
 
     psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
-        CREATE USER quest_svc       WITH PASSWORD '${QUEST_DB_PASSWORD:-quest_svc}';
-        CREATE USER project_svc     WITH PASSWORD '${PROJECT_DB_PASSWORD:-project_svc}';
-        CREATE USER progression_svc WITH PASSWORD '${PROGRESSION_DB_PASSWORD:-progression_svc}';
-        CREATE USER stats_svc       WITH PASSWORD '${STATS_DB_PASSWORD:-stats_svc}';
-        CREATE USER admin_svc       WITH PASSWORD '${ADMIN_DB_PASSWORD:-admin_svc}';
+        CREATE USER quest_svc         WITH PASSWORD '${QUEST_DB_PASSWORD:-quest_svc}';
+        CREATE USER project_svc       WITH PASSWORD '${PROJECT_DB_PASSWORD:-project_svc}';
+        CREATE USER progression_svc   WITH PASSWORD '${PROGRESSION_DB_PASSWORD:-progression_svc}';
+        CREATE USER stats_svc         WITH PASSWORD '${STATS_DB_PASSWORD:-stats_svc}';
+        CREATE USER admin_svc         WITH PASSWORD '${ADMIN_DB_PASSWORD:-admin_svc}';
+        CREATE USER notification_svc  WITH PASSWORD '${NOTIFICATION_DB_PASSWORD:-notification_svc}';
 
         GRANT CONNECT, CREATE ON DATABASE questify TO quest_svc;
         GRANT CONNECT, CREATE ON DATABASE questify TO project_svc;
         GRANT CONNECT, CREATE ON DATABASE questify TO progression_svc;
         GRANT CONNECT, CREATE ON DATABASE questify TO stats_svc;
         GRANT CONNECT, CREATE ON DATABASE questify TO admin_svc;
+        GRANT CONNECT, CREATE ON DATABASE questify TO notification_svc;
 
         CREATE SCHEMA IF NOT EXISTS auth;
-        CREATE SCHEMA IF NOT EXISTS quests AUTHORIZATION quest_svc;
-        CREATE SCHEMA IF NOT EXISTS projects AUTHORIZATION project_svc;
-        CREATE SCHEMA IF NOT EXISTS progression AUTHORIZATION progression_svc;
-        CREATE SCHEMA IF NOT EXISTS stats AUTHORIZATION stats_svc;
-        CREATE SCHEMA IF NOT EXISTS admin AUTHORIZATION admin_svc;
+        CREATE SCHEMA IF NOT EXISTS quests        AUTHORIZATION quest_svc;
+        CREATE SCHEMA IF NOT EXISTS projects      AUTHORIZATION project_svc;
+        CREATE SCHEMA IF NOT EXISTS progression   AUTHORIZATION progression_svc;
+        CREATE SCHEMA IF NOT EXISTS stats         AUTHORIZATION stats_svc;
+        CREATE SCHEMA IF NOT EXISTS admin         AUTHORIZATION admin_svc;
+        CREATE SCHEMA IF NOT EXISTS notifications AUTHORIZATION notification_svc;
     EOSQL
 ---
 apiVersion: v1
@@ -42,13 +45,14 @@ data:
     http {
         keepalive_timeout 65;
 
-        upstream auth_svc        { server auth-service:8081; }
-        upstream quest_svc       { server quest-service:8082; }
-        upstream project_svc     { server project-service:8083; }
-        upstream progression_svc { server progression-service:8084; }
-        upstream stats_svc       { server stats-service:8085; }
-        upstream admin_svc       { server admin-service:8086; }
-        upstream garage_web      { server garage:3902; }
+        upstream auth_svc          { server auth-service:8081; }
+        upstream quest_svc         { server quest-service:8082; }
+        upstream project_svc       { server project-service:8083; }
+        upstream progression_svc   { server progression-service:8084; }
+        upstream stats_svc         { server stats-service:8085; }
+        upstream admin_svc         { server admin-service:8086; }
+        upstream notification_svc  { server notification-service:8087; }
+        upstream garage_web        { server garage:3902; }
 
         server {
             listen 8080;
@@ -127,6 +131,16 @@ data:
                 auth_request_set $x_user_id   $upstream_http_x_user_id;
                 auth_request_set $x_user_role $upstream_http_x_user_role;
                 proxy_pass       http://admin_svc;
+                proxy_set_header X-User-Id   $x_user_id;
+                proxy_set_header X-User-Role $x_user_role;
+                proxy_set_header Host        $host;
+            }
+
+            location /api/notifications {
+                auth_request     /_auth/validate;
+                auth_request_set $x_user_id   $upstream_http_x_user_id;
+                auth_request_set $x_user_role $upstream_http_x_user_role;
+                proxy_pass       http://notification_svc;
                 proxy_set_header X-User-Id   $x_user_id;
                 proxy_set_header X-User-Role $x_user_role;
                 proxy_set_header Host        $host;

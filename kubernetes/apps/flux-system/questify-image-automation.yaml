@@ -58,6 +58,14 @@ spec:
 apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
 metadata:
+  name: questify-notification-service
+spec:
+  image: docker.io/axelfrache/questify-notification-service
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
   name: questify-frontend
 spec:
   image: docker.io/axelfrache/questify-frontend
@@ -168,6 +176,21 @@ metadata:
 spec:
   imageRepositoryRef:
     name: questify-admin-service
+  filterTags:
+    pattern: ^latest$
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: questify-notification-service
+spec:
+  imageRepositoryRef:
+    name: questify-notification-service
   filterTags:
     pattern: ^latest$
   policy:
