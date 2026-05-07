@@ -404,6 +404,8 @@ metadata:
   name: auth-service
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: auth-service
@@ -524,6 +526,8 @@ metadata:
   name: quest-service
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: quest-service
@@ -609,6 +613,8 @@ metadata:
   name: project-service
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: project-service
@@ -694,6 +700,8 @@ metadata:
   name: progression-service
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: progression-service
@@ -789,6 +797,8 @@ metadata:
   name: stats-service
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: stats-service
@@ -884,6 +894,8 @@ metadata:
   name: admin-service
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: admin-service
@@ -984,6 +996,8 @@ metadata:
   name: notification-service
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: notification-service
@@ -1085,6 +1099,8 @@ metadata:
   name: questify-gateway
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: questify-gateway
@@ -1151,6 +1167,8 @@ metadata:
   name: questify-frontend
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: questify-frontend
