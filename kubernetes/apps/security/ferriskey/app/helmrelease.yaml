@@ -22,6 +22,8 @@ spec:
         name: ferriskey-secret
         key: database-password
     common:
+      image:
+        tag: latest
       serviceAccount:
         automountServiceAccountToken: false
     api:
