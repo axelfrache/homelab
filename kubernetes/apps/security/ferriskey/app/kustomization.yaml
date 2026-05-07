@@ -5,6 +5,4 @@ kind: Kustomization
 resources:
   - ./ocirepository.yaml
   - ./secret.sops.yaml
-  - ./postgres.yaml
   - ./helmrelease.yaml
-  - ./httproute.yaml

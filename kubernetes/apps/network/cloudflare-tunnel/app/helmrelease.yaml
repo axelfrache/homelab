@@ -11,7 +11,6 @@ spec:
   values:
     controllers:
       cloudflare-tunnel:
-        strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
@@ -22,8 +21,8 @@ spec:
             env:
               NO_AUTOUPDATE: true
               TUNNEL_METRICS: 0.0.0.0:8080
-              TUNNEL_POST_QUANTUM: true # disable when using http2
-              TUNNEL_TRANSPORT_PROTOCOL: quic # or http2
+              TUNNEL_POST_QUANTUM: false
+              TUNNEL_TRANSPORT_PROTOCOL: http2
             envFrom:
               - secretRef:
                   name: cloudflare-tunnel-secret
@@ -36,10 +35,10 @@ spec:
                   httpGet:
                     path: /ready
                     port: &port 8080
-                  initialDelaySeconds: 0
+                  initialDelaySeconds: 60
                   periodSeconds: 10
                   timeoutSeconds: 1
-                  failureThreshold: 3
+                  failureThreshold: 12
               readiness: *probes
             securityContext:
               allowPrivilegeEscalation: false
@@ -70,6 +69,11 @@ spec:
           config.yaml: |-
             ingress:
               - hostname: "*.${SECRET_DOMAIN}"
+                originRequest:
+                  http2Origin: true
+                  originServerName: external.${SECRET_DOMAIN}
+                service: https://envoy-external.{{ .Release.Namespace }}.svc.cluster.local:443
+              - hostname: "*.getquestify.com"
                 originRequest:
                   http2Origin: true
                   originServerName: external.${SECRET_DOMAIN}
