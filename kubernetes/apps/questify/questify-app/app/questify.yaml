@@ -429,6 +429,8 @@ spec:
             - containerPort: 8081
               name: http
           env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: prod
             - name: SPRING_DATASOURCE_URL
               value: jdbc:postgresql://postgres:5432/questify?currentSchema=auth
             - name: SPRING_DATASOURCE_USERNAME
@@ -488,6 +490,10 @@ spec:
                 secretKeyRef:
                   name: questify-secret
                   key: admin-bootstrap-password
+            - name: FERRISKEY_ISSUER_URI
+              value: https://auth.getquestify.com/realms/questify
+            - name: OIDC_ROLE_CLAIM
+              value: roles
           readinessProbe:
             httpGet:
               path: /actuator/health
