@@ -494,6 +494,10 @@ spec:
               value: https://auth.getquestify.com/api/realms/questify
             - name: OIDC_ROLE_CLAIM
               value: roles
+            - name: MANAGEMENT_HEALTH_MAIL_ENABLED
+              value: "false"
+            - name: APP_PUBLIC_URL
+              value: https://app.getquestify.com
           readinessProbe:
             httpGet:
               path: /actuator/health
