@@ -26,7 +26,7 @@ spec:
         tag: 0.6.0
       env:
         - name: WEBAPP_URL
-          value: https://auth.getquestify.com
+          value: https://app.getquestify.com
       serviceAccount:
         automountServiceAccountToken: false
     api:
