@@ -1,0 +1,126 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-service
+spec:
+  template:
+    metadata:
+      annotations:
+        instrumentation.opentelemetry.io/inject-java: questify-java
+    spec:
+      containers:
+        - name: auth-service
+          env:
+            - name: OTEL_SERVICE_NAME
+              value: questify-auth-service
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: service.namespace=questify,deployment.environment=production
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quest-service
+spec:
+  template:
+    metadata:
+      annotations:
+        instrumentation.opentelemetry.io/inject-java: questify-java
+    spec:
+      containers:
+        - name: quest-service
+          env:
+            - name: OTEL_SERVICE_NAME
+              value: questify-quest-service
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: service.namespace=questify,deployment.environment=production
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: project-service
+spec:
+  template:
+    metadata:
+      annotations:
+        instrumentation.opentelemetry.io/inject-java: questify-java
+    spec:
+      containers:
+        - name: project-service
+          env:
+            - name: OTEL_SERVICE_NAME
+              value: questify-project-service
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: service.namespace=questify,deployment.environment=production
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: progression-service
+spec:
+  template:
+    metadata:
+      annotations:
+        instrumentation.opentelemetry.io/inject-java: questify-java
+    spec:
+      containers:
+        - name: progression-service
+          env:
+            - name: OTEL_SERVICE_NAME
+              value: questify-progression-service
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: service.namespace=questify,deployment.environment=production
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stats-service
+spec:
+  template:
+    metadata:
+      annotations:
+        instrumentation.opentelemetry.io/inject-java: questify-java
+    spec:
+      containers:
+        - name: stats-service
+          env:
+            - name: OTEL_SERVICE_NAME
+              value: questify-stats-service
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: service.namespace=questify,deployment.environment=production
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admin-service
+spec:
+  template:
+    metadata:
+      annotations:
+        instrumentation.opentelemetry.io/inject-java: questify-java
+    spec:
+      containers:
+        - name: admin-service
+          env:
+            - name: OTEL_SERVICE_NAME
+              value: questify-admin-service
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: service.namespace=questify,deployment.environment=production
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification-service
+spec:
+  template:
+    metadata:
+      annotations:
+        instrumentation.opentelemetry.io/inject-java: questify-java
+    spec:
+      containers:
+        - name: notification-service
+          env:
+            - name: OTEL_SERVICE_NAME
+              value: questify-notification-service
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: service.namespace=questify,deployment.environment=production

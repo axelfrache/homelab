@@ -4,4 +4,8 @@ kind: Kustomization
 resources:
   - ./configmaps.yaml
   - ./secret.sops.yaml
+  - ./observability.yaml
   - ./questify.yaml
+
+patches:
+  - path: ./otel-patches.yaml

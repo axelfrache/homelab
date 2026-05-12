@@ -1,0 +1,52 @@
+---
+apiVersion: opentelemetry.io/v1alpha1
+kind: Instrumentation
+metadata:
+  name: questify-java
+spec:
+  exporter:
+    endpoint: http://otel-collector.monitoring.svc.cluster.local:4317
+  propagators:
+    - tracecontext
+    - baggage
+  sampler:
+    type: parentbased_traceidratio
+    argument: "0.1"
+  java:
+    env:
+      - name: OTEL_EXPORTER_OTLP_PROTOCOL
+        value: grpc
+      - name: OTEL_METRICS_EXPORTER
+        value: otlp
+      - name: OTEL_LOGS_EXPORTER
+        value: none
+      - name: OTEL_INSTRUMENTATION_MICROMETER_ENABLED
+        value: "true"
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: questify-services
+  labels:
+    app.kubernetes.io/name: questify-services
+spec:
+  namespaceSelector:
+    matchNames:
+      - questify
+  selector:
+    matchExpressions:
+      - key: app
+        operator: In
+        values:
+          - auth-service
+          - quest-service
+          - project-service
+          - progression-service
+          - stats-service
+          - admin-service
+          - notification-service
+  podMetricsEndpoints:
+    - port: http
+      path: /actuator/prometheus
+      interval: 30s
+      scrapeTimeout: 10s

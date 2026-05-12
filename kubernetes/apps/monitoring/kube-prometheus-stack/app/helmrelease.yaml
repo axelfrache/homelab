@@ -80,6 +80,10 @@ spec:
                   storage: 1Gi
     prometheus:
       prometheusSpec:
+        enableRemoteWriteReceiver: true
+        serviceMonitorSelectorNilUsesHelmValues: false
+        podMonitorSelectorNilUsesHelmValues: false
+        ruleSelectorNilUsesHelmValues: false
         retention: 3d
         tsdb:
           outOfOrderTimeWindow: 10m
@@ -108,6 +112,35 @@ spec:
         existingSecret: grafana-admin-secret
         userKey: admin-user
         passwordKey: admin-password
+      additionalDataSources:
+        - name: Tempo
+          type: tempo
+          uid: tempo
+          access: proxy
+          url: http://tempo.monitoring.svc.cluster.local:3200
+          isDefault: false
+          jsonData:
+            tracesToLogsV2:
+              datasourceUid: loki
+              spanStartTimeShift: "-5m"
+              spanEndTimeShift: "5m"
+              tags:
+                - key: service.name
+                  value: service_name
+            serviceMap:
+              datasourceUid: prometheus
+        - name: Loki
+          type: loki
+          uid: loki
+          access: proxy
+          url: http://loki.monitoring.svc.cluster.local:3100
+          isDefault: false
+          jsonData:
+            derivedFields:
+              - name: trace_id
+                matcherRegex: "trace_id=(\\w+)"
+                datasourceUid: tempo
+                url: "$${__value.raw}"
       grafana.ini:
         auth.anonymous:
           enabled: false

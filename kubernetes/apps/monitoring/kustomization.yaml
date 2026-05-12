@@ -9,4 +9,8 @@ components:
 resources:
   - ./namespace.yaml
   - ./kube-prometheus-stack/ks.yaml
+  - ./tempo/ks.yaml
+  - ./loki/ks.yaml
+  - ./opentelemetry-operator/ks.yaml
+  - ./opentelemetry-collector/ks.yaml
   - ./headlamp/ks.yaml

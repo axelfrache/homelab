@@ -4,6 +4,11 @@ kind: Kustomization
 metadata:
   name: questify-app
 spec:
+  dependsOn:
+    - name: opentelemetry-operator
+      namespace: monitoring
+    - name: opentelemetry-collector
+      namespace: monitoring
   interval: 1h
   path: ./kubernetes/apps/questify/questify-app/app
   postBuild:
