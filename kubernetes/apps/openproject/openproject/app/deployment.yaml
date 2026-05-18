@@ -45,7 +45,7 @@ spec:
                   name: openproject-secret
                   key: SECRET_KEY_BASE
             - name: OPENPROJECT_HOST__NAME
-              value: "openproject.${SECRET_DOMAIN}"
+              value: "openproject.meowsik.com"
             - name: OPENPROJECT_HTTPS
               value: "true"
             - name: OPENPROJECT_SEED_LOCALE

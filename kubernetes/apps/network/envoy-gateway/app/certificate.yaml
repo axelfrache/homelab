@@ -10,6 +10,8 @@ spec:
     - "*.${SECRET_LOCAL_DOMAIN}"
     - "getquestify.com"
     - "*.getquestify.com"
+    - "meowsik.com"
+    - "*.meowsik.com"
   duration: 160h
   issuerRef:
     name: letsencrypt-production

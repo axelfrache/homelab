@@ -14,3 +14,6 @@ spec:
     - dnsName: "auth.getquestify.com"
       recordType: CNAME
       targets: ["bfc85a6a-b606-4ca3-8654-07dc7cb2220a.cfargotunnel.com"]
+    - dnsName: "openproject.meowsik.com"
+      recordType: CNAME
+      targets: ["bfc85a6a-b606-4ca3-8654-07dc7cb2220a.cfargotunnel.com"]
