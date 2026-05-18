@@ -13,6 +13,7 @@ spec:
       cloudflare-tunnel:
         annotations:
           reloader.stakater.com/auto: "true"
+        strategy: RollingUpdate
         containers:
           app:
             image:
