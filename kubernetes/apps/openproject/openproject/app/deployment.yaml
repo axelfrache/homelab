@@ -57,22 +57,14 @@ spec:
             - name: assets
               mountPath: /var/openproject/assets
           readinessProbe:
-            httpGet:
-              path: /
+            tcpSocket:
               port: http
-              httpHeaders:
-                - name: X-Forwarded-Proto
-                  value: https
             initialDelaySeconds: 60
             periodSeconds: 15
             failureThreshold: 8
           livenessProbe:
-            httpGet:
-              path: /
+            tcpSocket:
               port: http
-              httpHeaders:
-                - name: X-Forwarded-Proto
-                  value: https
             initialDelaySeconds: 120
             periodSeconds: 20
           resources:
