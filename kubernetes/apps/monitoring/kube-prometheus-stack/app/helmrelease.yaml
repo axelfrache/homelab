@@ -124,6 +124,8 @@ spec:
               datasourceUid: loki
               spanStartTimeShift: "-5m"
               spanEndTimeShift: "5m"
+              filterByTraceID: true
+              filterBySpanID: false
               tags:
                 - key: service.name
                   value: service_name
