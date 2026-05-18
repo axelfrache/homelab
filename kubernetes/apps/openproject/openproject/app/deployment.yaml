@@ -1,0 +1,80 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openproject
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: openproject
+  template:
+    metadata:
+      labels:
+        app: openproject
+    spec:
+      initContainers:
+        - name: wait-for-db
+          image: postgres:13
+          command:
+            - bash
+            - -c
+            - "until pg_isready -h openproject-postgres -U openproject; do sleep 2; done"
+      containers:
+        - name: openproject
+          image: openproject/openproject:16.6.1-slim
+          command:
+            - bash
+            - -c
+            - |
+              bundle exec rails db:migrate RAILS_ENV=production &&
+              bundle exec rails db:seed RAILS_ENV=production &&
+              bin/rails server -b 0.0.0.0 -p 80
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: openproject-secret
+                  key: DATABASE_URL
+            - name: SECRET_KEY_BASE
+              valueFrom:
+                secretKeyRef:
+                  name: openproject-secret
+                  key: SECRET_KEY_BASE
+            - name: OPENPROJECT_HOST__NAME
+              value: "openproject.${SECRET_DOMAIN}"
+            - name: OPENPROJECT_HTTPS
+              value: "true"
+            - name: OPENPROJECT_SEED_LOCALE
+              value: "fr"
+          ports:
+            - name: http
+              containerPort: 80
+          volumeMounts:
+            - name: assets
+              mountPath: /var/openproject/assets
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 60
+            periodSeconds: 15
+            failureThreshold: 8
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 120
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 200m
+              memory: 512Mi
+            limits:
+              memory: 2Gi
+      volumes:
+        - name: assets
+          persistentVolumeClaim:
+            claimName: openproject-assets
