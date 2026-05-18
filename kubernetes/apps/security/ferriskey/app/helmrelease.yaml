@@ -24,12 +24,11 @@ spec:
     common:
       image:
         tag: 0.6.0
-      env:
-        - name: WEBAPP_URL
-          value: https://app.getquestify.com
       serviceAccount:
         automountServiceAccountToken: false
     api:
+      webapp:
+        url: https://app.getquestify.com
       admin:
         email: admin@getquestify.com
         username: admin
