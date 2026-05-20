@@ -1204,7 +1204,7 @@ spec:
             - until nc -z questify-gateway 8080; do sleep 2; done
       containers:
         - name: questify-frontend
-          image: ghcr.io/axelfrache/questify-frontend:latest@sha256:cfc9d99a98761e9622340936646914459c57c69de17893b97294029cf17a34d6 # {"$imagepolicy": "flux-system:questify-frontend"}
+          image: ghcr.io/axelfrache/questify-frontend:latest@sha256:830c98c99adcf93e45ba899f7e7db1534ce5be95ba29c70af8c6100ad3c790c7 # {"$imagepolicy": "flux-system:questify-frontend"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
