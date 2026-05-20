@@ -223,7 +223,7 @@ data:
                     "value": [
                       {
                         "title": "Open in Tempo",
-                        "url": "/explore?orgId=1&left={\"datasource\":\"tempo\",\"queries\":[{\"refId\":\"A\",\"queryType\":\"traceql\",\"query\":\"${__value.raw}\",\"datasource\":{\"uid\":\"tempo\",\"type\":\"tempo\"}}],\"range\":{\"from\":\"${__from}\",\"to\":\"${__to}\"}}",
+                        "url": "/explore?orgId=1&left={\"datasource\":\"tempo\",\"queries\":[{\"refId\":\"A\",\"queryType\":\"traceql\",\"query\":\"$${__value.raw}\",\"datasource\":{\"uid\":\"tempo\",\"type\":\"tempo\"}}],\"range\":{\"from\":\"$${__from}\",\"to\":\"$${__to}\"}}",
                         "targetBlank": true
                       }
                     ]
