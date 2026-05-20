@@ -25,6 +25,19 @@ data:
       compaction:
         block_retention: 72h
 
+    metrics_generator:
+      storage:
+        path: /var/tempo/generator/wal
+        remote_write:
+          - url: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090/api/v1/write
+            send_exemplars: true
+      traces_storage:
+        path: /var/tempo/generator/traces
+      processor:
+        local_blocks:
+          max_live_traces: 50000
+          flush_to_storage: true
+
     storage:
       trace:
         backend: local
@@ -32,3 +45,9 @@ data:
           path: /var/tempo/traces
         wal:
           path: /var/tempo/wal
+
+    overrides:
+      defaults:
+        metrics_generator:
+          processors: [local-blocks]
+          generate_native_histograms: both
