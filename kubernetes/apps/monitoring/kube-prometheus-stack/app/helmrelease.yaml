@@ -120,6 +120,7 @@ spec:
           url: http://tempo.monitoring.svc.cluster.local:3200
           isDefault: false
           jsonData:
+            streamingEnabled: false
             tracesToLogsV2:
               datasourceUid: loki
               spanStartTimeShift: "-5m"
