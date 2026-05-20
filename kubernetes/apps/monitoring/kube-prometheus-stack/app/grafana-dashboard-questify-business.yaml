@@ -18,7 +18,7 @@ data:
       "schemaVersion": 39,
       "version": 1,
       "refresh": "1m",
-      "time": {"from": "now-24h", "to": "now"},
+      "time": {"from": "now-3h", "to": "now"},
       "panels": [
         {
           "id": 1,
