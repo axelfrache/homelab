@@ -4,7 +4,7 @@ kind: ImageRepository
 metadata:
   name: questify-garage
 spec:
-  image: docker.io/axelfrache/questify-garage
+  image: ghcr.io/axelfrache/questify-garage
   interval: 5m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
@@ -12,7 +12,7 @@ kind: ImageRepository
 metadata:
   name: questify-auth-service
 spec:
-  image: docker.io/axelfrache/questify-auth-service
+  image: ghcr.io/axelfrache/questify-auth-service
   interval: 5m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
@@ -20,7 +20,7 @@ kind: ImageRepository
 metadata:
   name: questify-quest-service
 spec:
-  image: docker.io/axelfrache/questify-quest-service
+  image: ghcr.io/axelfrache/questify-quest-service
   interval: 5m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
@@ -28,7 +28,7 @@ kind: ImageRepository
 metadata:
   name: questify-project-service
 spec:
-  image: docker.io/axelfrache/questify-project-service
+  image: ghcr.io/axelfrache/questify-project-service
   interval: 5m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
@@ -36,7 +36,7 @@ kind: ImageRepository
 metadata:
   name: questify-progression-service
 spec:
-  image: docker.io/axelfrache/questify-progression-service
+  image: ghcr.io/axelfrache/questify-progression-service
   interval: 5m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
@@ -44,7 +44,7 @@ kind: ImageRepository
 metadata:
   name: questify-stats-service
 spec:
-  image: docker.io/axelfrache/questify-stats-service
+  image: ghcr.io/axelfrache/questify-stats-service
   interval: 5m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
@@ -52,7 +52,7 @@ kind: ImageRepository
 metadata:
   name: questify-admin-service
 spec:
-  image: docker.io/axelfrache/questify-admin-service
+  image: ghcr.io/axelfrache/questify-admin-service
   interval: 5m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
@@ -60,7 +60,7 @@ kind: ImageRepository
 metadata:
   name: questify-notification-service
 spec:
-  image: docker.io/axelfrache/questify-notification-service
+  image: ghcr.io/axelfrache/questify-notification-service
   interval: 5m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
@@ -68,7 +68,7 @@ kind: ImageRepository
 metadata:
   name: questify-frontend
 spec:
-  image: docker.io/axelfrache/questify-frontend
+  image: ghcr.io/axelfrache/questify-frontend
   interval: 5m
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
