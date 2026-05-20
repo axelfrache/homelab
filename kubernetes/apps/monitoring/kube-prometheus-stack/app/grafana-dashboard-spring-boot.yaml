@@ -3128,7 +3128,7 @@ data:
               "type": "prometheus",
               "uid": "prometheus"
             },
-            "definition": "label_values(jvm_info{application=\"$application\", namespace=\"$Namespace\"},instance)",
+            "definition": "query_result(group by(instance) (last_over_time(jvm_info{application=\"$application\", namespace=\"$Namespace\"}[2m])))",
             "hide": 0,
             "includeAll": false,
             "label": "Instance",
@@ -3136,11 +3136,11 @@ data:
             "name": "instance",
             "options": [],
             "query": {
-              "query": "label_values(jvm_info{application=\"$application\", namespace=\"$Namespace\"},instance)",
+              "query": "query_result(group by(instance) (last_over_time(jvm_info{application=\"$application\", namespace=\"$Namespace\"}[2m])))",
               "refId": "PrometheusVariableQueryEditor-VariableQuery"
             },
             "refresh": 2,
-            "regex": "",
+            "regex": ".*instance=\"([^\"]+)\".*",
             "skipUrlSync": false,
             "sort": 1,
             "tagValuesQuery": "",
