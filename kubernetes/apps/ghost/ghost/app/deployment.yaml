@@ -1,0 +1,74 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ghost
+spec:
+  replicas: 0
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: ghost
+  template:
+    metadata:
+      labels:
+        app: ghost
+    spec:
+      containers:
+        - name: ghost
+          image: ghost:6.9.1-alpine
+          env:
+            - name: url
+              value: https://blog.${SECRET_DOMAIN}
+            - name: database__client
+              value: mysql
+            - name: database__connection__host
+              value: ghost-db
+            - name: database__connection__port
+              value: "3306"
+            - name: database__connection__database
+              value: ghost
+            - name: database__connection__user
+              value: ghost
+            - name: database__connection__password
+              valueFrom:
+                secretKeyRef:
+                  name: ghost-secret
+                  key: DB_PASSWORD
+            - name: NODE_ENV
+              value: production
+            - name: server__trustProxy
+              value: "true"
+            - name: security__staffDeviceVerification
+              value: "false"
+          ports:
+            - name: http
+              containerPort: 2368
+              protocol: TCP
+          volumeMounts:
+            - name: content
+              mountPath: /var/lib/ghost/content
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            failureThreshold: 12
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 60
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              memory: 1Gi
+      volumes:
+        - name: content
+          persistentVolumeClaim:
+            claimName: ghost-content
