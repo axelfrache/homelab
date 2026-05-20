@@ -50,7 +50,7 @@ data:
         },
         {
           "id": 2,
-          "type": "statushistory",
+          "type": "status-history",
           "title": "Error activity per service (heat — green=0, yellow=1-4, red=5+)",
           "description": "Each row = one service. Color = error span count per time bucket. Equivalent to an error heatmap.",
           "gridPos": {"x": 0, "y": 1, "w": 24, "h": 8},
