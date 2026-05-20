@@ -249,19 +249,21 @@ spec:
           readinessProbe:
             tcpSocket:
               port: amqp
-            initialDelaySeconds: 15
+            initialDelaySeconds: 60
             periodSeconds: 10
+            failureThreshold: 12
           livenessProbe:
             tcpSocket:
               port: amqp
-            initialDelaySeconds: 30
+            initialDelaySeconds: 180
             periodSeconds: 15
+            failureThreshold: 6
           resources:
             requests:
               cpu: 50m
-              memory: 128Mi
+              memory: 256Mi
             limits:
-              memory: 512Mi
+              memory: 1Gi
       volumes:
         - name: data
           persistentVolumeClaim:
@@ -276,7 +278,7 @@ metadata:
   name: rabbitmq-config
 data:
   memory.conf: |
-    vm_memory_high_watermark.absolute = 192MB
+    vm_memory_high_watermark.absolute = 512MB
 ---
 apiVersion: v1
 kind: Service
