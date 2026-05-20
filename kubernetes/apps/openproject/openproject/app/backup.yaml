@@ -37,9 +37,9 @@ spec:
                     --format=custom \
                     --no-owner \
                     --no-acl \
-                    --file="/backup/db/openproject/openproject-${ts}.dump"
+                    --file="/backup/db/openproject/openproject-$ts.dump"
 
-                  gzip -9 "/backup/db/openproject/openproject-${ts}.dump"
+                  gzip -9 "/backup/db/openproject/openproject-$ts.dump"
                   find /backup/db/openproject -type f -name '*.dump.gz' -mtime +14 -delete
               volumeMounts:
                 - name: backup

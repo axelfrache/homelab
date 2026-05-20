@@ -37,9 +37,9 @@ spec:
                     --routines \
                     --triggers \
                     ghost \
-                    | gzip -9 > "/backup/db/ghost/ghost-${ts}.sql.gz"
+                    | gzip -9 > "/backup/db/ghost/ghost-$ts.sql.gz"
 
-                  tar -C /content -czf "/backup/app/ghost-content/ghost-content-${ts}.tar.gz" .
+                  tar -C /content -czf "/backup/app/ghost-content/ghost-content-$ts.tar.gz" .
 
                   find /backup/db/ghost -type f -name '*.sql.gz' -mtime +14 -delete
                   find /backup/app/ghost-content -type f -name '*.tar.gz' -mtime +14 -delete

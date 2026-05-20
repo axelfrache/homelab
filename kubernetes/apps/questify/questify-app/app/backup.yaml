@@ -37,9 +37,9 @@ spec:
                     --format=custom \
                     --no-owner \
                     --no-acl \
-                    --file="/backup/db/questify/questify-${ts}.dump"
+                    --file="/backup/db/questify/questify-$ts.dump"
 
-                  gzip -9 "/backup/db/questify/questify-${ts}.dump"
+                  gzip -9 "/backup/db/questify/questify-$ts.dump"
                   find /backup/db/questify -type f -name '*.dump.gz' -mtime +14 -delete
               volumeMounts:
                 - name: backup
