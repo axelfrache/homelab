@@ -7,3 +7,4 @@ resources:
   - ./helmrelease.yaml
   - ./httproute.yaml
   - ./ocirepository.yaml
+  - ./grafana-dashboard-spring-boot.yaml
