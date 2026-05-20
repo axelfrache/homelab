@@ -8,3 +8,4 @@ resources:
   - ./httproute.yaml
   - ./ocirepository.yaml
   - ./grafana-dashboard-spring-boot.yaml
+  - ./grafana-dashboard-questify-red.yaml
