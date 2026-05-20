@@ -650,7 +650,7 @@ spec:
             - until nc -z postgres 5432; do sleep 2; done; until nc -z rabbitmq 5672; do sleep 2; done
       containers:
         - name: project-service
-          image: docker.io/axelfrache/questify-project-service:latest@sha256:d4f4b933464778e2fce0eb2ed6816bf26507668ea75b1dd7824b120952dc49ad # {"$imagepolicy": "flux-system:questify-project-service"}
+          image: docker.io/axelfrache/questify-project-service:latest@sha256:e4e162868bd98235a73b85938c0db7d9ae71719c376a7727419c799ec1726350 # {"$imagepolicy": "flux-system:questify-project-service"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8083
