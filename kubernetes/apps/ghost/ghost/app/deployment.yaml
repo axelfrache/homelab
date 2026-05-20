@@ -38,6 +38,8 @@ spec:
                   key: DB_PASSWORD
             - name: NODE_ENV
               value: production
+            - name: mail__from
+              value: Axel Frache <noreply@${SECRET_DOMAIN}>
             - name: server__trustProxy
               value: "true"
             - name: security__staffDeviceVerification
@@ -53,6 +55,7 @@ spec:
             httpGet:
               path: /
               port: http
+              scheme: HTTP
             initialDelaySeconds: 30
             periodSeconds: 10
             failureThreshold: 12
@@ -60,6 +63,7 @@ spec:
             httpGet:
               path: /
               port: http
+              scheme: HTTP
             initialDelaySeconds: 60
             periodSeconds: 20
           resources:
