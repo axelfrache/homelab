@@ -1,0 +1,368 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-questify-errors
+  namespace: monitoring
+  labels:
+    grafana_dashboard: "1"
+data:
+  questify-errors.json: |
+    {
+      "id": null,
+      "uid": "questify_errors",
+      "title": "Questify — Error Tracker",
+      "description": "Error heatmap per service/operation, direct links to Tempo traces, and Loki log correlation",
+      "tags": ["questify", "errors", "otel", "tempo", "loki"],
+      "timezone": "browser",
+      "schemaVersion": 39,
+      "version": 1,
+      "refresh": "30s",
+      "time": {"from": "now-3h", "to": "now"},
+      "templating": {
+        "list": [
+          {
+            "name": "service",
+            "label": "Service",
+            "type": "query",
+            "datasource": {"type": "prometheus", "uid": "prometheus"},
+            "query": {
+              "query": "label_values(http_server_request_duration_seconds_count{k8s_namespace_name=\"questify\"}, service_name)",
+              "refId": "StandardVariableQuery"
+            },
+            "multi": true,
+            "includeAll": true,
+            "allValue": "questify-.*",
+            "refresh": 2,
+            "sort": 1,
+            "hide": 0
+          }
+        ]
+      },
+      "panels": [
+        {
+          "id": 1,
+          "type": "row",
+          "title": "Error Heatmap — by service and operation",
+          "collapsed": false,
+          "gridPos": {"x": 0, "y": 0, "w": 24, "h": 1}
+        },
+        {
+          "id": 2,
+          "type": "statushistory",
+          "title": "Error activity per service (heat — green=0, yellow=1-4, red=5+)",
+          "description": "Each row = one service. Color = error span count per time bucket. Equivalent to an error heatmap.",
+          "gridPos": {"x": 0, "y": 1, "w": 24, "h": 8},
+          "datasource": {"type": "tempo", "uid": "tempo"},
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "lineWidth": 1,
+                "fillOpacity": 80,
+                "hideFrom": {"legend": false, "tooltip": false, "viz": false}
+              },
+              "color": {"mode": "thresholds"},
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {"color": "green", "value": null},
+                  {"color": "yellow", "value": 1},
+                  {"color": "orange", "value": 5},
+                  {"color": "red", "value": 20}
+                ]
+              },
+              "mappings": [
+                {"type": "value", "options": {"0": {"text": "OK", "color": "green"}}}
+              ]
+            },
+            "overrides": []
+          },
+          "options": {
+            "colWidth": 0.9,
+            "rowHeight": 0.9,
+            "showValue": "auto",
+            "legend": {"displayMode": "list", "placement": "bottom"},
+            "tooltip": {"mode": "single"}
+          },
+          "targets": [
+            {
+              "datasource": {"type": "tempo", "uid": "tempo"},
+              "queryType": "traceqlMetrics",
+              "query": "{resource.service.name=~\"$service\" && status=error} | count_over_time() by(resource.service.name)",
+              "legendFormat": "{{resource.service.name}}",
+              "refId": "A"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "type": "timeseries",
+          "title": "Error count per operation over time",
+          "description": "Breakdown by span name (operation). Filters by selected service(s).",
+          "gridPos": {"x": 0, "y": 9, "w": 24, "h": 8},
+          "datasource": {"type": "tempo", "uid": "tempo"},
+          "fieldConfig": {
+            "defaults": {
+              "unit": "short",
+              "color": {"mode": "palette-classic"},
+              "custom": {
+                "lineWidth": 2,
+                "fillOpacity": 10,
+                "drawStyle": "bars",
+                "barMaxWidth": 10,
+                "stacking": {"mode": "normal", "group": "A"}
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {"displayMode": "table", "placement": "right", "calcs": ["sum", "max", "lastNotNull"]},
+            "tooltip": {"mode": "multi", "sort": "desc"}
+          },
+          "targets": [
+            {
+              "datasource": {"type": "tempo", "uid": "tempo"},
+              "queryType": "traceqlMetrics",
+              "query": "{resource.service.name=~\"$service\" && status=error} | count_over_time() by(resource.service.name, name)",
+              "legendFormat": "{{resource.service.name}} / {{name}}",
+              "refId": "A"
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "type": "stat",
+          "title": "Total errors (period)",
+          "gridPos": {"x": 0, "y": 17, "w": 4, "h": 3},
+          "datasource": {"type": "tempo", "uid": "tempo"},
+          "fieldConfig": {
+            "defaults": {
+              "unit": "short",
+              "color": {"mode": "thresholds"},
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {"color": "green", "value": null},
+                  {"color": "yellow", "value": 1},
+                  {"color": "red", "value": 10}
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "reduceOptions": {"calcs": ["sum"]},
+            "orientation": "auto",
+            "textMode": "auto",
+            "colorMode": "background"
+          },
+          "targets": [
+            {
+              "datasource": {"type": "tempo", "uid": "tempo"},
+              "queryType": "traceqlMetrics",
+              "query": "{resource.service.name=~\"$service\" && status=error} | count_over_time()",
+              "refId": "A"
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "type": "stat",
+          "title": "Error rate / s",
+          "gridPos": {"x": 4, "y": 17, "w": 4, "h": 3},
+          "datasource": {"type": "tempo", "uid": "tempo"},
+          "fieldConfig": {
+            "defaults": {
+              "unit": "ops",
+              "color": {"mode": "thresholds"},
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {"color": "green", "value": null},
+                  {"color": "yellow", "value": 0.01},
+                  {"color": "red", "value": 0.1}
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "reduceOptions": {"calcs": ["lastNotNull"]},
+            "orientation": "auto",
+            "textMode": "auto",
+            "colorMode": "background"
+          },
+          "targets": [
+            {
+              "datasource": {"type": "tempo", "uid": "tempo"},
+              "queryType": "traceqlMetrics",
+              "query": "{resource.service.name=~\"$service\" && status=error} | rate()",
+              "refId": "A"
+            }
+          ]
+        },
+        {
+          "id": 6,
+          "type": "row",
+          "title": "Error Traces — direct links to Tempo",
+          "collapsed": false,
+          "gridPos": {"x": 0, "y": 20, "w": 24, "h": 1}
+        },
+        {
+          "id": 7,
+          "type": "table",
+          "title": "Recent ERROR traces",
+          "description": "Click the TraceID to open the full trace in Tempo. Data from TraceQL search.",
+          "gridPos": {"x": 0, "y": 21, "w": 24, "h": 10},
+          "datasource": {"type": "tempo", "uid": "tempo"},
+          "fieldConfig": {
+            "defaults": {
+              "custom": {"align": "left", "filterable": true}
+            },
+            "overrides": [
+              {
+                "matcher": {"id": "byName", "options": "traceID"},
+                "properties": [
+                  {"id": "displayName", "value": "Trace ID"},
+                  {"id": "custom.width", "value": 280},
+                  {
+                    "id": "links",
+                    "value": [
+                      {
+                        "title": "Open in Tempo",
+                        "url": "/explore?orgId=1&left={\"datasource\":\"tempo\",\"queries\":[{\"refId\":\"A\",\"queryType\":\"traceql\",\"query\":\"${__value.raw}\",\"datasource\":{\"uid\":\"tempo\",\"type\":\"tempo\"}}],\"range\":{\"from\":\"${__from}\",\"to\":\"${__to}\"}}",
+                        "targetBlank": true
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "matcher": {"id": "byName", "options": "duration"},
+                "properties": [
+                  {"id": "unit", "value": "ns"},
+                  {"id": "custom.width", "value": 120}
+                ]
+              },
+              {
+                "matcher": {"id": "byName", "options": "startTime"},
+                "properties": [
+                  {"id": "custom.width", "value": 180}
+                ]
+              }
+            ]
+          },
+          "options": {
+            "sortBy": [{"displayName": "startTime", "desc": true}],
+            "footer": {"show": false}
+          },
+          "targets": [
+            {
+              "datasource": {"type": "tempo", "uid": "tempo"},
+              "queryType": "traceql",
+              "query": "{resource.service.name=~\"$service\" && status=error}",
+              "limit": 50,
+              "tableType": "traces",
+              "refId": "A"
+            }
+          ]
+        },
+        {
+          "id": 8,
+          "type": "row",
+          "title": "Log Correlation — Loki (traceId links included)",
+          "collapsed": false,
+          "gridPos": {"x": 0, "y": 31, "w": 24, "h": 1}
+        },
+        {
+          "id": 9,
+          "type": "logs",
+          "title": "Error logs (Loki) — click trace_id to jump to Tempo",
+          "description": "Logs from questify-* services filtered on ERROR level. The trace_id field links directly to the corresponding trace in Tempo (derived field configured in datasource).",
+          "gridPos": {"x": 0, "y": 32, "w": 24, "h": 12},
+          "datasource": {"type": "loki", "uid": "loki"},
+          "fieldConfig": {"defaults": {}, "overrides": []},
+          "options": {
+            "dedupStrategy": "none",
+            "showLabels": false,
+            "showCommonLabels": true,
+            "wrapLogMessage": true,
+            "prettifyLogMessage": false,
+            "enableLogDetails": true,
+            "sortOrder": "Descending"
+          },
+          "targets": [
+            {
+              "datasource": {"type": "loki", "uid": "loki"},
+              "expr": "{service_name=~\"questify-.*\"} |= `ERROR`",
+              "queryType": "range",
+              "refId": "A"
+            }
+          ]
+        },
+        {
+          "id": 10,
+          "type": "row",
+          "title": "Error Rate per Operation — trend",
+          "collapsed": false,
+          "gridPos": {"x": 0, "y": 44, "w": 24, "h": 1}
+        },
+        {
+          "id": 11,
+          "type": "timeseries",
+          "title": "Error rate / s per operation (all services)",
+          "gridPos": {"x": 0, "y": 45, "w": 24, "h": 8},
+          "datasource": {"type": "tempo", "uid": "tempo"},
+          "fieldConfig": {
+            "defaults": {
+              "unit": "ops",
+              "color": {"mode": "palette-classic"},
+              "custom": {"lineWidth": 2, "fillOpacity": 8}
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {"displayMode": "table", "placement": "right", "calcs": ["mean", "max", "sum"]},
+            "tooltip": {"mode": "multi", "sort": "desc"}
+          },
+          "targets": [
+            {
+              "datasource": {"type": "tempo", "uid": "tempo"},
+              "queryType": "traceqlMetrics",
+              "query": "{resource.service.name=~\"$service\" && status=error} | rate() by(name)",
+              "legendFormat": "{{name}}",
+              "refId": "A"
+            }
+          ]
+        },
+        {
+          "id": 12,
+          "type": "timeseries",
+          "title": "error.category attribute breakdown",
+          "description": "Errors grouped by the questify error.category span attribute set in GlobalExceptionHandler",
+          "gridPos": {"x": 0, "y": 53, "w": 24, "h": 8},
+          "datasource": {"type": "tempo", "uid": "tempo"},
+          "fieldConfig": {
+            "defaults": {
+              "unit": "ops",
+              "color": {"mode": "palette-classic"},
+              "custom": {"lineWidth": 2, "fillOpacity": 8}
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {"displayMode": "table", "placement": "right", "calcs": ["mean", "max", "sum"]},
+            "tooltip": {"mode": "multi", "sort": "desc"}
+          },
+          "targets": [
+            {
+              "datasource": {"type": "tempo", "uid": "tempo"},
+              "queryType": "traceqlMetrics",
+              "query": "{resource.service.name=~\"$service\" && span.error.category=\"unexpected\"} | rate()",
+              "legendFormat": "unexpected (5xx)",
+              "refId": "UNEXP"
+            }
+          ]
+        }
+      ]
+    }

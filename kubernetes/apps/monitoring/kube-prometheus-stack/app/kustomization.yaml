@@ -9,3 +9,5 @@ resources:
   - ./ocirepository.yaml
   - ./grafana-dashboard-spring-boot.yaml
   - ./grafana-dashboard-questify-red.yaml
+  - ./grafana-dashboard-questify-business.yaml
+  - ./grafana-dashboard-questify-errors.yaml

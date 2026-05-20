@@ -1,0 +1,432 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-questify-business
+  namespace: monitoring
+  labels:
+    grafana_dashboard: "1"
+data:
+  questify-business.json: |
+    {
+      "id": null,
+      "uid": "questify_business",
+      "title": "Questify — Business Metrics",
+      "description": "Quest activity, distributions and operation health from OTel span attributes (questify.*)",
+      "tags": ["questify", "business", "otel", "tempo"],
+      "timezone": "browser",
+      "schemaVersion": 39,
+      "version": 1,
+      "refresh": "1m",
+      "time": {"from": "now-24h", "to": "now"},
+      "panels": [
+        {
+          "id": 1,
+          "type": "row",
+          "title": "Quest Activity",
+          "collapsed": false,
+          "gridPos": {"x": 0, "y": 0, "w": 24, "h": 1}
+        },
+        {
+          "id": 2,
+          "type": "timeseries",
+          "title": "Quest completions / s",
+          "gridPos": {"x": 0, "y": 1, "w": 12, "h": 8},
+          "datasource": {"type": "tempo", "uid": "tempo"},
+          "fieldConfig": {
+            "defaults": {
+              "unit": "ops",
+              "color": {"mode": "palette-classic"},
+              "custom": {"lineWidth": 2, "fillOpacity": 10}
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {"displayMode": "table", "placement": "bottom", "calcs": ["mean", "max", "lastNotNull"]},
+            "tooltip": {"mode": "multi", "sort": "desc"}
+          },
+          "targets": [
+            {
+              "datasource": {"type": "tempo", "uid": "tempo"},
+              "queryType": "traceqlMetrics",
+              "query": "{resource.service.name=\"questify-quest-service\" && name=\"quest.complete\" && status=ok} | rate()",
+              "legendFormat": "completed",
+              "refId": "A"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "type": "timeseries",
+          "title": "Quest creations / s",
+          "gridPos": {"x": 12, "y": 1, "w": 12, "h": 8},
+          "datasource": {"type": "tempo", "uid": "tempo"},
+          "fieldConfig": {
+            "defaults": {
+              "unit": "ops",
+              "color": {"mode": "palette-classic"},
+              "custom": {"lineWidth": 2, "fillOpacity": 10}
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {"displayMode": "table", "placement": "bottom", "calcs": ["mean", "max", "lastNotNull"]},
+            "tooltip": {"mode": "multi", "sort": "desc"}
+          },
+          "targets": [
+            {
+              "datasource": {"type": "tempo", "uid": "tempo"},
+              "queryType": "traceqlMetrics",
+              "query": "{resource.service.name=\"questify-quest-service\" && name=\"quest.create\" && status=ok} | rate()",
+              "legendFormat": "created",
+              "refId": "A"
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "type": "stat",
+          "title": "Completions (period)",
+          "gridPos": {"x": 0, "y": 9, "w": 4, "h": 4},
+          "datasource": {"type": "tempo", "uid": "tempo"},
+          "fieldConfig": {
+            "defaults": {
+              "unit": "short",
+              "color": {"mode": "thresholds"},
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {"color": "blue", "value": null}
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "reduceOptions": {"calcs": ["sum"]},
+            "orientation": "auto",
+            "textMode": "auto",
+            "colorMode": "background"
+          },
+          "targets": [
+            {
+              "datasource": {"type": "tempo", "uid": "tempo"},
+              "queryType": "traceqlMetrics",
+              "query": "{resource.service.name=\"questify-quest-service\" && name=\"quest.complete\" && status=ok} | count_over_time()",
+              "refId": "A"
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "type": "stat",
+          "title": "Creations (period)",
+          "gridPos": {"x": 4, "y": 9, "w": 4, "h": 4},
+          "datasource": {"type": "tempo", "uid": "tempo"},
+          "fieldConfig": {
+            "defaults": {
+              "unit": "short",
+              "color": {"mode": "thresholds"},
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [{"color": "green", "value": null}]
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "reduceOptions": {"calcs": ["sum"]},
+            "orientation": "auto",
+            "textMode": "auto",
+            "colorMode": "background"
+          },
+          "targets": [
+            {
+              "datasource": {"type": "tempo", "uid": "tempo"},
+              "queryType": "traceqlMetrics",
+              "query": "{resource.service.name=\"questify-quest-service\" && name=\"quest.create\" && status=ok} | count_over_time()",
+              "refId": "A"
+            }
+          ]
+        },
+        {
+          "id": 6,
+          "type": "stat",
+          "title": "Quest errors (period)",
+          "gridPos": {"x": 8, "y": 9, "w": 4, "h": 4},
+          "datasource": {"type": "tempo", "uid": "tempo"},
+          "fieldConfig": {
+            "defaults": {
+              "unit": "short",
+              "color": {"mode": "thresholds"},
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {"color": "green", "value": null},
+                  {"color": "yellow", "value": 1},
+                  {"color": "red", "value": 10}
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "reduceOptions": {"calcs": ["sum"]},
+            "orientation": "auto",
+            "textMode": "auto",
+            "colorMode": "background"
+          },
+          "targets": [
+            {
+              "datasource": {"type": "tempo", "uid": "tempo"},
+              "queryType": "traceqlMetrics",
+              "query": "{resource.service.name=\"questify-quest-service\" && status=error} | count_over_time()",
+              "refId": "A"
+            }
+          ]
+        },
+        {
+          "id": 7,
+          "type": "text",
+          "title": "XP total — note",
+          "gridPos": {"x": 12, "y": 9, "w": 12, "h": 4},
+          "options": {
+            "mode": "markdown",
+            "content": "**XP total distribué** n'est pas directement sommable via TraceQL (pas d'agrégation sur attributs numériques de span).\n\nPour l'obtenir, ajouter un counter Micrometer dans `QuestService.completeQuest` :\n```java\ncounter(\"questify.xp.distributed\",\n  \"service\", serviceName)\n  .increment(xpAwarded);\n```\nCela exposera `questify_xp_distributed_total` dans Prometheus."
+          }
+        },
+        {
+          "id": 8,
+          "type": "row",
+          "title": "Distributions",
+          "collapsed": false,
+          "gridPos": {"x": 0, "y": 13, "w": 24, "h": 1}
+        },
+        {
+          "id": 9,
+          "type": "piechart",
+          "title": "Quests created — by difficulty",
+          "description": "Distribution of created quests by questify.quest.difficulty span attribute",
+          "gridPos": {"x": 0, "y": 14, "w": 8, "h": 9},
+          "datasource": {"type": "tempo", "uid": "tempo"},
+          "fieldConfig": {
+            "defaults": {"unit": "short"},
+            "overrides": []
+          },
+          "options": {
+            "reduceOptions": {"calcs": ["sum"]},
+            "pieType": "pie",
+            "legend": {"displayMode": "table", "placement": "right", "values": ["value", "percent"]}
+          },
+          "targets": [
+            {
+              "datasource": {"type": "tempo", "uid": "tempo"},
+              "queryType": "traceqlMetrics",
+              "query": "{resource.service.name=\"questify-quest-service\" && name=\"quest.create\" && span.questify.quest.difficulty=\"EASY\" && status=ok} | count_over_time()",
+              "legendFormat": "EASY",
+              "refId": "EASY"
+            },
+            {
+              "datasource": {"type": "tempo", "uid": "tempo"},
+              "queryType": "traceqlMetrics",
+              "query": "{resource.service.name=\"questify-quest-service\" && name=\"quest.create\" && span.questify.quest.difficulty=\"MEDIUM\" && status=ok} | count_over_time()",
+              "legendFormat": "MEDIUM",
+              "refId": "MEDIUM"
+            },
+            {
+              "datasource": {"type": "tempo", "uid": "tempo"},
+              "queryType": "traceqlMetrics",
+              "query": "{resource.service.name=\"questify-quest-service\" && name=\"quest.create\" && span.questify.quest.difficulty=\"HARD\" && status=ok} | count_over_time()",
+              "legendFormat": "HARD",
+              "refId": "HARD"
+            },
+            {
+              "datasource": {"type": "tempo", "uid": "tempo"},
+              "queryType": "traceqlMetrics",
+              "query": "{resource.service.name=\"questify-quest-service\" && name=\"quest.create\" && span.questify.quest.difficulty=\"EPIC\" && status=ok} | count_over_time()",
+              "legendFormat": "EPIC",
+              "refId": "EPIC"
+            },
+            {
+              "datasource": {"type": "tempo", "uid": "tempo"},
+              "queryType": "traceqlMetrics",
+              "query": "{resource.service.name=\"questify-quest-service\" && name=\"quest.create\" && span.questify.quest.difficulty=\"LEGENDARY\" && status=ok} | count_over_time()",
+              "legendFormat": "LEGENDARY",
+              "refId": "LEGENDARY"
+            }
+          ]
+        },
+        {
+          "id": 10,
+          "type": "piechart",
+          "title": "Quests created — by frequency",
+          "description": "Distribution by questify.quest.frequency (DAILY, WEEKLY, ONE_TIME, …)",
+          "gridPos": {"x": 8, "y": 14, "w": 8, "h": 9},
+          "datasource": {"type": "tempo", "uid": "tempo"},
+          "fieldConfig": {
+            "defaults": {"unit": "short"},
+            "overrides": []
+          },
+          "options": {
+            "reduceOptions": {"calcs": ["sum"]},
+            "pieType": "donut",
+            "legend": {"displayMode": "table", "placement": "right", "values": ["value", "percent"]}
+          },
+          "targets": [
+            {
+              "datasource": {"type": "tempo", "uid": "tempo"},
+              "queryType": "traceqlMetrics",
+              "query": "{resource.service.name=\"questify-quest-service\" && name=\"quest.create\" && span.questify.quest.frequency=\"ONE_TIME\" && status=ok} | count_over_time()",
+              "legendFormat": "ONE_TIME",
+              "refId": "OT"
+            },
+            {
+              "datasource": {"type": "tempo", "uid": "tempo"},
+              "queryType": "traceqlMetrics",
+              "query": "{resource.service.name=\"questify-quest-service\" && name=\"quest.create\" && span.questify.quest.frequency=\"DAILY\" && status=ok} | count_over_time()",
+              "legendFormat": "DAILY",
+              "refId": "D"
+            },
+            {
+              "datasource": {"type": "tempo", "uid": "tempo"},
+              "queryType": "traceqlMetrics",
+              "query": "{resource.service.name=\"questify-quest-service\" && name=\"quest.create\" && span.questify.quest.frequency=\"WEEKLY\" && status=ok} | count_over_time()",
+              "legendFormat": "WEEKLY",
+              "refId": "W"
+            },
+            {
+              "datasource": {"type": "tempo", "uid": "tempo"},
+              "queryType": "traceqlMetrics",
+              "query": "{resource.service.name=\"questify-quest-service\" && name=\"quest.create\" && span.questify.quest.frequency=\"MONTHLY\" && status=ok} | count_over_time()",
+              "legendFormat": "MONTHLY",
+              "refId": "M"
+            }
+          ]
+        },
+        {
+          "id": 11,
+          "type": "barchart",
+          "title": "XP awarded — distribution by amount",
+          "description": "Count of completions per XP tier (questify.xp.awarded on quest.complete spans)",
+          "gridPos": {"x": 16, "y": 14, "w": 8, "h": 9},
+          "datasource": {"type": "tempo", "uid": "tempo"},
+          "fieldConfig": {
+            "defaults": {
+              "unit": "short",
+              "color": {"mode": "palette-classic"}
+            },
+            "overrides": []
+          },
+          "options": {
+            "reduceOptions": {"calcs": ["sum"]},
+            "orientation": "auto",
+            "xTickLabelRotation": 0,
+            "groupWidth": 0.7,
+            "barWidth": 0.97,
+            "legend": {"displayMode": "list", "placement": "bottom"},
+            "tooltip": {"mode": "single"}
+          },
+          "targets": [
+            {
+              "datasource": {"type": "tempo", "uid": "tempo"},
+              "queryType": "traceqlMetrics",
+              "query": "{resource.service.name=\"questify-quest-service\" && name=\"quest.complete\" && span.questify.xp.awarded=10 && status=ok} | count_over_time()",
+              "legendFormat": "10 XP",
+              "refId": "X10"
+            },
+            {
+              "datasource": {"type": "tempo", "uid": "tempo"},
+              "queryType": "traceqlMetrics",
+              "query": "{resource.service.name=\"questify-quest-service\" && name=\"quest.complete\" && span.questify.xp.awarded=20 && status=ok} | count_over_time()",
+              "legendFormat": "20 XP",
+              "refId": "X20"
+            },
+            {
+              "datasource": {"type": "tempo", "uid": "tempo"},
+              "queryType": "traceqlMetrics",
+              "query": "{resource.service.name=\"questify-quest-service\" && name=\"quest.complete\" && span.questify.xp.awarded=30 && status=ok} | count_over_time()",
+              "legendFormat": "30 XP",
+              "refId": "X30"
+            },
+            {
+              "datasource": {"type": "tempo", "uid": "tempo"},
+              "queryType": "traceqlMetrics",
+              "query": "{resource.service.name=\"questify-quest-service\" && name=\"quest.complete\" && span.questify.xp.awarded=50 && status=ok} | count_over_time()",
+              "legendFormat": "50 XP",
+              "refId": "X50"
+            },
+            {
+              "datasource": {"type": "tempo", "uid": "tempo"},
+              "queryType": "traceqlMetrics",
+              "query": "{resource.service.name=\"questify-quest-service\" && name=\"quest.complete\" && span.questify.xp.awarded=100 && status=ok} | count_over_time()",
+              "legendFormat": "100 XP",
+              "refId": "X100"
+            }
+          ]
+        },
+        {
+          "id": 12,
+          "type": "row",
+          "title": "Operation Health",
+          "collapsed": false,
+          "gridPos": {"x": 0, "y": 23, "w": 24, "h": 1}
+        },
+        {
+          "id": 13,
+          "type": "timeseries",
+          "title": "Error rate per operation (all services)",
+          "description": "Rate of spans with status=error grouped by span name (operation). Requires errors to be recorded via Span.current().setStatus(StatusCode.ERROR).",
+          "gridPos": {"x": 0, "y": 24, "w": 24, "h": 9},
+          "datasource": {"type": "tempo", "uid": "tempo"},
+          "fieldConfig": {
+            "defaults": {
+              "unit": "ops",
+              "color": {"mode": "palette-classic"},
+              "custom": {"lineWidth": 2, "fillOpacity": 8}
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {"displayMode": "table", "placement": "right", "calcs": ["mean", "max", "lastNotNull"]},
+            "tooltip": {"mode": "multi", "sort": "desc"}
+          },
+          "targets": [
+            {
+              "datasource": {"type": "tempo", "uid": "tempo"},
+              "queryType": "traceqlMetrics",
+              "query": "{resource.service.name=~\"questify-.*\" && status=error} | rate() by(name)",
+              "legendFormat": "{{name}}",
+              "refId": "A"
+            }
+          ]
+        },
+        {
+          "id": 14,
+          "type": "timeseries",
+          "title": "Throughput per operation (quest-service)",
+          "gridPos": {"x": 0, "y": 33, "w": 24, "h": 9},
+          "datasource": {"type": "tempo", "uid": "tempo"},
+          "fieldConfig": {
+            "defaults": {
+              "unit": "ops",
+              "color": {"mode": "palette-classic"},
+              "custom": {"lineWidth": 2, "fillOpacity": 8}
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {"displayMode": "table", "placement": "right", "calcs": ["mean", "max", "lastNotNull"]},
+            "tooltip": {"mode": "multi", "sort": "desc"}
+          },
+          "targets": [
+            {
+              "datasource": {"type": "tempo", "uid": "tempo"},
+              "queryType": "traceqlMetrics",
+              "query": "{resource.service.name=\"questify-quest-service\" && status=ok} | rate() by(name)",
+              "legendFormat": "{{name}}",
+              "refId": "A"
+            }
+          ]
+        }
+      ]
+    }
