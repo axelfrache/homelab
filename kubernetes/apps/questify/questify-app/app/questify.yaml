@@ -563,7 +563,7 @@ spec:
             - until nc -z postgres 5432; do sleep 2; done; until nc -z rabbitmq 5672; do sleep 2; done
       containers:
         - name: quest-service
-          image: ghcr.io/axelfrache/questify-quest-service:latest@sha256:ef060546f924fda597e94bfd902bf9dc71789e677d19e309128b6ba8dac7c5e0 # {"$imagepolicy": "flux-system:questify-quest-service"}
+          image: ghcr.io/axelfrache/questify-quest-service:latest@sha256:7152e8610f6f5df7fdeae52345502d1a021951564c1239f09c72a5467d9407dd # {"$imagepolicy": "flux-system:questify-quest-service"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8082
@@ -931,7 +931,7 @@ spec:
             - until nc -z postgres 5432; do sleep 2; done; until nc -z rabbitmq 5672; do sleep 2; done; until nc -z auth-service 8081; do sleep 2; done; until nc -z quest-service 8082; do sleep 2; done; until nc -z project-service 8083; do sleep 2; done; until nc -z progression-service 8084; do sleep 2; done; until nc -z stats-service 8085; do sleep 2; done
       containers:
         - name: admin-service
-          image: ghcr.io/axelfrache/questify-admin-service:latest@sha256:6d537214d6fecacc80443d4ae9a77463ae5503e2d0e960bacc81eb7c264a374d # {"$imagepolicy": "flux-system:questify-admin-service"}
+          image: ghcr.io/axelfrache/questify-admin-service:latest@sha256:03873b36c6afe03fdd21b1486c873909f1532670bb26e803c8d03145a334c331 # {"$imagepolicy": "flux-system:questify-admin-service"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8086
@@ -1033,7 +1033,7 @@ spec:
             - until nc -z postgres 5432; do sleep 2; done; until nc -z rabbitmq 5672; do sleep 2; done
       containers:
         - name: notification-service
-          image: ghcr.io/axelfrache/questify-notification-service:latest@sha256:569495fba1f83f3f241d84b15615f88d6b976996b3efdf0cdd81f063dc33f16e # {"$imagepolicy": "flux-system:questify-notification-service"}
+          image: ghcr.io/axelfrache/questify-notification-service:latest@sha256:4096fa8a6754ca72fd3374c53cf4d6836ab27e1099fab0cf1e3c8e4f427fd77d # {"$imagepolicy": "flux-system:questify-notification-service"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8087
