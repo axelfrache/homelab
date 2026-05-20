@@ -52,18 +52,14 @@ spec:
             - name: content
               mountPath: /var/lib/ghost/content
           readinessProbe:
-            httpGet:
-              path: /
+            tcpSocket:
               port: http
-              scheme: HTTP
             initialDelaySeconds: 30
             periodSeconds: 10
             failureThreshold: 12
           livenessProbe:
-            httpGet:
-              path: /
+            tcpSocket:
               port: http
-              scheme: HTTP
             initialDelaySeconds: 60
             periodSeconds: 20
           resources:
