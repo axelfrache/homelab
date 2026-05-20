@@ -1,0 +1,51 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: questify-db-backup
+spec:
+  schedule: "37 */12 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: backup
+              image: postgres:16-alpine
+              env:
+                - name: PGPASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: questify-secret
+                      key: postgres-password
+              command:
+                - sh
+                - -ec
+                - |
+                  ts="$(date -u +%Y%m%dT%H%M%SZ)"
+                  mkdir -p /backup/db/questify
+
+                  pg_dump \
+                    -h postgres \
+                    -U questify \
+                    -d questify \
+                    --format=custom \
+                    --no-owner \
+                    --no-acl \
+                    --file="/backup/db/questify/questify-${ts}.dump"
+
+                  gzip -9 "/backup/db/questify/questify-${ts}.dump"
+                  find /backup/db/questify -type f -name '*.dump.gz' -mtime +14 -delete
+              volumeMounts:
+                - name: backup
+                  mountPath: /backup
+          volumes:
+            - name: backup
+              nfs:
+                server: 192.168.1.20
+                path: /mnt/tank/backups

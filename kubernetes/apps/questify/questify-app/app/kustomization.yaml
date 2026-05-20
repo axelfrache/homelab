@@ -6,6 +6,7 @@ resources:
   - ./secret.sops.yaml
   - ./observability.yaml
   - ./questify.yaml
+  - ./backup.yaml
 
 patches:
   - path: ./otel-patches.yaml

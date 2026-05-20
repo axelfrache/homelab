@@ -1,0 +1,51 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: openproject-db-backup
+spec:
+  schedule: "27 */12 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: backup
+              image: postgres:16-alpine
+              env:
+                - name: PGPASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: openproject-secret
+                      key: POSTGRES_PASSWORD
+              command:
+                - sh
+                - -ec
+                - |
+                  ts="$(date -u +%Y%m%dT%H%M%SZ)"
+                  mkdir -p /backup/db/openproject
+
+                  pg_dump \
+                    -h openproject-postgres \
+                    -U openproject \
+                    -d openproject \
+                    --format=custom \
+                    --no-owner \
+                    --no-acl \
+                    --file="/backup/db/openproject/openproject-${ts}.dump"
+
+                  gzip -9 "/backup/db/openproject/openproject-${ts}.dump"
+                  find /backup/db/openproject -type f -name '*.dump.gz' -mtime +14 -delete
+              volumeMounts:
+                - name: backup
+                  mountPath: /backup
+          volumes:
+            - name: backup
+              nfs:
+                server: 192.168.1.20
+                path: /mnt/tank/backups

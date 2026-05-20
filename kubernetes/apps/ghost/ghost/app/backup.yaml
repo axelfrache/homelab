@@ -1,0 +1,60 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: ghost-backup
+spec:
+  schedule: "17 */12 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: backup
+              image: mariadb:11
+              env:
+                - name: MYSQL_PWD
+                  valueFrom:
+                    secretKeyRef:
+                      name: ghost-secret
+                      key: DB_PASSWORD
+              command:
+                - sh
+                - -ec
+                - |
+                  ts="$(date -u +%Y%m%dT%H%M%SZ)"
+                  mkdir -p /backup/db/ghost /backup/app/ghost-content
+
+                  mariadb-dump \
+                    -h ghost-db \
+                    -u ghost \
+                    --single-transaction \
+                    --routines \
+                    --triggers \
+                    ghost \
+                    | gzip -9 > "/backup/db/ghost/ghost-${ts}.sql.gz"
+
+                  tar -C /content -czf "/backup/app/ghost-content/ghost-content-${ts}.tar.gz" .
+
+                  find /backup/db/ghost -type f -name '*.sql.gz' -mtime +14 -delete
+                  find /backup/app/ghost-content -type f -name '*.tar.gz' -mtime +14 -delete
+              volumeMounts:
+                - name: backup
+                  mountPath: /backup
+                - name: content
+                  mountPath: /content
+                  readOnly: true
+          volumes:
+            - name: backup
+              nfs:
+                server: 192.168.1.20
+                path: /mnt/tank/backups
+            - name: content
+              persistentVolumeClaim:
+                claimName: ghost-content
+                readOnly: true
