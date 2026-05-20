@@ -27,9 +27,10 @@ data:
             "type": "query",
             "datasource": {"type": "prometheus", "uid": "prometheus"},
             "query": {
-              "query": "label_values(http_server_request_duration_seconds_count{k8s_namespace_name=\"questify\"}, service_name)",
+              "query": "label_values(http_server_duration_milliseconds_count{job=~\"questify/.*\"}, job)",
               "refId": "StandardVariableQuery"
             },
+            "regex": "questify/(.*)",
             "multi": true,
             "includeAll": true,
             "allValue": "questify-.*",
@@ -230,7 +231,7 @@ data:
                     "value": [
                       {
                         "title": "Open in Tempo",
-                        "url": "/explore?orgId=1&left={\"datasource\":\"tempo\",\"queries\":[{\"refId\":\"A\",\"queryType\":\"traceql\",\"query\":\"${__value.raw}\",\"datasource\":{\"uid\":\"tempo\",\"type\":\"tempo\"}}],\"range\":{\"from\":\"${__from}\",\"to\":\"${__to}\"}}",
+                        "url": "/explore?orgId=1&left={\"datasource\":\"tempo\",\"queries\":[{\"refId\":\"A\",\"queryType\":\"traceql\",\"query\":\"$${__value.raw}\",\"datasource\":{\"uid\":\"tempo\",\"type\":\"tempo\"}}],\"range\":{\"from\":\"$${__from}\",\"to\":\"$${__to}\"}}",
                         "targetBlank": true
                       }
                     ]
