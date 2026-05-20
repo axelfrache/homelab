@@ -12,11 +12,11 @@ data:
       "id": null,
       "uid": "questify_errors",
       "title": "Questify — Error Tracker",
-      "description": "Error heatmap per service/operation, direct links to Tempo traces, and Loki log correlation",
+      "description": "Error rates from span_metrics (Prometheus), direct links to Tempo traces, and Loki log correlation",
       "tags": ["questify", "errors", "otel", "tempo", "loki"],
       "timezone": "browser",
       "schemaVersion": 39,
-      "version": 1,
+      "version": 2,
       "refresh": "30s",
       "time": {"from": "now-3h", "to": "now"},
       "templating": {
@@ -27,10 +27,9 @@ data:
             "type": "query",
             "datasource": {"type": "prometheus", "uid": "prometheus"},
             "query": {
-              "query": "label_values(http_server_duration_milliseconds_count{job=~\"questify/.*\"}, job)",
+              "query": "label_values(traces_span_metrics_calls_total{service_name=~\"questify-.*\"}, service_name)",
               "refId": "StandardVariableQuery"
             },
-            "regex": "questify/(.*)",
             "multi": true,
             "includeAll": true,
             "allValue": "questify-.*",
@@ -44,17 +43,17 @@ data:
         {
           "id": 1,
           "type": "row",
-          "title": "Error Heatmap — by service and operation",
+          "title": "Error Overview — Prometheus span_metrics",
           "collapsed": false,
           "gridPos": {"x": 0, "y": 0, "w": 24, "h": 1}
         },
         {
           "id": 2,
           "type": "status-history",
-          "title": "Error activity per service (heat — green=0, yellow=1-4, red=5+)",
-          "description": "Each row = one service. Color = error span count per time bucket. Equivalent to an error heatmap.",
+          "title": "Error activity per service (green=0, yellow=low, red=high)",
+          "description": "Each row = one service. Color = error span rate per time bucket from span_metrics.",
           "gridPos": {"x": 0, "y": 1, "w": 24, "h": 8},
-          "datasource": {"type": "tempo", "uid": "tempo"},
+          "datasource": {"type": "prometheus", "uid": "prometheus"},
           "fieldConfig": {
             "defaults": {
               "custom": {
@@ -67,14 +66,11 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {"color": "green", "value": null},
-                  {"color": "yellow", "value": 1},
-                  {"color": "orange", "value": 5},
-                  {"color": "red", "value": 20}
+                  {"color": "yellow", "value": 0.001},
+                  {"color": "orange", "value": 0.01},
+                  {"color": "red", "value": 0.1}
                 ]
-              },
-              "mappings": [
-                {"type": "value", "options": {"0": {"text": "OK", "color": "green"}}}
-              ]
+              }
             },
             "overrides": []
           },
@@ -87,10 +83,9 @@ data:
           },
           "targets": [
             {
-              "datasource": {"type": "tempo", "uid": "tempo"},
-              "queryType": "traceqlMetrics",
-              "query": "{resource.service.name=~\"$service\" && status=error} | count_over_time() by(resource.service.name)",
-              "legendFormat": "{{resource.service.name}}",
+              "datasource": {"type": "prometheus", "uid": "prometheus"},
+              "expr": "sum by(service_name) (rate(traces_span_metrics_calls_total{service_name=~\"$service\", status_code=\"STATUS_CODE_ERROR\"}[$__rate_interval]))",
+              "legendFormat": "{{service_name}}",
               "refId": "A"
             }
           ]
@@ -98,13 +93,13 @@ data:
         {
           "id": 3,
           "type": "timeseries",
-          "title": "Error count per operation over time",
+          "title": "Error rate per operation over time",
           "description": "Breakdown by span name (operation). Filters by selected service(s).",
           "gridPos": {"x": 0, "y": 9, "w": 24, "h": 8},
-          "datasource": {"type": "tempo", "uid": "tempo"},
+          "datasource": {"type": "prometheus", "uid": "prometheus"},
           "fieldConfig": {
             "defaults": {
-              "unit": "short",
+              "unit": "ops",
               "color": {"mode": "palette-classic"},
               "custom": {
                 "lineWidth": 2,
@@ -122,10 +117,9 @@ data:
           },
           "targets": [
             {
-              "datasource": {"type": "tempo", "uid": "tempo"},
-              "queryType": "traceqlMetrics",
-              "query": "{resource.service.name=~\"$service\" && status=error} | count_over_time() by(resource.service.name, name)",
-              "legendFormat": "{{resource.service.name}} / {{name}}",
+              "datasource": {"type": "prometheus", "uid": "prometheus"},
+              "expr": "rate(traces_span_metrics_calls_total{service_name=~\"$service\", status_code=\"STATUS_CODE_ERROR\"}[$__rate_interval])",
+              "legendFormat": "{{service_name}} / {{span_name}}",
               "refId": "A"
             }
           ]
@@ -135,7 +129,7 @@ data:
           "type": "stat",
           "title": "Total errors (period)",
           "gridPos": {"x": 0, "y": 17, "w": 4, "h": 3},
-          "datasource": {"type": "tempo", "uid": "tempo"},
+          "datasource": {"type": "prometheus", "uid": "prometheus"},
           "fieldConfig": {
             "defaults": {
               "unit": "short",
@@ -159,9 +153,8 @@ data:
           },
           "targets": [
             {
-              "datasource": {"type": "tempo", "uid": "tempo"},
-              "queryType": "traceqlMetrics",
-              "query": "{resource.service.name=~\"$service\" && status=error} | count_over_time()",
+              "datasource": {"type": "prometheus", "uid": "prometheus"},
+              "expr": "sum(increase(traces_span_metrics_calls_total{service_name=~\"$service\", status_code=\"STATUS_CODE_ERROR\"}[$__range]))",
               "refId": "A"
             }
           ]
@@ -171,7 +164,7 @@ data:
           "type": "stat",
           "title": "Error rate / s",
           "gridPos": {"x": 4, "y": 17, "w": 4, "h": 3},
-          "datasource": {"type": "tempo", "uid": "tempo"},
+          "datasource": {"type": "prometheus", "uid": "prometheus"},
           "fieldConfig": {
             "defaults": {
               "unit": "ops",
@@ -195,9 +188,8 @@ data:
           },
           "targets": [
             {
-              "datasource": {"type": "tempo", "uid": "tempo"},
-              "queryType": "traceqlMetrics",
-              "query": "{resource.service.name=~\"$service\" && status=error} | rate()",
+              "datasource": {"type": "prometheus", "uid": "prometheus"},
+              "expr": "sum(rate(traces_span_metrics_calls_total{service_name=~\"$service\", status_code=\"STATUS_CODE_ERROR\"}[$__rate_interval]))",
               "refId": "A"
             }
           ]
@@ -231,7 +223,7 @@ data:
                     "value": [
                       {
                         "title": "Open in Tempo",
-                        "url": "/explore?orgId=1&left={\"datasource\":\"tempo\",\"queries\":[{\"refId\":\"A\",\"queryType\":\"traceql\",\"query\":\"$${__value.raw}\",\"datasource\":{\"uid\":\"tempo\",\"type\":\"tempo\"}}],\"range\":{\"from\":\"$${__from}\",\"to\":\"$${__to}\"}}",
+                        "url": "/explore?orgId=1&left={\"datasource\":\"tempo\",\"queries\":[{\"refId\":\"A\",\"queryType\":\"traceql\",\"query\":\"${__value.raw}\",\"datasource\":{\"uid\":\"tempo\",\"type\":\"tempo\"}}],\"range\":{\"from\":\"${__from}\",\"to\":\"${__to}\"}}",
                         "targetBlank": true
                       }
                     ]
@@ -279,7 +271,7 @@ data:
           "id": 9,
           "type": "logs",
           "title": "Error logs (Loki) — click trace_id to jump to Tempo",
-          "description": "Logs from questify-* services filtered on ERROR level. The trace_id field links directly to the corresponding trace in Tempo (derived field configured in datasource).",
+          "description": "Logs from questify-* services filtered on ERROR level.",
           "gridPos": {"x": 0, "y": 32, "w": 24, "h": 12},
           "datasource": {"type": "loki", "uid": "loki"},
           "fieldConfig": {"defaults": {}, "overrides": []},
@@ -298,70 +290,6 @@ data:
               "expr": "{service_name=~\"questify-.*\"} |= `ERROR`",
               "queryType": "range",
               "refId": "A"
-            }
-          ]
-        },
-        {
-          "id": 10,
-          "type": "row",
-          "title": "Error Rate per Operation — trend",
-          "collapsed": false,
-          "gridPos": {"x": 0, "y": 44, "w": 24, "h": 1}
-        },
-        {
-          "id": 11,
-          "type": "timeseries",
-          "title": "Error rate / s per operation (all services)",
-          "gridPos": {"x": 0, "y": 45, "w": 24, "h": 8},
-          "datasource": {"type": "tempo", "uid": "tempo"},
-          "fieldConfig": {
-            "defaults": {
-              "unit": "ops",
-              "color": {"mode": "palette-classic"},
-              "custom": {"lineWidth": 2, "fillOpacity": 8}
-            },
-            "overrides": []
-          },
-          "options": {
-            "legend": {"displayMode": "table", "placement": "right", "calcs": ["mean", "max", "sum"]},
-            "tooltip": {"mode": "multi", "sort": "desc"}
-          },
-          "targets": [
-            {
-              "datasource": {"type": "tempo", "uid": "tempo"},
-              "queryType": "traceqlMetrics",
-              "query": "{resource.service.name=~\"$service\" && status=error} | rate() by(name)",
-              "legendFormat": "{{name}}",
-              "refId": "A"
-            }
-          ]
-        },
-        {
-          "id": 12,
-          "type": "timeseries",
-          "title": "error.category attribute breakdown",
-          "description": "Errors grouped by the questify error.category span attribute set in GlobalExceptionHandler",
-          "gridPos": {"x": 0, "y": 53, "w": 24, "h": 8},
-          "datasource": {"type": "tempo", "uid": "tempo"},
-          "fieldConfig": {
-            "defaults": {
-              "unit": "ops",
-              "color": {"mode": "palette-classic"},
-              "custom": {"lineWidth": 2, "fillOpacity": 8}
-            },
-            "overrides": []
-          },
-          "options": {
-            "legend": {"displayMode": "table", "placement": "right", "calcs": ["mean", "max", "sum"]},
-            "tooltip": {"mode": "multi", "sort": "desc"}
-          },
-          "targets": [
-            {
-              "datasource": {"type": "tempo", "uid": "tempo"},
-              "queryType": "traceqlMetrics",
-              "query": "{resource.service.name=~\"$service\" && span.error.category=\"unexpected\"} | rate()",
-              "legendFormat": "unexpected (5xx)",
-              "refId": "UNEXP"
             }
           ]
         }

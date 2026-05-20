@@ -39,6 +39,11 @@ data:
           flush_to_storage: true
           max_block_duration: 4h
           complete_block_timeout: 30m
+        span_metrics:
+          dimensions:
+            - name: questify.quest.difficulty
+            - name: questify.quest.frequency
+            - name: questify.xp.awarded
 
     storage:
       trace:
@@ -51,5 +56,5 @@ data:
     overrides:
       defaults:
         metrics_generator:
-          processors: [local-blocks]
+          processors: [local-blocks, span-metrics]
           generate_native_histograms: both
