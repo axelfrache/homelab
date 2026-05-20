@@ -312,7 +312,7 @@ spec:
       enableServiceLinks: false
       containers:
         - name: garage
-          image: ghcr.io/axelfrache/questify-garage:latest@sha256:22547648d981ee6792ab01639c656307df01d957fe806e79426baef92544e8a1 # {"$imagepolicy": "flux-system:questify-garage"}
+          image: ghcr.io/axelfrache/questify-garage:latest@sha256:da4ea02965016410075af283445de64371c176cbbb214f985cc1a79cdaa54355 # {"$imagepolicy": "flux-system:questify-garage"}
           imagePullPolicy: Always
           command:
             - /bin/sh
@@ -425,7 +425,7 @@ spec:
             - until nc -z postgres 5432; do sleep 2; done; until nc -z rabbitmq 5672; do sleep 2; done; until nc -z garage 3900; do sleep 2; done
       containers:
         - name: auth-service
-          image: ghcr.io/axelfrache/questify-auth-service:latest@sha256:37cb240690f5cbf480ce0b1c3abded5f6df8010492628486d6cb324b1ff26d0f # {"$imagepolicy": "flux-system:questify-auth-service"}
+          image: ghcr.io/axelfrache/questify-auth-service:latest@sha256:5794c807cdade2757f0b1d9dc2e9cfd796159482486da5dd4fcd77c581b8cf24 # {"$imagepolicy": "flux-system:questify-auth-service"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8081
@@ -650,7 +650,7 @@ spec:
             - until nc -z postgres 5432; do sleep 2; done; until nc -z rabbitmq 5672; do sleep 2; done
       containers:
         - name: project-service
-          image: ghcr.io/axelfrache/questify-project-service:latest@sha256:58745e4cb99ab228a621d69ed88c9ebd6bc3f5da63aa0ea306f2008a585fe166 # {"$imagepolicy": "flux-system:questify-project-service"}
+          image: ghcr.io/axelfrache/questify-project-service:latest@sha256:50900d4e67d0b0a1c10f656d2adbbff195c07a24e29b8382d11d52c475950c55 # {"$imagepolicy": "flux-system:questify-project-service"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8083
@@ -931,7 +931,7 @@ spec:
             - until nc -z postgres 5432; do sleep 2; done; until nc -z rabbitmq 5672; do sleep 2; done; until nc -z auth-service 8081; do sleep 2; done; until nc -z quest-service 8082; do sleep 2; done; until nc -z project-service 8083; do sleep 2; done; until nc -z progression-service 8084; do sleep 2; done; until nc -z stats-service 8085; do sleep 2; done
       containers:
         - name: admin-service
-          image: ghcr.io/axelfrache/questify-admin-service:latest@sha256:41be70ef0449a1f4512f8b5e58cefa74ec53212253ee142ff3615e8ed3e825a5 # {"$imagepolicy": "flux-system:questify-admin-service"}
+          image: ghcr.io/axelfrache/questify-admin-service:latest@sha256:4e0718da423d505f7e84abbfc2303a427df729952e39848e18a39d21e52813df # {"$imagepolicy": "flux-system:questify-admin-service"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8086
@@ -1033,7 +1033,7 @@ spec:
             - until nc -z postgres 5432; do sleep 2; done; until nc -z rabbitmq 5672; do sleep 2; done
       containers:
         - name: notification-service
-          image: ghcr.io/axelfrache/questify-notification-service:latest@sha256:4399822bf3f8936394a2425ba0b5b368254e660ac1f87c45250dd3dea5f95cf7 # {"$imagepolicy": "flux-system:questify-notification-service"}
+          image: ghcr.io/axelfrache/questify-notification-service:latest@sha256:500ec14e9c0089dffbc81e9e2a836e5ae62bbd9ca35e7e36c99628eff04ecbba # {"$imagepolicy": "flux-system:questify-notification-service"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8087
@@ -1204,7 +1204,7 @@ spec:
             - until nc -z questify-gateway 8080; do sleep 2; done
       containers:
         - name: questify-frontend
-          image: ghcr.io/axelfrache/questify-frontend:latest@sha256:256cfea335448685da0a292b5793b6ab006474567f080ffce857813d2d55cd73 # {"$imagepolicy": "flux-system:questify-frontend"}
+          image: ghcr.io/axelfrache/questify-frontend:latest@sha256:7fd9a0e2c908fbcd85e5c6dd60162e76091450dbba0682c6ed13c96f1d79a809 # {"$imagepolicy": "flux-system:questify-frontend"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
