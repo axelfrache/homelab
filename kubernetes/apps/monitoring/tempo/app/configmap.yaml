@@ -41,9 +41,9 @@ data:
           complete_block_timeout: 30m
         span_metrics:
           dimensions:
-            - name: questify.quest.difficulty
-            - name: questify.quest.frequency
-            - name: questify.xp.awarded
+            - questify.quest.difficulty
+            - questify.quest.frequency
+            - questify.xp.awarded
 
     storage:
       trace:
