@@ -4,10 +4,10 @@ clusterName: kubernetes
 talosVersion: "${talosVersion}"
 kubernetesVersion: "${kubernetesVersion}"
 
-endpoint: https://192.168.1.50:6443
+endpoint: https://192.168.1.60:6443
 additionalApiServerCertSans: &sans
   - "127.0.0.1"
-  - "192.168.1.50"
+  - "192.168.1.60"
 additionalMachineCertSans: *sans
 
 clusterPodNets: ["10.42.0.0/16"]
@@ -38,7 +38,7 @@ nodes:
             network: 0.0.0.0/0
         mtu: 1500
         vip:
-          ip: "192.168.1.50"
+          ip: "192.168.1.60"
   - hostname: "firelink-02"
     ipAddress: "192.168.1.62"
     installDisk: "/dev/nvme0n1"
