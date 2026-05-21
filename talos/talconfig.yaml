@@ -58,6 +58,25 @@ nodes:
           - gateway: "192.168.1.254"
             network: 0.0.0.0/0
         mtu: 1500
+  - hostname: "firelink-03"
+    ipAddress: "192.168.1.63"
+    installDisk: "/dev/nvme0n1"
+    machineSpec:
+      secureboot: false
+    talosImageURL: factory.talos.dev/installer/708747e350d604ae9e57227d8dcf274091453ddb1097b765d4ea8884f1992c1f
+    controlPlane: true
+    patches:
+      - "@./patches/nodes/firelink-03.yaml"
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: "e8:6a:64:d8:04:c1"
+        dhcp: false
+        addresses:
+          - "192.168.1.63/24"
+        routes:
+          - gateway: "192.168.1.254"
+            network: 0.0.0.0/0
+        mtu: 1500
 
 # Global patches
 patches:
