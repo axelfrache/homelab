@@ -80,6 +80,8 @@ spec:
                   storage: 1Gi
     prometheus:
       prometheusSpec:
+        externalLabels:
+          cluster: firelink
         enableRemoteWriteReceiver: true
         serviceMonitorSelectorNilUsesHelmValues: false
         podMonitorSelectorNilUsesHelmValues: false
