@@ -58,6 +58,8 @@ nodes:
           - gateway: "192.168.1.254"
             network: 0.0.0.0/0
         mtu: 1500
+        vip:
+          ip: "192.168.1.60"
   - hostname: "firelink-03"
     ipAddress: "192.168.1.63"
     installDisk: "/dev/nvme0n1"
@@ -77,6 +79,8 @@ nodes:
           - gateway: "192.168.1.254"
             network: 0.0.0.0/0
         mtu: 1500
+        vip:
+          ip: "192.168.1.60"
 
 # Global patches
 patches:
