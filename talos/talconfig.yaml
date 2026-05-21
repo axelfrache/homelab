@@ -8,7 +8,6 @@ endpoint: https://192.168.1.50:6443
 additionalApiServerCertSans: &sans
   - "127.0.0.1"
   - "192.168.1.50"
-  - "${TAILSCALE_IP_FIRELINK01}"
 additionalMachineCertSans: *sans
 
 clusterPodNets: ["10.42.0.0/16"]
@@ -20,7 +19,7 @@ cniConfig:
 
 nodes:
   - hostname: "firelink-01"
-    ipAddress: "192.168.1.51"
+    ipAddress: "192.168.1.61"
     installDisk: "/dev/sda"
     machineSpec:
       secureboot: false
@@ -33,7 +32,7 @@ nodes:
           hardwareAddr: "bc:24:11:26:e8:ac"
         dhcp: false
         addresses:
-          - "192.168.1.51/24"
+          - "192.168.1.61/24"
         routes:
           - gateway: "192.168.1.254"
             network: 0.0.0.0/0
@@ -41,8 +40,8 @@ nodes:
         vip:
           ip: "192.168.1.50"
   - hostname: "firelink-02"
-    ipAddress: "192.168.1.84"
-    installDisk: "/dev/sda"
+    ipAddress: "192.168.1.62"
+    installDisk: "/dev/nvme0n1"
     machineSpec:
       secureboot: false
     talosImageURL: factory.talos.dev/installer/708747e350d604ae9e57227d8dcf274091453ddb1097b765d4ea8884f1992c1f
@@ -52,7 +51,13 @@ nodes:
     networkInterfaces:
       - deviceSelector:
           busPath: "0000:*"
-        dhcp: true
+        dhcp: false
+        addresses:
+          - "192.168.1.62/24"
+        routes:
+          - gateway: "192.168.1.254"
+            network: 0.0.0.0/0
+        mtu: 1500
 
 # Global patches
 patches:
