@@ -1,5 +1,5 @@
 ---
-clusterName: kubernetes
+clusterName: firelink
 
 talosVersion: "${talosVersion}"
 kubernetesVersion: "${kubernetesVersion}"
