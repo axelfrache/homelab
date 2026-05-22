@@ -18,6 +18,8 @@ spec:
               value: service.namespace=questify,deployment.environment=production
             - name: OTEL_EXPORTER_OTLP_TIMEOUT
               value: "5000"
+            - name: MANAGEMENT_HEALTH_PROBES_ENABLED
+              value: "true"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -38,6 +40,8 @@ spec:
               value: service.namespace=questify,deployment.environment=production
             - name: OTEL_EXPORTER_OTLP_TIMEOUT
               value: "5000"
+            - name: MANAGEMENT_HEALTH_PROBES_ENABLED
+              value: "true"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -58,6 +62,8 @@ spec:
               value: service.namespace=questify,deployment.environment=production
             - name: OTEL_EXPORTER_OTLP_TIMEOUT
               value: "5000"
+            - name: MANAGEMENT_HEALTH_PROBES_ENABLED
+              value: "true"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -78,6 +84,8 @@ spec:
               value: service.namespace=questify,deployment.environment=production
             - name: OTEL_EXPORTER_OTLP_TIMEOUT
               value: "5000"
+            - name: MANAGEMENT_HEALTH_PROBES_ENABLED
+              value: "true"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -98,6 +106,8 @@ spec:
               value: service.namespace=questify,deployment.environment=production
             - name: OTEL_EXPORTER_OTLP_TIMEOUT
               value: "5000"
+            - name: MANAGEMENT_HEALTH_PROBES_ENABLED
+              value: "true"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -118,6 +128,8 @@ spec:
               value: service.namespace=questify,deployment.environment=production
             - name: OTEL_EXPORTER_OTLP_TIMEOUT
               value: "5000"
+            - name: MANAGEMENT_HEALTH_PROBES_ENABLED
+              value: "true"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -138,3 +150,5 @@ spec:
               value: service.namespace=questify,deployment.environment=production
             - name: OTEL_EXPORTER_OTLP_TIMEOUT
               value: "5000"
+            - name: MANAGEMENT_HEALTH_PROBES_ENABLED
+              value: "true"
