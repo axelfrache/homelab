@@ -13,6 +13,12 @@ data:
       time_zone: Europe/Paris
       unit_system: metric
 
+    http:
+      use_x_forwarded_for: true
+      trusted_proxies:
+        - 10.42.0.0/16
+        - 192.168.1.0/24
+
     prometheus:
       namespace: hass
       requires_auth: false
