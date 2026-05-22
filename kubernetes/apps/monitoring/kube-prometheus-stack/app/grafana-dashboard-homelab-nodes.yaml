@@ -1119,7 +1119,7 @@ data:
                   }
                 ]
               },
-              "unit": "kwatth"
+              "unit": "suffix:kWh"
             },
             "overrides": []
           },
@@ -1684,6 +1684,6 @@ data:
       "timezone": "browser",
       "title": "firelink - Homelab Nodes",
       "uid": "homelab-nodes",
-      "version": 7,
+      "version": 8,
       "weekStart": ""
     }
