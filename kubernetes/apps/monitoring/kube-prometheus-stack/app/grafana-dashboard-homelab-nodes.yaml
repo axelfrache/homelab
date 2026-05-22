@@ -239,7 +239,7 @@ data:
             {
               "datasource": { "type": "prometheus", "uid": "prometheus" },
               "editorMode": "code",
-              "expr": "sum(kube_node_status_condition{node=~\"$node\", status=\"true\", condition=~\"MemoryPressure|DiskPressure|PIDPressure|NetworkUnavailable\"} == 1)",
+              "expr": "sum(kube_node_status_condition{node=~\"$node\", status=\"true\", condition=~\"MemoryPressure|DiskPressure|PIDPressure|NetworkUnavailable\"} == 1) or vector(0)",
               "instant": true,
               "legendFormat": "Pressure",
               "range": false,
@@ -283,7 +283,7 @@ data:
             {
               "datasource": { "type": "prometheus", "uid": "prometheus" },
               "editorMode": "code",
-              "expr": "avg(node_load1{instance=~\"$node\"} / count by (instance) (node_cpu_seconds_total{mode=\"idle\", instance=~\"$node\"}))",
+              "expr": "avg(node_load1{instance=~\"$node\"} / on(instance) count by (instance) (node_cpu_seconds_total{mode=\"idle\", instance=~\"$node\"})) or vector(0)",
               "legendFormat": "Load/core",
               "refId": "A"
             }
@@ -318,6 +318,7 @@ data:
           },
           "gridPos": { "h": 5, "w": 10, "x": 0, "y": 4 },
           "id": 7,
+          "maxDataPoints": 200,
           "options": {
             "colWidth": 0.9,
             "legend": { "displayMode": "list", "placement": "bottom" },
@@ -331,6 +332,7 @@ data:
               "datasource": { "type": "prometheus", "uid": "prometheus" },
               "editorMode": "code",
               "expr": "max by (node) (kube_node_status_condition{condition=\"Ready\", status=\"true\", node=~\"$node\"} == 1)",
+              "interval": "5m",
               "legendFormat": "{{node}}",
               "refId": "A"
             }
@@ -360,6 +362,7 @@ data:
           },
           "gridPos": { "h": 5, "w": 14, "x": 10, "y": 4 },
           "id": 8,
+          "maxDataPoints": 200,
           "options": {
             "colWidth": 0.9,
             "legend": { "displayMode": "list", "placement": "bottom" },
@@ -373,6 +376,7 @@ data:
               "datasource": { "type": "prometheus", "uid": "prometheus" },
               "editorMode": "code",
               "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{mode=\"idle\", instance=~\"$node\"}[$__rate_interval])) * 100)",
+              "interval": "5m",
               "legendFormat": "{{instance}}",
               "refId": "A"
             }
@@ -407,7 +411,7 @@ data:
             "maxVizHeight": 32,
             "minVizHeight": 16,
             "minVizWidth": 8,
-            "namePlacement": "left",
+            "namePlacement": "top",
             "orientation": "horizontal",
             "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
             "showUnfilled": true,
@@ -453,7 +457,7 @@ data:
             "maxVizHeight": 32,
             "minVizHeight": 16,
             "minVizWidth": 8,
-            "namePlacement": "left",
+            "namePlacement": "top",
             "orientation": "horizontal",
             "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
             "showUnfilled": true,
@@ -499,7 +503,7 @@ data:
             "maxVizHeight": 32,
             "minVizHeight": 16,
             "minVizWidth": 8,
-            "namePlacement": "left",
+            "namePlacement": "top",
             "orientation": "horizontal",
             "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
             "showUnfilled": true,
@@ -631,7 +635,7 @@ data:
             {
               "datasource": { "type": "prometheus", "uid": "prometheus" },
               "editorMode": "code",
-              "expr": "node_load1{instance=~\"$node\"} / count by (instance) (node_cpu_seconds_total{mode=\"idle\", instance=~\"$node\"})",
+              "expr": "node_load1{instance=~\"$node\"} / on(instance) count by (instance) (node_cpu_seconds_total{mode=\"idle\", instance=~\"$node\"})",
               "legendFormat": "Load/core {{instance}}",
               "refId": "A"
             },
