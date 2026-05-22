@@ -1,0 +1,48 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: home-assistant-config
+data:
+  configuration.yaml: |
+    default_config:
+
+    homeassistant:
+      name: firelink
+      country: FR
+      time_zone: Europe/Paris
+      unit_system: metric
+
+    prometheus:
+      namespace: hass
+      requires_auth: false
+      component_config_glob:
+        sensor.*power*:
+          override_metric: homelab_power_w
+        sensor.*puissance*:
+          override_metric: homelab_power_w
+        sensor.*energy*:
+          override_metric: homelab_energy_kwh
+        sensor.*energie*:
+          override_metric: homelab_energy_kwh
+        sensor.*consumption*:
+          override_metric: homelab_energy_kwh
+        sensor.*current*:
+          override_metric: homelab_current_a
+        sensor.*voltage*:
+          override_metric: homelab_voltage_v
+      filter:
+        include_entity_globs:
+          - sensor.*power*
+          - sensor.*puissance*
+          - sensor.*energy*
+          - sensor.*energie*
+          - sensor.*consumption*
+          - sensor.*current*
+          - sensor.*voltage*
+          - sensor.*tapo*
+          - sensor.*p100*
+          - sensor.*p110*
+          - switch.*tapo*
+          - switch.*p100*
+          - switch.*p110*
