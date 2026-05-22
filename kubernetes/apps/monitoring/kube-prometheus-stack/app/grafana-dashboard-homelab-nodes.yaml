@@ -939,7 +939,9 @@ data:
               "editorMode": "code",
               "expr": "max(hass_homelab_power_w{entity=\"sensor.homelab_consommation_actuelle\"})",
               "legendFormat": "Power",
-              "refId": "A"
+              "refId": "A",
+              "instant": true,
+              "range": false
             }
           ],
           "title": "P110 power",
@@ -1009,7 +1011,9 @@ data:
               "editorMode": "code",
               "expr": "max(hass_homelab_current_a{entity=\"sensor.homelab_courant\"})",
               "legendFormat": "Current",
-              "refId": "A"
+              "refId": "A",
+              "instant": true,
+              "range": false
             }
           ],
           "title": "P110 current",
@@ -1079,7 +1083,9 @@ data:
               "editorMode": "code",
               "expr": "max(hass_homelab_voltage_v{entity=\"sensor.homelab_tension\"})",
               "legendFormat": "Voltage",
-              "refId": "A"
+              "refId": "A",
+              "instant": true,
+              "range": false
             }
           ],
           "title": "P110 voltage",
@@ -1149,7 +1155,9 @@ data:
               "editorMode": "code",
               "expr": "max(hass_homelab_energy_kwh{entity=\"sensor.homelab_consommation_d_aujourd_hui\"})",
               "legendFormat": "Today",
-              "refId": "A"
+              "refId": "A",
+              "instant": true,
+              "range": false
             }
           ],
           "title": "P110 today",
@@ -1676,6 +1684,6 @@ data:
       "timezone": "browser",
       "title": "firelink - Homelab Nodes",
       "uid": "homelab-nodes",
-      "version": 4,
+      "version": 5,
       "weekStart": ""
     }
