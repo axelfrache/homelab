@@ -938,13 +938,13 @@ data:
               },
               "editorMode": "code",
               "expr": "max(hass_homelab_power_w{entity=\"sensor.homelab_consommation_actuelle\"})",
-              "legendFormat": "Power",
+              "legendFormat": "Power now",
               "refId": "A",
               "instant": true,
               "range": false
             }
           ],
-          "title": "P110 power",
+          "title": "P110 - Power now",
           "type": "stat"
         },
         {
@@ -1016,7 +1016,7 @@ data:
               "range": false
             }
           ],
-          "title": "P110 current",
+          "title": "P110 - Current",
           "type": "stat"
         },
         {
@@ -1088,7 +1088,7 @@ data:
               "range": false
             }
           ],
-          "title": "P110 voltage",
+          "title": "P110 - Voltage",
           "type": "stat"
         },
         {
@@ -1154,13 +1154,13 @@ data:
               },
               "editorMode": "code",
               "expr": "max(hass_homelab_energy_kwh{entity=\"sensor.homelab_consommation_d_aujourd_hui\"})",
-              "legendFormat": "Today",
+              "legendFormat": "Energy today",
               "refId": "A",
               "instant": true,
               "range": false
             }
           ],
-          "title": "P110 today",
+          "title": "P110 - Energy today",
           "type": "stat"
         },
         {
@@ -1684,6 +1684,6 @@ data:
       "timezone": "browser",
       "title": "firelink - Homelab Nodes",
       "uid": "homelab-nodes",
-      "version": 8,
+      "version": 10,
       "weekStart": ""
     }
