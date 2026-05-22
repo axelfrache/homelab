@@ -10,7 +10,7 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - home-assistant.${SECRET_LOCAL_DOMAIN}
+    - assistant.${SECRET_LOCAL_DOMAIN}
   rules:
     - backendRefs:
         - name: home-assistant
