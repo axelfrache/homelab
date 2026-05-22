@@ -871,6 +871,17 @@ data:
                   "Value #C": "Disk"
                 }
               }
+            },
+            {
+              "id": "sortBy",
+              "options": {
+                "fields": {},
+                "sort": [
+                  {
+                    "field": "Node"
+                  }
+                ]
+              }
             }
           ],
           "type": "table"
@@ -1684,6 +1695,6 @@ data:
       "timezone": "browser",
       "title": "firelink - Homelab Nodes",
       "uid": "homelab-nodes",
-      "version": 10,
+      "version": 11,
       "weekStart": ""
     }
