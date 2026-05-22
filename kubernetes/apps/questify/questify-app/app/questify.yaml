@@ -423,6 +423,7 @@ spec:
         app: auth-service
     spec:
       enableServiceLinks: false
+      terminationGracePeriodSeconds: 15
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
@@ -522,18 +523,24 @@ spec:
               value: "20"
             - name: PASSWORD_RESET_RATE_LIMIT_EMAIL
               value: "10"
+          startupProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: http
+            failureThreshold: 20
+            periodSeconds: 5
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
               port: http
-            initialDelaySeconds: 40
-            periodSeconds: 10
+            periodSeconds: 5
+            failureThreshold: 3
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
               port: http
-            initialDelaySeconds: 60
-            periodSeconds: 15
+            periodSeconds: 10
+            failureThreshold: 3
           resources:
             requests:
               cpu: 10m
@@ -570,6 +577,7 @@ spec:
         app: quest-service
     spec:
       enableServiceLinks: false
+      terminationGracePeriodSeconds: 15
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
@@ -618,18 +626,24 @@ spec:
                   key: rabbitmq-password
             - name: CORS_ALLOWED_ORIGINS
               value: https://app.getquestify.com
+          startupProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: http
+            failureThreshold: 20
+            periodSeconds: 5
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
               port: http
-            initialDelaySeconds: 40
-            periodSeconds: 10
+            periodSeconds: 5
+            failureThreshold: 3
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
               port: http
-            initialDelaySeconds: 60
-            periodSeconds: 15
+            periodSeconds: 10
+            failureThreshold: 3
           resources:
             requests:
               cpu: 10m
@@ -666,6 +680,7 @@ spec:
         app: project-service
     spec:
       enableServiceLinks: false
+      terminationGracePeriodSeconds: 15
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
@@ -714,18 +729,24 @@ spec:
                   key: rabbitmq-password
             - name: CORS_ALLOWED_ORIGINS
               value: https://app.getquestify.com
+          startupProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: http
+            failureThreshold: 20
+            periodSeconds: 5
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
               port: http
-            initialDelaySeconds: 40
-            periodSeconds: 10
+            periodSeconds: 5
+            failureThreshold: 3
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
               port: http
-            initialDelaySeconds: 60
-            periodSeconds: 15
+            periodSeconds: 10
+            failureThreshold: 3
           resources:
             requests:
               cpu: 10m
@@ -762,6 +783,7 @@ spec:
         app: progression-service
     spec:
       enableServiceLinks: false
+      terminationGracePeriodSeconds: 15
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
@@ -820,18 +842,24 @@ spec:
               value: 500ms
             - name: CACHE_TTL_MINUTES
               value: "10"
+          startupProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: http
+            failureThreshold: 20
+            periodSeconds: 5
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
               port: http
-            initialDelaySeconds: 40
-            periodSeconds: 10
+            periodSeconds: 5
+            failureThreshold: 3
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
               port: http
-            initialDelaySeconds: 60
-            periodSeconds: 15
+            periodSeconds: 10
+            failureThreshold: 3
           resources:
             requests:
               cpu: 10m
@@ -868,6 +896,7 @@ spec:
         app: stats-service
     spec:
       enableServiceLinks: false
+      terminationGracePeriodSeconds: 15
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
@@ -926,18 +955,24 @@ spec:
               value: 500ms
             - name: CACHE_TTL_MINUTES
               value: "10"
+          startupProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: http
+            failureThreshold: 20
+            periodSeconds: 5
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
               port: http
-            initialDelaySeconds: 40
-            periodSeconds: 10
+            periodSeconds: 5
+            failureThreshold: 3
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
               port: http
-            initialDelaySeconds: 60
-            periodSeconds: 15
+            periodSeconds: 10
+            failureThreshold: 3
           resources:
             requests:
               cpu: 10m
@@ -974,6 +1009,7 @@ spec:
         app: admin-service
     spec:
       enableServiceLinks: false
+      terminationGracePeriodSeconds: 15
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
@@ -1037,18 +1073,24 @@ spec:
               value: http://stats-service:8085
             - name: CORS_ALLOWED_ORIGINS
               value: https://app.getquestify.com
+          startupProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: http
+            failureThreshold: 20
+            periodSeconds: 5
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
               port: http
-            initialDelaySeconds: 50
-            periodSeconds: 10
+            periodSeconds: 5
+            failureThreshold: 3
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
               port: http
-            initialDelaySeconds: 70
-            periodSeconds: 15
+            periodSeconds: 10
+            failureThreshold: 3
           resources:
             requests:
               cpu: 10m
@@ -1085,6 +1127,7 @@ spec:
         app: notification-service
     spec:
       enableServiceLinks: false
+      terminationGracePeriodSeconds: 15
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
@@ -1149,18 +1192,24 @@ spec:
                   optional: true
             - name: VAPID_SUBJECT
               value: mailto:admin@getquestify.com
+          startupProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: http
+            failureThreshold: 20
+            periodSeconds: 5
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
               port: http
-            initialDelaySeconds: 40
-            periodSeconds: 10
+            periodSeconds: 5
+            failureThreshold: 3
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
               port: http
-            initialDelaySeconds: 60
-            periodSeconds: 15
+            periodSeconds: 10
+            failureThreshold: 3
           resources:
             requests:
               cpu: 10m
@@ -1197,6 +1246,7 @@ spec:
         app: questify-gateway
     spec:
       enableServiceLinks: false
+      terminationGracePeriodSeconds: 15
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
@@ -1272,6 +1322,7 @@ spec:
         app: questify-frontend
     spec:
       enableServiceLinks: false
+      terminationGracePeriodSeconds: 15
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
