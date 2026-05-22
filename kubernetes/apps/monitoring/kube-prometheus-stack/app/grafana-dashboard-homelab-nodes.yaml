@@ -909,7 +909,7 @@ data:
           },
           "gridPos": {
             "h": 7,
-            "w": 7,
+            "w": 4,
             "x": 10,
             "y": 10
           },
@@ -937,12 +937,12 @@ data:
                 "uid": "prometheus"
               },
               "editorMode": "code",
-              "expr": "max(hass_homelab_power_w{entity=~\"$energy_entity\"}) or vector(0)",
-              "legendFormat": "Power now",
+              "expr": "max(hass_homelab_power_w{entity=\"sensor.homelab_consommation_actuelle\"})",
+              "legendFormat": "Power",
               "refId": "A"
             }
           ],
-          "title": "Homelab power",
+          "title": "P110 power",
           "type": "stat"
         },
         {
@@ -956,6 +956,146 @@ data:
                 "mode": "thresholds"
               },
               "decimals": 2,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "orange",
+                    "value": 1
+                  },
+                  {
+                    "color": "red",
+                    "value": 2
+                  }
+                ]
+              },
+              "unit": "amp"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 3,
+            "x": 14,
+            "y": 10
+          },
+          "id": 24,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "area",
+            "justifyMode": "center",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "value_and_name",
+            "wideLayout": true
+          },
+          "pluginVersion": "10.4.0",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "max(hass_homelab_current_a{entity=\"sensor.homelab_courant\"})",
+              "legendFormat": "Current",
+              "refId": "A"
+            }
+          ],
+          "title": "P110 current",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "decimals": 1,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "orange",
+                    "value": 245
+                  },
+                  {
+                    "color": "red",
+                    "value": 255
+                  }
+                ]
+              },
+              "unit": "volt"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 3,
+            "x": 17,
+            "y": 10
+          },
+          "id": 25,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "area",
+            "justifyMode": "center",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "value_and_name",
+            "wideLayout": true
+          },
+          "pluginVersion": "10.4.0",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "max(hass_homelab_voltage_v{entity=\"sensor.homelab_tension\"})",
+              "legendFormat": "Voltage",
+              "refId": "A"
+            }
+          ],
+          "title": "P110 voltage",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "decimals": 3,
               "thresholds": {
                 "mode": "absolute",
                 "steps": [
@@ -979,8 +1119,8 @@ data:
           },
           "gridPos": {
             "h": 7,
-            "w": 7,
-            "x": 17,
+            "w": 4,
+            "x": 20,
             "y": 10
           },
           "id": 23,
@@ -1007,12 +1147,12 @@ data:
                 "uid": "prometheus"
               },
               "editorMode": "code",
-              "expr": "max(increase(hass_homelab_energy_kwh{entity=~\"$energy_entity\"}[24h])) or vector(0)",
-              "legendFormat": "Energy 24h",
+              "expr": "max(hass_homelab_energy_kwh{entity=\"sensor.homelab_consommation_d_aujourd_hui\"})",
+              "legendFormat": "Today",
               "refId": "A"
             }
           ],
-          "title": "Homelab energy 24h",
+          "title": "P110 today",
           "type": "stat"
         },
         {
@@ -1510,34 +1650,6 @@ data:
             "skipUrlSync": false,
             "sort": 1,
             "type": "query"
-          },
-          {
-            "allValue": ".*",
-            "current": {
-              "selected": false,
-              "text": "All",
-              "value": "$__all"
-            },
-            "datasource": {
-              "type": "prometheus",
-              "uid": "prometheus"
-            },
-            "definition": "label_values(hass_homelab_power_w, entity)",
-            "hide": 0,
-            "includeAll": true,
-            "label": "Energy entity",
-            "multi": true,
-            "name": "energy_entity",
-            "options": [],
-            "query": {
-              "query": "label_values(hass_homelab_power_w, entity)",
-              "refId": "StandardVariableQuery"
-            },
-            "refresh": 2,
-            "regex": "",
-            "skipUrlSync": false,
-            "sort": 1,
-            "type": "query"
           }
         ]
       },
@@ -1564,6 +1676,6 @@ data:
       "timezone": "browser",
       "title": "firelink - Homelab Nodes",
       "uid": "homelab-nodes",
-      "version": 3,
+      "version": 4,
       "weekStart": ""
     }

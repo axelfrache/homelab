@@ -22,6 +22,17 @@ data:
     prometheus:
       namespace: hass
       requires_auth: false
+      component_config:
+        sensor.homelab_consommation_actuelle:
+          override_metric: homelab_power_w
+        sensor.homelab_consommation_d_aujourd_hui:
+          override_metric: homelab_energy_kwh
+        sensor.homelab_la_consommation_de_ce_mois_ci:
+          override_metric: homelab_energy_kwh
+        sensor.homelab_courant:
+          override_metric: homelab_current_a
+        sensor.homelab_tension:
+          override_metric: homelab_voltage_v
       component_config_glob:
         sensor.*power*:
           override_metric: homelab_power_w
@@ -38,17 +49,10 @@ data:
         sensor.*voltage*:
           override_metric: homelab_voltage_v
       filter:
-        include_entity_globs:
-          - sensor.*power*
-          - sensor.*puissance*
-          - sensor.*energy*
-          - sensor.*energie*
-          - sensor.*consumption*
-          - sensor.*current*
-          - sensor.*voltage*
-          - sensor.*tapo*
-          - sensor.*p100*
-          - sensor.*p110*
-          - switch.*tapo*
-          - switch.*p100*
-          - switch.*p110*
+        include_entities:
+          - sensor.homelab_consommation_actuelle
+          - sensor.homelab_consommation_d_aujourd_hui
+          - sensor.homelab_la_consommation_de_ce_mois_ci
+          - sensor.homelab_courant
+          - sensor.homelab_tension
+          - switch.homelab
