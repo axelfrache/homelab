@@ -8,4 +8,5 @@ components:
 
 resources:
   - ./namespace.yaml
+  - ./questify-db/ks.yaml
   - ./questify-app/ks.yaml

@@ -5,6 +5,7 @@ metadata:
   name: questify-app
 spec:
   dependsOn:
+    - name: questify-db
     - name: opentelemetry-operator
       namespace: monitoring
     - name: opentelemetry-collector

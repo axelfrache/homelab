@@ -1,0 +1,143 @@
+# Passwords must match the values in questify-secret.
+# Before committing: replace each CHANGE_ME value with the actual password,
+# then encrypt: sops --encrypt --in-place kubernetes/apps/questify/questify-db/app/roles.sops.yaml
+#
+# To retrieve current passwords from the cluster:
+#   kubectl get secret questify-secret -n questify -o go-template='{{range $k,$v := .data}}{{$k}}: {{$v | base64decode}}{{"\n"}}{{end}}'
+apiVersion: v1
+kind: Secret
+metadata:
+  name: questify-quest-svc-db-secret
+stringData:
+  password: ENC[AES256_GCM,data:PnERxCCslDdu,iv:IaJIj0x5Ygw6p/BXcF6mKWHY1T9nZhO0RdPhmWSO9Cs=,tag:EexOB6Oz0ZiZ19U9DJDK5w==,type:str]
+sops:
+  age:
+    - recipient: age1j6e3ff57dhwlfv60km0l3ehmrzldvtxkwmpeh3qev06wmenyldaqfpucld
+      enc: |
+        -----BEGIN AGE ENCRYPTED FILE-----
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSAyTDJTaTZKTzBiWEFEcTN0
+        b2puNjA2ZUNNbFFwWU1yclNwME1lRUpsZFJJCmRENWRCYkxEZW85RE93a01QS09h
+        b05rV3dNdkErZXNreVNXZmpDN0RWQlUKLS0tIEdBR0JlRFNPeVFTazR4WUpKcmVT
+        RXc3K3JZQTI4UnZYeFJyOCtnZ2tzbE0Kbfc0Hr69ssYpOBBVCrPbuTkCPaiLvfnU
+        fyca+7kiwqShiYaXYyAoPPUV/ApUX7HE4iAUnzMkbf1BOW02WPipZw==
+        -----END AGE ENCRYPTED FILE-----
+  lastmodified: "2026-05-22T10:21:44Z"
+  mac: ENC[AES256_GCM,data:NjuHK4QCcVfHzhYJBqCkAj3flJxZh1hwyMd1c1MkCeDw0PZ55ORy6rBDcWxb2k9GzKuL3ZHPTcWW68Dk7flxsUFqVSSSUGmAEGRsXM78RqA6XrcYH1H7FkvtuwdGpFQKLcktjCvM4UIMwRxg1pEpieW6XFo2ox8TOGze7EPtciY=,iv:VDDauTW6P7Kyi4b9eqUJUANY5yiBIiMD+A+dOelgTl8=,tag:ybZc/g8TRziFmszqOHiXzA==,type:str]
+  encrypted_regex: ^(data|stringData)$
+  mac_only_encrypted: true
+  version: 3.12.1
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: questify-project-svc-db-secret
+stringData:
+  password: ENC[AES256_GCM,data:n9KR1UlyRPLx,iv:ItEUctAKXUORrGr+hnyuEe9EKW6AN6uhzdQ/sl7x55k=,tag:v97lP7W272UUek3q24n8Hw==,type:str]
+sops:
+  age:
+    - recipient: age1j6e3ff57dhwlfv60km0l3ehmrzldvtxkwmpeh3qev06wmenyldaqfpucld
+      enc: |
+        -----BEGIN AGE ENCRYPTED FILE-----
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSAyTDJTaTZKTzBiWEFEcTN0
+        b2puNjA2ZUNNbFFwWU1yclNwME1lRUpsZFJJCmRENWRCYkxEZW85RE93a01QS09h
+        b05rV3dNdkErZXNreVNXZmpDN0RWQlUKLS0tIEdBR0JlRFNPeVFTazR4WUpKcmVT
+        RXc3K3JZQTI4UnZYeFJyOCtnZ2tzbE0Kbfc0Hr69ssYpOBBVCrPbuTkCPaiLvfnU
+        fyca+7kiwqShiYaXYyAoPPUV/ApUX7HE4iAUnzMkbf1BOW02WPipZw==
+        -----END AGE ENCRYPTED FILE-----
+  lastmodified: "2026-05-22T10:21:44Z"
+  mac: ENC[AES256_GCM,data:NjuHK4QCcVfHzhYJBqCkAj3flJxZh1hwyMd1c1MkCeDw0PZ55ORy6rBDcWxb2k9GzKuL3ZHPTcWW68Dk7flxsUFqVSSSUGmAEGRsXM78RqA6XrcYH1H7FkvtuwdGpFQKLcktjCvM4UIMwRxg1pEpieW6XFo2ox8TOGze7EPtciY=,iv:VDDauTW6P7Kyi4b9eqUJUANY5yiBIiMD+A+dOelgTl8=,tag:ybZc/g8TRziFmszqOHiXzA==,type:str]
+  encrypted_regex: ^(data|stringData)$
+  mac_only_encrypted: true
+  version: 3.12.1
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: questify-progression-svc-db-secret
+stringData:
+  password: ENC[AES256_GCM,data:dSrpyhUrSxgn,iv:6gqqtorV2XJHQQUofbSitg/oISUUK3I6qiqRPfUDv9w=,tag:OasUSVduDBx5mlkh1fNYTQ==,type:str]
+sops:
+  age:
+    - recipient: age1j6e3ff57dhwlfv60km0l3ehmrzldvtxkwmpeh3qev06wmenyldaqfpucld
+      enc: |
+        -----BEGIN AGE ENCRYPTED FILE-----
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSAyTDJTaTZKTzBiWEFEcTN0
+        b2puNjA2ZUNNbFFwWU1yclNwME1lRUpsZFJJCmRENWRCYkxEZW85RE93a01QS09h
+        b05rV3dNdkErZXNreVNXZmpDN0RWQlUKLS0tIEdBR0JlRFNPeVFTazR4WUpKcmVT
+        RXc3K3JZQTI4UnZYeFJyOCtnZ2tzbE0Kbfc0Hr69ssYpOBBVCrPbuTkCPaiLvfnU
+        fyca+7kiwqShiYaXYyAoPPUV/ApUX7HE4iAUnzMkbf1BOW02WPipZw==
+        -----END AGE ENCRYPTED FILE-----
+  lastmodified: "2026-05-22T10:21:44Z"
+  mac: ENC[AES256_GCM,data:NjuHK4QCcVfHzhYJBqCkAj3flJxZh1hwyMd1c1MkCeDw0PZ55ORy6rBDcWxb2k9GzKuL3ZHPTcWW68Dk7flxsUFqVSSSUGmAEGRsXM78RqA6XrcYH1H7FkvtuwdGpFQKLcktjCvM4UIMwRxg1pEpieW6XFo2ox8TOGze7EPtciY=,iv:VDDauTW6P7Kyi4b9eqUJUANY5yiBIiMD+A+dOelgTl8=,tag:ybZc/g8TRziFmszqOHiXzA==,type:str]
+  encrypted_regex: ^(data|stringData)$
+  mac_only_encrypted: true
+  version: 3.12.1
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: questify-stats-svc-db-secret
+stringData:
+  password: ENC[AES256_GCM,data:BhyrIJZij6JP,iv:HzVGzqTeenLsTwMfrhC7Embli7SBtTpcyCle3MwMaf4=,tag:Z9qvPxbOcqmVMZx6D8nf1w==,type:str]
+sops:
+  age:
+    - recipient: age1j6e3ff57dhwlfv60km0l3ehmrzldvtxkwmpeh3qev06wmenyldaqfpucld
+      enc: |
+        -----BEGIN AGE ENCRYPTED FILE-----
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSAyTDJTaTZKTzBiWEFEcTN0
+        b2puNjA2ZUNNbFFwWU1yclNwME1lRUpsZFJJCmRENWRCYkxEZW85RE93a01QS09h
+        b05rV3dNdkErZXNreVNXZmpDN0RWQlUKLS0tIEdBR0JlRFNPeVFTazR4WUpKcmVT
+        RXc3K3JZQTI4UnZYeFJyOCtnZ2tzbE0Kbfc0Hr69ssYpOBBVCrPbuTkCPaiLvfnU
+        fyca+7kiwqShiYaXYyAoPPUV/ApUX7HE4iAUnzMkbf1BOW02WPipZw==
+        -----END AGE ENCRYPTED FILE-----
+  lastmodified: "2026-05-22T10:21:44Z"
+  mac: ENC[AES256_GCM,data:NjuHK4QCcVfHzhYJBqCkAj3flJxZh1hwyMd1c1MkCeDw0PZ55ORy6rBDcWxb2k9GzKuL3ZHPTcWW68Dk7flxsUFqVSSSUGmAEGRsXM78RqA6XrcYH1H7FkvtuwdGpFQKLcktjCvM4UIMwRxg1pEpieW6XFo2ox8TOGze7EPtciY=,iv:VDDauTW6P7Kyi4b9eqUJUANY5yiBIiMD+A+dOelgTl8=,tag:ybZc/g8TRziFmszqOHiXzA==,type:str]
+  encrypted_regex: ^(data|stringData)$
+  mac_only_encrypted: true
+  version: 3.12.1
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: questify-admin-svc-db-secret
+stringData:
+  password: ENC[AES256_GCM,data:UxgqBmaRNNDZ,iv:O7n3Tv5B4Oe4c44PlMG3lRTVWUcS6QIXKXMQfqVrW2g=,tag:AeOwNtQs3ffyYh386FNtqA==,type:str]
+sops:
+  age:
+    - recipient: age1j6e3ff57dhwlfv60km0l3ehmrzldvtxkwmpeh3qev06wmenyldaqfpucld
+      enc: |
+        -----BEGIN AGE ENCRYPTED FILE-----
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSAyTDJTaTZKTzBiWEFEcTN0
+        b2puNjA2ZUNNbFFwWU1yclNwME1lRUpsZFJJCmRENWRCYkxEZW85RE93a01QS09h
+        b05rV3dNdkErZXNreVNXZmpDN0RWQlUKLS0tIEdBR0JlRFNPeVFTazR4WUpKcmVT
+        RXc3K3JZQTI4UnZYeFJyOCtnZ2tzbE0Kbfc0Hr69ssYpOBBVCrPbuTkCPaiLvfnU
+        fyca+7kiwqShiYaXYyAoPPUV/ApUX7HE4iAUnzMkbf1BOW02WPipZw==
+        -----END AGE ENCRYPTED FILE-----
+  lastmodified: "2026-05-22T10:21:44Z"
+  mac: ENC[AES256_GCM,data:NjuHK4QCcVfHzhYJBqCkAj3flJxZh1hwyMd1c1MkCeDw0PZ55ORy6rBDcWxb2k9GzKuL3ZHPTcWW68Dk7flxsUFqVSSSUGmAEGRsXM78RqA6XrcYH1H7FkvtuwdGpFQKLcktjCvM4UIMwRxg1pEpieW6XFo2ox8TOGze7EPtciY=,iv:VDDauTW6P7Kyi4b9eqUJUANY5yiBIiMD+A+dOelgTl8=,tag:ybZc/g8TRziFmszqOHiXzA==,type:str]
+  encrypted_regex: ^(data|stringData)$
+  mac_only_encrypted: true
+  version: 3.12.1
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: questify-notification-svc-db-secret
+stringData:
+  password: ENC[AES256_GCM,data:VBVgT3HooegU,iv:/2w02b5XnqlzIxuZuBeUcbwUm9qsPLaDRX69eFbj4xE=,tag:1Hhh7yAZpK2VW9awoh4kYg==,type:str]
+sops:
+  age:
+    - recipient: age1j6e3ff57dhwlfv60km0l3ehmrzldvtxkwmpeh3qev06wmenyldaqfpucld
+      enc: |
+        -----BEGIN AGE ENCRYPTED FILE-----
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSAyTDJTaTZKTzBiWEFEcTN0
+        b2puNjA2ZUNNbFFwWU1yclNwME1lRUpsZFJJCmRENWRCYkxEZW85RE93a01QS09h
+        b05rV3dNdkErZXNreVNXZmpDN0RWQlUKLS0tIEdBR0JlRFNPeVFTazR4WUpKcmVT
+        RXc3K3JZQTI4UnZYeFJyOCtnZ2tzbE0Kbfc0Hr69ssYpOBBVCrPbuTkCPaiLvfnU
+        fyca+7kiwqShiYaXYyAoPPUV/ApUX7HE4iAUnzMkbf1BOW02WPipZw==
+        -----END AGE ENCRYPTED FILE-----
+  lastmodified: "2026-05-22T10:21:44Z"
+  mac: ENC[AES256_GCM,data:NjuHK4QCcVfHzhYJBqCkAj3flJxZh1hwyMd1c1MkCeDw0PZ55ORy6rBDcWxb2k9GzKuL3ZHPTcWW68Dk7flxsUFqVSSSUGmAEGRsXM78RqA6XrcYH1H7FkvtuwdGpFQKLcktjCvM4UIMwRxg1pEpieW6XFo2ox8TOGze7EPtciY=,iv:VDDauTW6P7Kyi4b9eqUJUANY5yiBIiMD+A+dOelgTl8=,tag:ybZc/g8TRziFmszqOHiXzA==,type:str]
+  encrypted_regex: ^(data|stringData)$
+  mac_only_encrypted: true
+  version: 3.12.1
