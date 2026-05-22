@@ -436,7 +436,7 @@ spec:
           command:
             - sh
             - -c
-            - until nc -z postgres 5432; do sleep 2; done; until nc -z rabbitmq 5672; do sleep 2; done; until nc -z garage 3900; do sleep 2; done
+            - until nc -w 5 -z postgres 5432; do sleep 2; done; until nc -w 5 -z rabbitmq 5672; do sleep 2; done; until nc -w 5 -z garage 3900; do sleep 2; done
       containers:
         - name: auth-service
           image: ghcr.io/axelfrache/questify-auth-service:latest@sha256:5794c807cdade2757f0b1d9dc2e9cfd796159482486da5dd4fcd77c581b8cf24 # {"$imagepolicy": "flux-system:questify-auth-service"}
@@ -583,7 +583,7 @@ spec:
           command:
             - sh
             - -c
-            - until nc -z postgres 5432; do sleep 2; done; until nc -z rabbitmq 5672; do sleep 2; done
+            - until nc -w 5 -z postgres 5432; do sleep 2; done; until nc -w 5 -z rabbitmq 5672; do sleep 2; done
       containers:
         - name: quest-service
           image: ghcr.io/axelfrache/questify-quest-service:latest@sha256:ec5642297f978ec5546591f419e0e4105d4fb8d40a038b9264251c7f0491e84e # {"$imagepolicy": "flux-system:questify-quest-service"}
@@ -679,7 +679,7 @@ spec:
           command:
             - sh
             - -c
-            - until nc -z postgres 5432; do sleep 2; done; until nc -z rabbitmq 5672; do sleep 2; done
+            - until nc -w 5 -z postgres 5432; do sleep 2; done; until nc -w 5 -z rabbitmq 5672; do sleep 2; done
       containers:
         - name: project-service
           image: ghcr.io/axelfrache/questify-project-service:latest@sha256:50900d4e67d0b0a1c10f656d2adbbff195c07a24e29b8382d11d52c475950c55 # {"$imagepolicy": "flux-system:questify-project-service"}
@@ -775,7 +775,7 @@ spec:
           command:
             - sh
             - -c
-            - until nc -z postgres 5432; do sleep 2; done; until nc -z rabbitmq 5672; do sleep 2; done; until nc -z redis 6379; do sleep 2; done
+            - until nc -w 5 -z postgres 5432; do sleep 2; done; until nc -w 5 -z rabbitmq 5672; do sleep 2; done; until nc -w 5 -z redis 6379; do sleep 2; done
       containers:
         - name: progression-service
           image: ghcr.io/axelfrache/questify-progression-service:latest@sha256:7a926abcdc868764d5977d9948b0be3b7bbc93a8de954983e23d42b870e8e6c9 # {"$imagepolicy": "flux-system:questify-progression-service"}
@@ -881,7 +881,7 @@ spec:
           command:
             - sh
             - -c
-            - until nc -z postgres 5432; do sleep 2; done; until nc -z rabbitmq 5672; do sleep 2; done; until nc -z redis 6379; do sleep 2; done
+            - until nc -w 5 -z postgres 5432; do sleep 2; done; until nc -w 5 -z rabbitmq 5672; do sleep 2; done; until nc -w 5 -z redis 6379; do sleep 2; done
       containers:
         - name: stats-service
           image: ghcr.io/axelfrache/questify-stats-service:latest@sha256:0f0330092990a29f97022be4a42483f46a6980feca1e0bb049f69dcfd7a762e9 # {"$imagepolicy": "flux-system:questify-stats-service"}
@@ -987,7 +987,7 @@ spec:
           command:
             - sh
             - -c
-            - until nc -z postgres 5432; do sleep 2; done; until nc -z rabbitmq 5672; do sleep 2; done; until nc -z auth-service 8081; do sleep 2; done; until nc -z quest-service 8082; do sleep 2; done; until nc -z project-service 8083; do sleep 2; done; until nc -z progression-service 8084; do sleep 2; done; until nc -z stats-service 8085; do sleep 2; done
+            - until nc -w 5 -z postgres 5432; do sleep 2; done; until nc -w 5 -z rabbitmq 5672; do sleep 2; done; until nc -w 5 -z auth-service 8081; do sleep 2; done; until nc -w 5 -z quest-service 8082; do sleep 2; done; until nc -w 5 -z project-service 8083; do sleep 2; done; until nc -w 5 -z progression-service 8084; do sleep 2; done; until nc -w 5 -z stats-service 8085; do sleep 2; done
       containers:
         - name: admin-service
           image: ghcr.io/axelfrache/questify-admin-service:latest@sha256:4e0718da423d505f7e84abbfc2303a427df729952e39848e18a39d21e52813df # {"$imagepolicy": "flux-system:questify-admin-service"}
@@ -1098,7 +1098,7 @@ spec:
           command:
             - sh
             - -c
-            - until nc -z postgres 5432; do sleep 2; done; until nc -z rabbitmq 5672; do sleep 2; done
+            - until nc -w 5 -z postgres 5432; do sleep 2; done; until nc -w 5 -z rabbitmq 5672; do sleep 2; done
       containers:
         - name: notification-service
           image: ghcr.io/axelfrache/questify-notification-service:latest@sha256:500ec14e9c0089dffbc81e9e2a836e5ae62bbd9ca35e7e36c99628eff04ecbba # {"$imagepolicy": "flux-system:questify-notification-service"}
@@ -1210,7 +1210,7 @@ spec:
           command:
             - sh
             - -c
-            - until nc -z auth-service 8081; do sleep 2; done; until nc -z quest-service 8082; do sleep 2; done; until nc -z project-service 8083; do sleep 2; done; until nc -z progression-service 8084; do sleep 2; done; until nc -z stats-service 8085; do sleep 2; done; until nc -z admin-service 8086; do sleep 2; done; until nc -z notification-service 8087; do sleep 2; done; until nc -z garage 3900; do sleep 2; done
+            - until nc -w 5 -z auth-service 8081; do sleep 2; done; until nc -w 5 -z quest-service 8082; do sleep 2; done; until nc -w 5 -z project-service 8083; do sleep 2; done; until nc -w 5 -z progression-service 8084; do sleep 2; done; until nc -w 5 -z stats-service 8085; do sleep 2; done; until nc -w 5 -z admin-service 8086; do sleep 2; done; until nc -w 5 -z notification-service 8087; do sleep 2; done; until nc -w 5 -z garage 3900; do sleep 2; done
       containers:
         - name: questify-gateway
           image: nginx:alpine
@@ -1285,7 +1285,7 @@ spec:
           command:
             - sh
             - -c
-            - until nc -z questify-gateway 8080; do sleep 2; done
+            - until nc -w 5 -z questify-gateway 8080; do sleep 2; done
       containers:
         - name: questify-frontend
           image: ghcr.io/axelfrache/questify-frontend:latest@sha256:7fd9a0e2c908fbcd85e5c6dd60162e76091450dbba0682c6ed13c96f1d79a809 # {"$imagepolicy": "flux-system:questify-frontend"}
