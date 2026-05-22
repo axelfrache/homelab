@@ -404,9 +404,9 @@ kind: Deployment
 metadata:
   name: auth-service
 spec:
-  replicas: 1
+  replicas: 2
   strategy:
-    type: Recreate
+    type: RollingUpdate
   selector:
     matchLabels:
       app: auth-service
@@ -416,6 +416,13 @@ spec:
         app: auth-service
     spec:
       enableServiceLinks: false
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: auth-service
       initContainers:
         - name: wait-for-deps
           image: busybox:1.36
@@ -521,9 +528,9 @@ spec:
           resources:
             requests:
               cpu: 10m
-              memory: 256Mi
+              memory: 384Mi
             limits:
-              memory: 512Mi
+              memory: 768Mi
 ---
 apiVersion: v1
 kind: Service
@@ -542,9 +549,9 @@ kind: Deployment
 metadata:
   name: quest-service
 spec:
-  replicas: 1
+  replicas: 2
   strategy:
-    type: Recreate
+    type: RollingUpdate
   selector:
     matchLabels:
       app: quest-service
@@ -554,6 +561,13 @@ spec:
         app: quest-service
     spec:
       enableServiceLinks: false
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: quest-service
       initContainers:
         - name: wait-for-deps
           image: busybox:1.36
@@ -608,9 +622,9 @@ spec:
           resources:
             requests:
               cpu: 10m
-              memory: 256Mi
+              memory: 384Mi
             limits:
-              memory: 512Mi
+              memory: 768Mi
 ---
 apiVersion: v1
 kind: Service
@@ -629,9 +643,9 @@ kind: Deployment
 metadata:
   name: project-service
 spec:
-  replicas: 1
+  replicas: 2
   strategy:
-    type: Recreate
+    type: RollingUpdate
   selector:
     matchLabels:
       app: project-service
@@ -641,6 +655,13 @@ spec:
         app: project-service
     spec:
       enableServiceLinks: false
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: project-service
       initContainers:
         - name: wait-for-deps
           image: busybox:1.36
@@ -695,9 +716,9 @@ spec:
           resources:
             requests:
               cpu: 10m
-              memory: 256Mi
+              memory: 384Mi
             limits:
-              memory: 512Mi
+              memory: 768Mi
 ---
 apiVersion: v1
 kind: Service
@@ -716,9 +737,9 @@ kind: Deployment
 metadata:
   name: progression-service
 spec:
-  replicas: 1
+  replicas: 2
   strategy:
-    type: Recreate
+    type: RollingUpdate
   selector:
     matchLabels:
       app: progression-service
@@ -728,6 +749,13 @@ spec:
         app: progression-service
     spec:
       enableServiceLinks: false
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: progression-service
       initContainers:
         - name: wait-for-deps
           image: busybox:1.36
@@ -792,9 +820,9 @@ spec:
           resources:
             requests:
               cpu: 10m
-              memory: 256Mi
+              memory: 384Mi
             limits:
-              memory: 512Mi
+              memory: 768Mi
 ---
 apiVersion: v1
 kind: Service
@@ -813,9 +841,9 @@ kind: Deployment
 metadata:
   name: stats-service
 spec:
-  replicas: 1
+  replicas: 2
   strategy:
-    type: Recreate
+    type: RollingUpdate
   selector:
     matchLabels:
       app: stats-service
@@ -825,6 +853,13 @@ spec:
         app: stats-service
     spec:
       enableServiceLinks: false
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: stats-service
       initContainers:
         - name: wait-for-deps
           image: busybox:1.36
@@ -889,9 +924,9 @@ spec:
           resources:
             requests:
               cpu: 10m
-              memory: 256Mi
+              memory: 384Mi
             limits:
-              memory: 512Mi
+              memory: 768Mi
 ---
 apiVersion: v1
 kind: Service
@@ -910,9 +945,9 @@ kind: Deployment
 metadata:
   name: admin-service
 spec:
-  replicas: 1
+  replicas: 2
   strategy:
-    type: Recreate
+    type: RollingUpdate
   selector:
     matchLabels:
       app: admin-service
@@ -922,6 +957,13 @@ spec:
         app: admin-service
     spec:
       enableServiceLinks: false
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: admin-service
       initContainers:
         - name: wait-for-deps
           image: busybox:1.36
@@ -991,9 +1033,9 @@ spec:
           resources:
             requests:
               cpu: 10m
-              memory: 256Mi
+              memory: 384Mi
             limits:
-              memory: 512Mi
+              memory: 768Mi
 ---
 apiVersion: v1
 kind: Service
@@ -1012,9 +1054,9 @@ kind: Deployment
 metadata:
   name: notification-service
 spec:
-  replicas: 1
+  replicas: 2
   strategy:
-    type: Recreate
+    type: RollingUpdate
   selector:
     matchLabels:
       app: notification-service
@@ -1024,6 +1066,13 @@ spec:
         app: notification-service
     spec:
       enableServiceLinks: false
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: notification-service
       initContainers:
         - name: wait-for-deps
           image: busybox:1.36
@@ -1094,9 +1143,9 @@ spec:
           resources:
             requests:
               cpu: 10m
-              memory: 256Mi
+              memory: 384Mi
             limits:
-              memory: 512Mi
+              memory: 768Mi
 ---
 apiVersion: v1
 kind: Service
@@ -1115,9 +1164,9 @@ kind: Deployment
 metadata:
   name: questify-gateway
 spec:
-  replicas: 1
+  replicas: 2
   strategy:
-    type: Recreate
+    type: RollingUpdate
   selector:
     matchLabels:
       app: questify-gateway
@@ -1127,6 +1176,13 @@ spec:
         app: questify-gateway
     spec:
       enableServiceLinks: false
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: questify-gateway
       initContainers:
         - name: wait-for-deps
           image: busybox:1.36
@@ -1183,9 +1239,9 @@ kind: Deployment
 metadata:
   name: questify-frontend
 spec:
-  replicas: 1
+  replicas: 2
   strategy:
-    type: Recreate
+    type: RollingUpdate
   selector:
     matchLabels:
       app: questify-frontend
@@ -1195,6 +1251,13 @@ spec:
         app: questify-frontend
     spec:
       enableServiceLinks: false
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: questify-frontend
       initContainers:
         - name: wait-for-gateway
           image: busybox:1.36
@@ -1262,3 +1325,93 @@ spec:
     - backendRefs:
         - name: questify-frontend
           port: 8080
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: auth-service
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: auth-service
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: quest-service
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: quest-service
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: project-service
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: project-service
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: progression-service
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: progression-service
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: stats-service
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: stats-service
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: admin-service
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: admin-service
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: notification-service
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: notification-service
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: questify-gateway
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: questify-gateway
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: questify-frontend
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: questify-frontend
