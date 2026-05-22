@@ -23,7 +23,7 @@ data:
 
     compactor:
       compaction:
-        block_retention: 72h
+        block_retention: 48h
 
     metrics_generator:
       storage:
@@ -31,14 +31,7 @@ data:
         remote_write:
           - url: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090/api/v1/write
             send_exemplars: true
-      traces_storage:
-        path: /var/tempo/generator/traces
       processor:
-        local_blocks:
-          max_live_traces: 50000
-          flush_to_storage: true
-          max_block_duration: 4h
-          complete_block_timeout: 30m
         span_metrics:
           dimensions:
             - questify.quest.difficulty
@@ -56,5 +49,5 @@ data:
     overrides:
       defaults:
         metrics_generator:
-          processors: [local-blocks, span-metrics]
+          processors: [span-metrics]
           generate_native_histograms: both
