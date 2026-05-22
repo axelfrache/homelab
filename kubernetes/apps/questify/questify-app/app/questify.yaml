@@ -1293,6 +1293,11 @@ spec:
           ports:
             - containerPort: 8080
               name: http
+          volumeMounts:
+            - name: nginx-extra
+              mountPath: /etc/nginx/conf.d/proxy-timeouts.conf
+              subPath: proxy-timeouts.conf
+              readOnly: true
           readinessProbe:
             httpGet:
               path: /
@@ -1311,6 +1316,10 @@ spec:
               memory: 128Mi
             limits:
               memory: 256Mi
+      volumes:
+        - name: nginx-extra
+          configMap:
+            name: questify-frontend-nginx-extra
 ---
 apiVersion: v1
 kind: Service
