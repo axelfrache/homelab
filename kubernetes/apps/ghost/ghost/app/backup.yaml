@@ -14,6 +14,13 @@ spec:
       template:
         spec:
           restartPolicy: OnFailure
+          affinity:
+            podAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchLabels:
+                      app: ghost
+                  topologyKey: kubernetes.io/hostname
           containers:
             - name: backup
               image: mariadb:11
