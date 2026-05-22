@@ -16,6 +16,8 @@ spec:
               value: questify-auth-service
             - name: OTEL_RESOURCE_ATTRIBUTES
               value: service.namespace=questify,deployment.environment=production
+            - name: OTEL_EXPORTER_OTLP_TIMEOUT
+              value: "5000"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -34,6 +36,8 @@ spec:
               value: questify-quest-service
             - name: OTEL_RESOURCE_ATTRIBUTES
               value: service.namespace=questify,deployment.environment=production
+            - name: OTEL_EXPORTER_OTLP_TIMEOUT
+              value: "5000"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -52,6 +56,8 @@ spec:
               value: questify-project-service
             - name: OTEL_RESOURCE_ATTRIBUTES
               value: service.namespace=questify,deployment.environment=production
+            - name: OTEL_EXPORTER_OTLP_TIMEOUT
+              value: "5000"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -70,6 +76,8 @@ spec:
               value: questify-progression-service
             - name: OTEL_RESOURCE_ATTRIBUTES
               value: service.namespace=questify,deployment.environment=production
+            - name: OTEL_EXPORTER_OTLP_TIMEOUT
+              value: "5000"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -88,6 +96,8 @@ spec:
               value: questify-stats-service
             - name: OTEL_RESOURCE_ATTRIBUTES
               value: service.namespace=questify,deployment.environment=production
+            - name: OTEL_EXPORTER_OTLP_TIMEOUT
+              value: "5000"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -106,6 +116,8 @@ spec:
               value: questify-admin-service
             - name: OTEL_RESOURCE_ATTRIBUTES
               value: service.namespace=questify,deployment.environment=production
+            - name: OTEL_EXPORTER_OTLP_TIMEOUT
+              value: "5000"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -124,3 +136,5 @@ spec:
               value: questify-notification-service
             - name: OTEL_RESOURCE_ATTRIBUTES
               value: service.namespace=questify,deployment.environment=production
+            - name: OTEL_EXPORTER_OTLP_TIMEOUT
+              value: "5000"

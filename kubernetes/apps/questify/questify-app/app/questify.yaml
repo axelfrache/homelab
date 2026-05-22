@@ -493,7 +493,7 @@ spec:
             - name: S3_PUBLIC_URL
               value: https://app.getquestify.com/storage
             - name: SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE
-              value: "3"
+              value: "5"
             - name: CORS_ALLOWED_ORIGINS
               value: https://app.getquestify.com
             - name: COOKIE_SECURE
@@ -904,7 +904,7 @@ spec:
             - name: SPRING_JPA_DDL_AUTO
               value: update
             - name: SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE
-              value: "3"
+              value: "5"
             - name: RABBITMQ_HOST
               value: rabbitmq
             - name: RABBITMQ_USERNAME
