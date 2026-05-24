@@ -1,28 +1,23 @@
-# Passwords must match the values in questify-secret.
-# Before committing: replace each CHANGE_ME value with the actual password,
-# then encrypt: sops --encrypt --in-place kubernetes/apps/questify/questify-db/app/roles.sops.yaml
-#
-# To retrieve current passwords from the cluster:
-#   kubectl get secret questify-secret -n questify -o go-template='{{range $k,$v := .data}}{{$k}}: {{$v | base64decode}}{{"\n"}}{{end}}'
 apiVersion: v1
 kind: Secret
 metadata:
   name: questify-quest-svc-db-secret
 stringData:
-  password: ENC[AES256_GCM,data:PnERxCCslDdu,iv:IaJIj0x5Ygw6p/BXcF6mKWHY1T9nZhO0RdPhmWSO9Cs=,tag:EexOB6Oz0ZiZ19U9DJDK5w==,type:str]
+  username: ENC[AES256_GCM,data:ViKr/qj69RAA,iv:0z44u5CBaenrZeGMKrwfITHMpJi5MIEHp94q4hwzHUs=,tag:yb4IHLZ5I4olBUKQENP4Pw==,type:str]
+  password: ENC[AES256_GCM,data:al+Ocx0uUIA0RvHvSTcqRIDharQtwEzX,iv:riY/4GtV987TIbJJBDAFOG9qLyYVXp0s/llncnrqEoo=,tag:9ngieNlkywAzsGYU+v2wYw==,type:str]
 sops:
   age:
     - recipient: age1j6e3ff57dhwlfv60km0l3ehmrzldvtxkwmpeh3qev06wmenyldaqfpucld
       enc: |
         -----BEGIN AGE ENCRYPTED FILE-----
-        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSAyTDJTaTZKTzBiWEFEcTN0
-        b2puNjA2ZUNNbFFwWU1yclNwME1lRUpsZFJJCmRENWRCYkxEZW85RE93a01QS09h
-        b05rV3dNdkErZXNreVNXZmpDN0RWQlUKLS0tIEdBR0JlRFNPeVFTazR4WUpKcmVT
-        RXc3K3JZQTI4UnZYeFJyOCtnZ2tzbE0Kbfc0Hr69ssYpOBBVCrPbuTkCPaiLvfnU
-        fyca+7kiwqShiYaXYyAoPPUV/ApUX7HE4iAUnzMkbf1BOW02WPipZw==
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBzTDRkVXQwQlpJMGgvL0t4
+        WWM0THF6c3hQRUFLcy9PT2pqSXZ0VFlHNVdnClpsK1lKUzE4MnlESUZXS05CY1c2
+        cUxQWFZmbXlIaDRzUllpM2FBRkk0cncKLS0tIGhRcEs3N2NZd3RlbjZJN1FBMjhD
+        WVRSQ0lIdG1nY0p0dDJNaE1rRzd0S1kKUPMfMe4W3bxBaVdTt5vfq+Kw3Fs71cuv
+        hEASrLBMZx0VSJ3C0T/mNx8juWvfxIo/UBjIWR/4+WPZ/5Zk3QaNZg==
         -----END AGE ENCRYPTED FILE-----
-  lastmodified: "2026-05-22T10:21:44Z"
-  mac: ENC[AES256_GCM,data:NjuHK4QCcVfHzhYJBqCkAj3flJxZh1hwyMd1c1MkCeDw0PZ55ORy6rBDcWxb2k9GzKuL3ZHPTcWW68Dk7flxsUFqVSSSUGmAEGRsXM78RqA6XrcYH1H7FkvtuwdGpFQKLcktjCvM4UIMwRxg1pEpieW6XFo2ox8TOGze7EPtciY=,iv:VDDauTW6P7Kyi4b9eqUJUANY5yiBIiMD+A+dOelgTl8=,tag:ybZc/g8TRziFmszqOHiXzA==,type:str]
+  lastmodified: "2026-05-24T15:43:58Z"
+  mac: ENC[AES256_GCM,data:PKaEGXcQ1y1lxsD9HJiTNmeRyZOBC/xc2pWE+hXA2MEw8DTiUg3FQ9w5LWg2wnnem3rAtMwKkG1gH+zrBIy/asPn6L8RbhEe0Um7fl4OtQkKHCAVkdawLKK40PVoH7GBD4lWFTzjENpwlMUPTEuL2g6A4moRdXq4YRFL/dYgFDU=,iv:ibu1MaFo38mArEAqFWLDuB4XzcORrwB7tujVGYhM21w=,tag:UF6OmZmlQES4eeNlr3F9CA==,type:str]
   encrypted_regex: ^(data|stringData)$
   mac_only_encrypted: true
   version: 3.12.1
@@ -32,20 +27,21 @@ kind: Secret
 metadata:
   name: questify-project-svc-db-secret
 stringData:
-  password: ENC[AES256_GCM,data:n9KR1UlyRPLx,iv:ItEUctAKXUORrGr+hnyuEe9EKW6AN6uhzdQ/sl7x55k=,tag:v97lP7W272UUek3q24n8Hw==,type:str]
+  username: ENC[AES256_GCM,data:9jDsXbON/9FM+Xc=,iv:evPSDpQAHhROSfulsw9tTVpmGTIZD/L1/8Qw46p32BI=,tag:Zt7sNYtc1FqyQhg/rvkdVA==,type:str]
+  password: ENC[AES256_GCM,data:k4fGfgmE0OeDE2b7vrvclNOOSTWwGNFQ,iv:5VL2YKxyTVfMkU6A/D9mMpQWPw4pNc+D68yBfDkow44=,tag:cVIDWn/g9WFw8GuANHYR3g==,type:str]
 sops:
   age:
     - recipient: age1j6e3ff57dhwlfv60km0l3ehmrzldvtxkwmpeh3qev06wmenyldaqfpucld
       enc: |
         -----BEGIN AGE ENCRYPTED FILE-----
-        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSAyTDJTaTZKTzBiWEFEcTN0
-        b2puNjA2ZUNNbFFwWU1yclNwME1lRUpsZFJJCmRENWRCYkxEZW85RE93a01QS09h
-        b05rV3dNdkErZXNreVNXZmpDN0RWQlUKLS0tIEdBR0JlRFNPeVFTazR4WUpKcmVT
-        RXc3K3JZQTI4UnZYeFJyOCtnZ2tzbE0Kbfc0Hr69ssYpOBBVCrPbuTkCPaiLvfnU
-        fyca+7kiwqShiYaXYyAoPPUV/ApUX7HE4iAUnzMkbf1BOW02WPipZw==
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBzTDRkVXQwQlpJMGgvL0t4
+        WWM0THF6c3hQRUFLcy9PT2pqSXZ0VFlHNVdnClpsK1lKUzE4MnlESUZXS05CY1c2
+        cUxQWFZmbXlIaDRzUllpM2FBRkk0cncKLS0tIGhRcEs3N2NZd3RlbjZJN1FBMjhD
+        WVRSQ0lIdG1nY0p0dDJNaE1rRzd0S1kKUPMfMe4W3bxBaVdTt5vfq+Kw3Fs71cuv
+        hEASrLBMZx0VSJ3C0T/mNx8juWvfxIo/UBjIWR/4+WPZ/5Zk3QaNZg==
         -----END AGE ENCRYPTED FILE-----
-  lastmodified: "2026-05-22T10:21:44Z"
-  mac: ENC[AES256_GCM,data:NjuHK4QCcVfHzhYJBqCkAj3flJxZh1hwyMd1c1MkCeDw0PZ55ORy6rBDcWxb2k9GzKuL3ZHPTcWW68Dk7flxsUFqVSSSUGmAEGRsXM78RqA6XrcYH1H7FkvtuwdGpFQKLcktjCvM4UIMwRxg1pEpieW6XFo2ox8TOGze7EPtciY=,iv:VDDauTW6P7Kyi4b9eqUJUANY5yiBIiMD+A+dOelgTl8=,tag:ybZc/g8TRziFmszqOHiXzA==,type:str]
+  lastmodified: "2026-05-24T15:43:58Z"
+  mac: ENC[AES256_GCM,data:PKaEGXcQ1y1lxsD9HJiTNmeRyZOBC/xc2pWE+hXA2MEw8DTiUg3FQ9w5LWg2wnnem3rAtMwKkG1gH+zrBIy/asPn6L8RbhEe0Um7fl4OtQkKHCAVkdawLKK40PVoH7GBD4lWFTzjENpwlMUPTEuL2g6A4moRdXq4YRFL/dYgFDU=,iv:ibu1MaFo38mArEAqFWLDuB4XzcORrwB7tujVGYhM21w=,tag:UF6OmZmlQES4eeNlr3F9CA==,type:str]
   encrypted_regex: ^(data|stringData)$
   mac_only_encrypted: true
   version: 3.12.1
@@ -55,20 +51,21 @@ kind: Secret
 metadata:
   name: questify-progression-svc-db-secret
 stringData:
-  password: ENC[AES256_GCM,data:dSrpyhUrSxgn,iv:6gqqtorV2XJHQQUofbSitg/oISUUK3I6qiqRPfUDv9w=,tag:OasUSVduDBx5mlkh1fNYTQ==,type:str]
+  username: ENC[AES256_GCM,data:p3C4JkMNikj7iPgFFr6F,iv:g0YEun/fEOZr69xYRNElTpWEGGiB0Q6cdG71CRunklg=,tag:hhgigCk1AbUT+PCzmdT/Fw==,type:str]
+  password: ENC[AES256_GCM,data:UBTG8VWXZ2bOkwnqo1FvP8ROfsvUskCE,iv:iEsNwAkYIn/+VFDv3ku+dyGmFRkdmRHpEy2UKsTvDXE=,tag:MBqYUMle8D4NgxiHvMorvw==,type:str]
 sops:
   age:
     - recipient: age1j6e3ff57dhwlfv60km0l3ehmrzldvtxkwmpeh3qev06wmenyldaqfpucld
       enc: |
         -----BEGIN AGE ENCRYPTED FILE-----
-        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSAyTDJTaTZKTzBiWEFEcTN0
-        b2puNjA2ZUNNbFFwWU1yclNwME1lRUpsZFJJCmRENWRCYkxEZW85RE93a01QS09h
-        b05rV3dNdkErZXNreVNXZmpDN0RWQlUKLS0tIEdBR0JlRFNPeVFTazR4WUpKcmVT
-        RXc3K3JZQTI4UnZYeFJyOCtnZ2tzbE0Kbfc0Hr69ssYpOBBVCrPbuTkCPaiLvfnU
-        fyca+7kiwqShiYaXYyAoPPUV/ApUX7HE4iAUnzMkbf1BOW02WPipZw==
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBzTDRkVXQwQlpJMGgvL0t4
+        WWM0THF6c3hQRUFLcy9PT2pqSXZ0VFlHNVdnClpsK1lKUzE4MnlESUZXS05CY1c2
+        cUxQWFZmbXlIaDRzUllpM2FBRkk0cncKLS0tIGhRcEs3N2NZd3RlbjZJN1FBMjhD
+        WVRSQ0lIdG1nY0p0dDJNaE1rRzd0S1kKUPMfMe4W3bxBaVdTt5vfq+Kw3Fs71cuv
+        hEASrLBMZx0VSJ3C0T/mNx8juWvfxIo/UBjIWR/4+WPZ/5Zk3QaNZg==
         -----END AGE ENCRYPTED FILE-----
-  lastmodified: "2026-05-22T10:21:44Z"
-  mac: ENC[AES256_GCM,data:NjuHK4QCcVfHzhYJBqCkAj3flJxZh1hwyMd1c1MkCeDw0PZ55ORy6rBDcWxb2k9GzKuL3ZHPTcWW68Dk7flxsUFqVSSSUGmAEGRsXM78RqA6XrcYH1H7FkvtuwdGpFQKLcktjCvM4UIMwRxg1pEpieW6XFo2ox8TOGze7EPtciY=,iv:VDDauTW6P7Kyi4b9eqUJUANY5yiBIiMD+A+dOelgTl8=,tag:ybZc/g8TRziFmszqOHiXzA==,type:str]
+  lastmodified: "2026-05-24T15:43:58Z"
+  mac: ENC[AES256_GCM,data:PKaEGXcQ1y1lxsD9HJiTNmeRyZOBC/xc2pWE+hXA2MEw8DTiUg3FQ9w5LWg2wnnem3rAtMwKkG1gH+zrBIy/asPn6L8RbhEe0Um7fl4OtQkKHCAVkdawLKK40PVoH7GBD4lWFTzjENpwlMUPTEuL2g6A4moRdXq4YRFL/dYgFDU=,iv:ibu1MaFo38mArEAqFWLDuB4XzcORrwB7tujVGYhM21w=,tag:UF6OmZmlQES4eeNlr3F9CA==,type:str]
   encrypted_regex: ^(data|stringData)$
   mac_only_encrypted: true
   version: 3.12.1
@@ -78,20 +75,21 @@ kind: Secret
 metadata:
   name: questify-stats-svc-db-secret
 stringData:
-  password: ENC[AES256_GCM,data:BhyrIJZij6JP,iv:HzVGzqTeenLsTwMfrhC7Embli7SBtTpcyCle3MwMaf4=,tag:Z9qvPxbOcqmVMZx6D8nf1w==,type:str]
+  username: ENC[AES256_GCM,data:HJVPkkWZYkLt,iv:FJGn4UIquNeGPbpdEzfJOpiPenISM4Zidk9Hkqzd2gk=,tag:P12ZIq4QQZ0oAMZPk+YUVA==,type:str]
+  password: ENC[AES256_GCM,data:lRMSMp7fYLtHY8+wOX0Sj45XoUo8yPE5,iv:4SSLwwC6Wc9izvx21WBshgPEDVbuiNZFeJO0H6Zmj40=,tag:v+dr8Idu+gmUxA710FHXhA==,type:str]
 sops:
   age:
     - recipient: age1j6e3ff57dhwlfv60km0l3ehmrzldvtxkwmpeh3qev06wmenyldaqfpucld
       enc: |
         -----BEGIN AGE ENCRYPTED FILE-----
-        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSAyTDJTaTZKTzBiWEFEcTN0
-        b2puNjA2ZUNNbFFwWU1yclNwME1lRUpsZFJJCmRENWRCYkxEZW85RE93a01QS09h
-        b05rV3dNdkErZXNreVNXZmpDN0RWQlUKLS0tIEdBR0JlRFNPeVFTazR4WUpKcmVT
-        RXc3K3JZQTI4UnZYeFJyOCtnZ2tzbE0Kbfc0Hr69ssYpOBBVCrPbuTkCPaiLvfnU
-        fyca+7kiwqShiYaXYyAoPPUV/ApUX7HE4iAUnzMkbf1BOW02WPipZw==
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBzTDRkVXQwQlpJMGgvL0t4
+        WWM0THF6c3hQRUFLcy9PT2pqSXZ0VFlHNVdnClpsK1lKUzE4MnlESUZXS05CY1c2
+        cUxQWFZmbXlIaDRzUllpM2FBRkk0cncKLS0tIGhRcEs3N2NZd3RlbjZJN1FBMjhD
+        WVRSQ0lIdG1nY0p0dDJNaE1rRzd0S1kKUPMfMe4W3bxBaVdTt5vfq+Kw3Fs71cuv
+        hEASrLBMZx0VSJ3C0T/mNx8juWvfxIo/UBjIWR/4+WPZ/5Zk3QaNZg==
         -----END AGE ENCRYPTED FILE-----
-  lastmodified: "2026-05-22T10:21:44Z"
-  mac: ENC[AES256_GCM,data:NjuHK4QCcVfHzhYJBqCkAj3flJxZh1hwyMd1c1MkCeDw0PZ55ORy6rBDcWxb2k9GzKuL3ZHPTcWW68Dk7flxsUFqVSSSUGmAEGRsXM78RqA6XrcYH1H7FkvtuwdGpFQKLcktjCvM4UIMwRxg1pEpieW6XFo2ox8TOGze7EPtciY=,iv:VDDauTW6P7Kyi4b9eqUJUANY5yiBIiMD+A+dOelgTl8=,tag:ybZc/g8TRziFmszqOHiXzA==,type:str]
+  lastmodified: "2026-05-24T15:43:58Z"
+  mac: ENC[AES256_GCM,data:PKaEGXcQ1y1lxsD9HJiTNmeRyZOBC/xc2pWE+hXA2MEw8DTiUg3FQ9w5LWg2wnnem3rAtMwKkG1gH+zrBIy/asPn6L8RbhEe0Um7fl4OtQkKHCAVkdawLKK40PVoH7GBD4lWFTzjENpwlMUPTEuL2g6A4moRdXq4YRFL/dYgFDU=,iv:ibu1MaFo38mArEAqFWLDuB4XzcORrwB7tujVGYhM21w=,tag:UF6OmZmlQES4eeNlr3F9CA==,type:str]
   encrypted_regex: ^(data|stringData)$
   mac_only_encrypted: true
   version: 3.12.1
@@ -101,20 +99,21 @@ kind: Secret
 metadata:
   name: questify-admin-svc-db-secret
 stringData:
-  password: ENC[AES256_GCM,data:UxgqBmaRNNDZ,iv:O7n3Tv5B4Oe4c44PlMG3lRTVWUcS6QIXKXMQfqVrW2g=,tag:AeOwNtQs3ffyYh386FNtqA==,type:str]
+  username: ENC[AES256_GCM,data:eZYQlIjrIgJZ,iv:jWhRJBvkbvlkngKHxk0VBMXqMkJri81dpwoiQ4JL574=,tag:d8F/3s823rAOjbH5qsTiiw==,type:str]
+  password: ENC[AES256_GCM,data:hQUFLNuydFHhIE7FNc7LZ9467jwzX6qQ,iv:lA55+skgpVGMcf1n/DpyVqC6/q0OHqeb259Gu0dFH1E=,tag:P4U2J0ESkWcnSVrzri+3iw==,type:str]
 sops:
   age:
     - recipient: age1j6e3ff57dhwlfv60km0l3ehmrzldvtxkwmpeh3qev06wmenyldaqfpucld
       enc: |
         -----BEGIN AGE ENCRYPTED FILE-----
-        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSAyTDJTaTZKTzBiWEFEcTN0
-        b2puNjA2ZUNNbFFwWU1yclNwME1lRUpsZFJJCmRENWRCYkxEZW85RE93a01QS09h
-        b05rV3dNdkErZXNreVNXZmpDN0RWQlUKLS0tIEdBR0JlRFNPeVFTazR4WUpKcmVT
-        RXc3K3JZQTI4UnZYeFJyOCtnZ2tzbE0Kbfc0Hr69ssYpOBBVCrPbuTkCPaiLvfnU
-        fyca+7kiwqShiYaXYyAoPPUV/ApUX7HE4iAUnzMkbf1BOW02WPipZw==
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBzTDRkVXQwQlpJMGgvL0t4
+        WWM0THF6c3hQRUFLcy9PT2pqSXZ0VFlHNVdnClpsK1lKUzE4MnlESUZXS05CY1c2
+        cUxQWFZmbXlIaDRzUllpM2FBRkk0cncKLS0tIGhRcEs3N2NZd3RlbjZJN1FBMjhD
+        WVRSQ0lIdG1nY0p0dDJNaE1rRzd0S1kKUPMfMe4W3bxBaVdTt5vfq+Kw3Fs71cuv
+        hEASrLBMZx0VSJ3C0T/mNx8juWvfxIo/UBjIWR/4+WPZ/5Zk3QaNZg==
         -----END AGE ENCRYPTED FILE-----
-  lastmodified: "2026-05-22T10:21:44Z"
-  mac: ENC[AES256_GCM,data:NjuHK4QCcVfHzhYJBqCkAj3flJxZh1hwyMd1c1MkCeDw0PZ55ORy6rBDcWxb2k9GzKuL3ZHPTcWW68Dk7flxsUFqVSSSUGmAEGRsXM78RqA6XrcYH1H7FkvtuwdGpFQKLcktjCvM4UIMwRxg1pEpieW6XFo2ox8TOGze7EPtciY=,iv:VDDauTW6P7Kyi4b9eqUJUANY5yiBIiMD+A+dOelgTl8=,tag:ybZc/g8TRziFmszqOHiXzA==,type:str]
+  lastmodified: "2026-05-24T15:43:58Z"
+  mac: ENC[AES256_GCM,data:PKaEGXcQ1y1lxsD9HJiTNmeRyZOBC/xc2pWE+hXA2MEw8DTiUg3FQ9w5LWg2wnnem3rAtMwKkG1gH+zrBIy/asPn6L8RbhEe0Um7fl4OtQkKHCAVkdawLKK40PVoH7GBD4lWFTzjENpwlMUPTEuL2g6A4moRdXq4YRFL/dYgFDU=,iv:ibu1MaFo38mArEAqFWLDuB4XzcORrwB7tujVGYhM21w=,tag:UF6OmZmlQES4eeNlr3F9CA==,type:str]
   encrypted_regex: ^(data|stringData)$
   mac_only_encrypted: true
   version: 3.12.1
@@ -124,20 +123,21 @@ kind: Secret
 metadata:
   name: questify-notification-svc-db-secret
 stringData:
-  password: ENC[AES256_GCM,data:VBVgT3HooegU,iv:/2w02b5XnqlzIxuZuBeUcbwUm9qsPLaDRX69eFbj4xE=,tag:1Hhh7yAZpK2VW9awoh4kYg==,type:str]
+  username: ENC[AES256_GCM,data:Y6RghBKNdfcR2OYc8rJnmw==,iv:7FTzWsMqPuoLrIiyW58F14wP5UOzj9YLA+VrNgZ7zsQ=,tag:yfwOyO0JFiOyZiYRsJBbRw==,type:str]
+  password: ENC[AES256_GCM,data:xjqCvNWioyOhg9W8bi6QGZ4J3DsXT4f0bJYgVxVDYy+z9tdhpP91fSaBmQ==,iv:0suC1G/nUVhSV13sdM0C3lj+ZoCQi9L0ynikfsuPuvM=,tag:mlfEg+FPUaaG2qrVLIIL6w==,type:str]
 sops:
   age:
     - recipient: age1j6e3ff57dhwlfv60km0l3ehmrzldvtxkwmpeh3qev06wmenyldaqfpucld
       enc: |
         -----BEGIN AGE ENCRYPTED FILE-----
-        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSAyTDJTaTZKTzBiWEFEcTN0
-        b2puNjA2ZUNNbFFwWU1yclNwME1lRUpsZFJJCmRENWRCYkxEZW85RE93a01QS09h
-        b05rV3dNdkErZXNreVNXZmpDN0RWQlUKLS0tIEdBR0JlRFNPeVFTazR4WUpKcmVT
-        RXc3K3JZQTI4UnZYeFJyOCtnZ2tzbE0Kbfc0Hr69ssYpOBBVCrPbuTkCPaiLvfnU
-        fyca+7kiwqShiYaXYyAoPPUV/ApUX7HE4iAUnzMkbf1BOW02WPipZw==
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBzTDRkVXQwQlpJMGgvL0t4
+        WWM0THF6c3hQRUFLcy9PT2pqSXZ0VFlHNVdnClpsK1lKUzE4MnlESUZXS05CY1c2
+        cUxQWFZmbXlIaDRzUllpM2FBRkk0cncKLS0tIGhRcEs3N2NZd3RlbjZJN1FBMjhD
+        WVRSQ0lIdG1nY0p0dDJNaE1rRzd0S1kKUPMfMe4W3bxBaVdTt5vfq+Kw3Fs71cuv
+        hEASrLBMZx0VSJ3C0T/mNx8juWvfxIo/UBjIWR/4+WPZ/5Zk3QaNZg==
         -----END AGE ENCRYPTED FILE-----
-  lastmodified: "2026-05-22T10:21:44Z"
-  mac: ENC[AES256_GCM,data:NjuHK4QCcVfHzhYJBqCkAj3flJxZh1hwyMd1c1MkCeDw0PZ55ORy6rBDcWxb2k9GzKuL3ZHPTcWW68Dk7flxsUFqVSSSUGmAEGRsXM78RqA6XrcYH1H7FkvtuwdGpFQKLcktjCvM4UIMwRxg1pEpieW6XFo2ox8TOGze7EPtciY=,iv:VDDauTW6P7Kyi4b9eqUJUANY5yiBIiMD+A+dOelgTl8=,tag:ybZc/g8TRziFmszqOHiXzA==,type:str]
+  lastmodified: "2026-05-24T15:43:58Z"
+  mac: ENC[AES256_GCM,data:PKaEGXcQ1y1lxsD9HJiTNmeRyZOBC/xc2pWE+hXA2MEw8DTiUg3FQ9w5LWg2wnnem3rAtMwKkG1gH+zrBIy/asPn6L8RbhEe0Um7fl4OtQkKHCAVkdawLKK40PVoH7GBD4lWFTzjENpwlMUPTEuL2g6A4moRdXq4YRFL/dYgFDU=,iv:ibu1MaFo38mArEAqFWLDuB4XzcORrwB7tujVGYhM21w=,tag:UF6OmZmlQES4eeNlr3F9CA==,type:str]
   encrypted_regex: ^(data|stringData)$
   mac_only_encrypted: true
   version: 3.12.1
