@@ -1,0 +1,17 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: latex-code-server
+  namespace: latex
+spec:
+  parentRefs:
+    - name: envoy-internal
+      namespace: network
+      sectionName: https
+  hostnames:
+    - latex.${SECRET_LOCAL_DOMAIN}
+  rules:
+    - backendRefs:
+        - name: latex-code-server
+          port: 80

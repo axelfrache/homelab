@@ -11,6 +11,7 @@ resources:
   - ./iot
   - ./keel
   - ./kube-system
+  - ./latex
   - ./media
   - ./monitoring
   - ./n8n

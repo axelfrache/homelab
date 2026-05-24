@@ -1,0 +1,95 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: latex-code-server
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: latex-code-server
+  template:
+    metadata:
+      labels:
+        app: latex-code-server
+    spec:
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+      initContainers:
+        - name: prepare-home
+          image: busybox:1.36
+          command:
+            - sh
+            - -ec
+            - |
+              mkdir -p /home/coder/projects
+              chown -R 1000:1000 /home/coder
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+            runAsUser: 0
+          volumeMounts:
+            - name: home
+              mountPath: /home/coder
+      containers:
+        - name: code-server
+          image: ghcr.io/frachea/code-server-latex:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: TZ
+              value: Europe/Paris
+            - name: PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: latex-code-server-secret
+                  key: PASSWORD
+          args:
+            - --bind-addr
+            - 0.0.0.0:8080
+            - --auth
+            - password
+            - --extensions-dir
+            - /opt/code-server/extensions
+            - /home/coder/projects
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          volumeMounts:
+            - name: home
+              mountPath: /home/coder
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 6
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 100m
+              memory: 512Mi
+            limits:
+              cpu: "4"
+              memory: 8Gi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+      volumes:
+        - name: home
+          persistentVolumeClaim:
+            claimName: latex-home
