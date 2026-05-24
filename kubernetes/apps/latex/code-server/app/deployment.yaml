@@ -26,7 +26,8 @@ spec:
             - -ec
             - |
               mkdir -p /home/coder/projects
-              chown -R 1000:1000 /home/coder
+              chown 1000:1000 /home/coder /home/coder/projects 2>/dev/null || true
+              chmod 2775 /home/coder /home/coder/projects 2>/dev/null || true
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
