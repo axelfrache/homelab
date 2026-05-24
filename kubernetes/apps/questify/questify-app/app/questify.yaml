@@ -440,7 +440,7 @@ spec:
             - until nc -w 5 -z postgres 5432; do sleep 2; done; until nc -w 5 -z rabbitmq 5672; do sleep 2; done; until nc -w 5 -z garage 3900; do sleep 2; done
       containers:
         - name: auth-service
-          image: ghcr.io/axelfrache/questify-auth-service:latest@sha256:5794c807cdade2757f0b1d9dc2e9cfd796159482486da5dd4fcd77c581b8cf24 # {"$imagepolicy": "flux-system:questify-auth-service"}
+          image: ghcr.io/axelfrache/questify-auth-service:latest@sha256:768d13341e7ccdf399576acd0dc0bd62d28710c6504f6ffb2cd446f7f83ea9c6 # {"$imagepolicy": "flux-system:questify-auth-service"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8081
