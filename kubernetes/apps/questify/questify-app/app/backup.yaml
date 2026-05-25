@@ -21,8 +21,8 @@ spec:
                 - name: PGPASSWORD
                   valueFrom:
                     secretKeyRef:
-                      name: questify-secret
-                      key: postgres-password
+                      name: questify-postgres-app
+                      key: password
               command:
                 - sh
                 - -ec
@@ -31,7 +31,7 @@ spec:
                   mkdir -p /backup/db/questify
 
                   pg_dump \
-                    -h postgres \
+                    -h questify-postgres-rw \
                     -U questify \
                     -d questify \
                     --format=custom \

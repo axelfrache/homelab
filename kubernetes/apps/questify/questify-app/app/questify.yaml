@@ -437,7 +437,7 @@ spec:
           command:
             - sh
             - -c
-            - until nc -w 5 -z postgres 5432; do sleep 2; done; until nc -w 5 -z rabbitmq 5672; do sleep 2; done; until nc -w 5 -z garage 3900; do sleep 2; done
+            - until nc -w 5 -z questify-postgres-rw 5432; do sleep 2; done; until nc -w 5 -z rabbitmq 5672; do sleep 2; done; until nc -w 5 -z garage 3900; do sleep 2; done
       containers:
         - name: auth-service
           image: ghcr.io/axelfrache/questify-auth-service:latest@sha256:768d13341e7ccdf399576acd0dc0bd62d28710c6504f6ffb2cd446f7f83ea9c6 # {"$imagepolicy": "flux-system:questify-auth-service"}
@@ -449,14 +449,17 @@ spec:
             - name: SPRING_PROFILES_ACTIVE
               value: prod
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:postgresql://postgres:5432/questify?currentSchema=auth
+              value: jdbc:postgresql://questify-postgres-rw:5432/questify?currentSchema=auth
             - name: SPRING_DATASOURCE_USERNAME
-              value: questify
+              valueFrom:
+                secretKeyRef:
+                  name: questify-postgres-app
+                  key: username
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: questify-secret
-                  key: postgres-password
+                  name: questify-postgres-app
+                  key: password
             - name: SPRING_DATASOURCE_DRIVER
               value: org.postgresql.Driver
             - name: SPRING_JPA_DDL_AUTO
@@ -591,7 +594,7 @@ spec:
           command:
             - sh
             - -c
-            - until nc -w 5 -z postgres 5432; do sleep 2; done; until nc -w 5 -z rabbitmq 5672; do sleep 2; done
+            - until nc -w 5 -z questify-postgres-rw 5432; do sleep 2; done; until nc -w 5 -z rabbitmq 5672; do sleep 2; done
       containers:
         - name: quest-service
           image: ghcr.io/axelfrache/questify-quest-service:latest@sha256:5ef79d75a7e09adb7c152f980ccbb96939fd4b1977ad0dabb980087fe34a5f74 # {"$imagepolicy": "flux-system:questify-quest-service"}
@@ -601,14 +604,14 @@ spec:
               name: http
           env:
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:postgresql://postgres:5432/questify?currentSchema=quests
+              value: jdbc:postgresql://questify-postgres-rw:5432/questify?currentSchema=quests
             - name: SPRING_DATASOURCE_USERNAME
               value: quest_svc
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: questify-secret
-                  key: quest-db-password
+                  name: questify-quest-svc-db-secret
+                  key: password
             - name: SPRING_DATASOURCE_DRIVER
               value: org.postgresql.Driver
             - name: SPRING_JPA_DDL_AUTO
@@ -694,7 +697,7 @@ spec:
           command:
             - sh
             - -c
-            - until nc -w 5 -z postgres 5432; do sleep 2; done; until nc -w 5 -z rabbitmq 5672; do sleep 2; done
+            - until nc -w 5 -z questify-postgres-rw 5432; do sleep 2; done; until nc -w 5 -z rabbitmq 5672; do sleep 2; done
       containers:
         - name: project-service
           image: ghcr.io/axelfrache/questify-project-service:latest@sha256:fd20e771953fef7fce22b59ba97558c295587811fa30d2bbac42ca4928ca0054 # {"$imagepolicy": "flux-system:questify-project-service"}
@@ -704,14 +707,14 @@ spec:
               name: http
           env:
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:postgresql://postgres:5432/questify?currentSchema=projects
+              value: jdbc:postgresql://questify-postgres-rw:5432/questify?currentSchema=projects
             - name: SPRING_DATASOURCE_USERNAME
               value: project_svc
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: questify-secret
-                  key: project-db-password
+                  name: questify-project-svc-db-secret
+                  key: password
             - name: SPRING_DATASOURCE_DRIVER
               value: org.postgresql.Driver
             - name: SPRING_JPA_DDL_AUTO
@@ -797,7 +800,7 @@ spec:
           command:
             - sh
             - -c
-            - until nc -w 5 -z postgres 5432; do sleep 2; done; until nc -w 5 -z rabbitmq 5672; do sleep 2; done; until nc -w 5 -z redis 6379; do sleep 2; done
+            - until nc -w 5 -z questify-postgres-rw 5432; do sleep 2; done; until nc -w 5 -z rabbitmq 5672; do sleep 2; done; until nc -w 5 -z redis 6379; do sleep 2; done
       containers:
         - name: progression-service
           image: ghcr.io/axelfrache/questify-progression-service:latest@sha256:058389c0205d95d6a9de468ce3c96f83076459c9b90df1a63cdab375e991cde9 # {"$imagepolicy": "flux-system:questify-progression-service"}
@@ -807,14 +810,14 @@ spec:
               name: http
           env:
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:postgresql://postgres:5432/questify?currentSchema=progression
+              value: jdbc:postgresql://questify-postgres-rw:5432/questify?currentSchema=progression
             - name: SPRING_DATASOURCE_USERNAME
               value: progression_svc
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: questify-secret
-                  key: progression-db-password
+                  name: questify-progression-svc-db-secret
+                  key: password
             - name: SPRING_DATASOURCE_DRIVER
               value: org.postgresql.Driver
             - name: SPRING_JPA_DDL_AUTO
@@ -910,7 +913,7 @@ spec:
           command:
             - sh
             - -c
-            - until nc -w 5 -z postgres 5432; do sleep 2; done; until nc -w 5 -z rabbitmq 5672; do sleep 2; done; until nc -w 5 -z redis 6379; do sleep 2; done
+            - until nc -w 5 -z questify-postgres-rw 5432; do sleep 2; done; until nc -w 5 -z rabbitmq 5672; do sleep 2; done; until nc -w 5 -z redis 6379; do sleep 2; done
       containers:
         - name: stats-service
           image: ghcr.io/axelfrache/questify-stats-service:latest@sha256:4dcdcf70149b558b4470c071133d13cc0aa68d984043c2fdcd718bf3b88c2d72 # {"$imagepolicy": "flux-system:questify-stats-service"}
@@ -920,14 +923,14 @@ spec:
               name: http
           env:
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:postgresql://postgres:5432/questify?currentSchema=stats
+              value: jdbc:postgresql://questify-postgres-rw:5432/questify?currentSchema=stats
             - name: SPRING_DATASOURCE_USERNAME
               value: stats_svc
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: questify-secret
-                  key: stats-db-password
+                  name: questify-stats-svc-db-secret
+                  key: password
             - name: SPRING_DATASOURCE_DRIVER
               value: org.postgresql.Driver
             - name: SPRING_JPA_DDL_AUTO
@@ -1023,7 +1026,7 @@ spec:
           command:
             - sh
             - -c
-            - until nc -w 5 -z postgres 5432; do sleep 2; done; until nc -w 5 -z rabbitmq 5672; do sleep 2; done; until nc -w 5 -z auth-service 8081; do sleep 2; done; until nc -w 5 -z quest-service 8082; do sleep 2; done; until nc -w 5 -z project-service 8083; do sleep 2; done; until nc -w 5 -z progression-service 8084; do sleep 2; done; until nc -w 5 -z stats-service 8085; do sleep 2; done
+            - until nc -w 5 -z questify-postgres-rw 5432; do sleep 2; done; until nc -w 5 -z rabbitmq 5672; do sleep 2; done; until nc -w 5 -z auth-service 8081; do sleep 2; done; until nc -w 5 -z quest-service 8082; do sleep 2; done; until nc -w 5 -z project-service 8083; do sleep 2; done; until nc -w 5 -z progression-service 8084; do sleep 2; done; until nc -w 5 -z stats-service 8085; do sleep 2; done
       containers:
         - name: admin-service
           image: ghcr.io/axelfrache/questify-admin-service:latest@sha256:8e23e59e8a1e0c165c20d9d0dcfbc84b9886f77b1fcb48cf51b2541ba04ad595 # {"$imagepolicy": "flux-system:questify-admin-service"}
@@ -1033,14 +1036,14 @@ spec:
               name: http
           env:
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:postgresql://postgres:5432/questify?currentSchema=admin
+              value: jdbc:postgresql://questify-postgres-rw:5432/questify?currentSchema=admin
             - name: SPRING_DATASOURCE_USERNAME
               value: admin_svc
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: questify-secret
-                  key: admin-db-password
+                  name: questify-admin-svc-db-secret
+                  key: password
             - name: SPRING_DATASOURCE_DRIVER
               value: org.postgresql.Driver
             - name: SPRING_JPA_DDL_AUTO
@@ -1141,7 +1144,7 @@ spec:
           command:
             - sh
             - -c
-            - until nc -w 5 -z postgres 5432; do sleep 2; done; until nc -w 5 -z rabbitmq 5672; do sleep 2; done
+            - until nc -w 5 -z questify-postgres-rw 5432; do sleep 2; done; until nc -w 5 -z rabbitmq 5672; do sleep 2; done
       containers:
         - name: notification-service
           image: ghcr.io/axelfrache/questify-notification-service:latest@sha256:f126ac2c4bf65b5c970da0fe14b10c18345b4d85a6fad903d0fa6ac72b194257 # {"$imagepolicy": "flux-system:questify-notification-service"}
@@ -1151,14 +1154,14 @@ spec:
               name: http
           env:
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:postgresql://postgres:5432/questify?currentSchema=notifications
+              value: jdbc:postgresql://questify-postgres-rw:5432/questify?currentSchema=notifications
             - name: SPRING_DATASOURCE_USERNAME
               value: notification_svc
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: questify-secret
-                  key: notification-db-password
+                  name: questify-notification-svc-db-secret
+                  key: password
             - name: SPRING_DATASOURCE_DRIVER
               value: org.postgresql.Driver
             - name: SPRING_JPA_DDL_AUTO

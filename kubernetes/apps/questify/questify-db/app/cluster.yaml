@@ -24,12 +24,12 @@ spec:
         - "CREATE ROLE admin_svc WITH LOGIN"
         - "CREATE ROLE notification_svc WITH LOGIN"
         # Grant database access
-        - "GRANT CONNECT ON DATABASE questify TO quest_svc"
-        - "GRANT CONNECT ON DATABASE questify TO project_svc"
-        - "GRANT CONNECT ON DATABASE questify TO progression_svc"
-        - "GRANT CONNECT ON DATABASE questify TO stats_svc"
-        - "GRANT CONNECT ON DATABASE questify TO admin_svc"
-        - "GRANT CONNECT ON DATABASE questify TO notification_svc"
+        - "GRANT CONNECT, CREATE ON DATABASE questify TO quest_svc"
+        - "GRANT CONNECT, CREATE ON DATABASE questify TO project_svc"
+        - "GRANT CONNECT, CREATE ON DATABASE questify TO progression_svc"
+        - "GRANT CONNECT, CREATE ON DATABASE questify TO stats_svc"
+        - "GRANT CONNECT, CREATE ON DATABASE questify TO admin_svc"
+        - "GRANT CONNECT, CREATE ON DATABASE questify TO notification_svc"
         # Create schemas with proper ownership
         - "CREATE SCHEMA IF NOT EXISTS auth"
         - "CREATE SCHEMA IF NOT EXISTS quests AUTHORIZATION quest_svc"
@@ -38,6 +38,10 @@ spec:
         - "CREATE SCHEMA IF NOT EXISTS stats AUTHORIZATION stats_svc"
         - "CREATE SCHEMA IF NOT EXISTS admin AUTHORIZATION admin_svc"
         - "CREATE SCHEMA IF NOT EXISTS notifications AUTHORIZATION notification_svc"
+        # Allow the CNPG application owner to run full logical backups.
+        - "GRANT USAGE ON SCHEMA auth, quests, projects, progression, stats, admin, notifications TO questify"
+        - "GRANT SELECT ON ALL TABLES IN SCHEMA auth, quests, projects, progression, stats, admin, notifications TO questify"
+        - "GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA auth, quests, projects, progression, stats, admin, notifications TO questify"
 
   storage:
     size: 10Gi
