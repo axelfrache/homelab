@@ -40,6 +40,7 @@ RUN apt-get update \
       texlive-publishers \
       texlive-science \
       texlive-xetex \
+      unzip \
       biber \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
