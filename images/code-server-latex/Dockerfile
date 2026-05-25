@@ -22,6 +22,8 @@ RUN apt-get update \
       hunspell-fr \
       latexmk \
       make \
+      nodejs \
+      npm \
       openssh-client \
       perl \
       python3 \
@@ -47,6 +49,9 @@ RUN apt-get update \
 
 RUN mkdir -p /opt/code-server/extensions \
     && chown -R coder:coder /opt/code-server
+
+RUN npm install -g @anthropic-ai/claude-code \
+    && npm cache clean --force
 
 USER coder
 
