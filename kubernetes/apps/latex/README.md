@@ -35,8 +35,8 @@ Les extensions sont installees dans `/opt/code-server/extensions`, pas dans `/ho
 Build et push:
 
 ```sh
-docker build -t ghcr.io/frachea/code-server-latex:latest images/code-server-latex
-docker push ghcr.io/frachea/code-server-latex:latest
+docker build -t ghcr.io/axelfrache/code-server-latex:latest images/code-server-latex
+docker push ghcr.io/axelfrache/code-server-latex:latest
 ```
 
 Pour une production plus reproductible, remplacer `latest` par un tag versionne dans le Dockerfile de deployment.

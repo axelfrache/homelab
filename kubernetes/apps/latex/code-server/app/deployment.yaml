@@ -38,8 +38,8 @@ spec:
               mountPath: /home/coder
       containers:
         - name: code-server
-          image: ghcr.io/frachea/code-server-latex:latest
-          imagePullPolicy: IfNotPresent
+          image: ghcr.io/axelfrache/code-server-latex:latest
+          imagePullPolicy: Always
           env:
             - name: TZ
               value: Europe/Paris
