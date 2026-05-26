@@ -175,7 +175,7 @@ data:
           "targets": [
             {
               "datasource": {"type": "prometheus", "uid": "prometheus"},
-              "expr": "increase(traces_spanmetrics_calls_total{service=\"questify-quest-service\", span_name=~\"quest\\..*\", status_code=\"STATUS_CODE_ERROR\"}[$__range])",
+              "expr": "increase(traces_spanmetrics_calls_total{service=\"questify-quest-service\", span_name=~\"quest[.].*\", status_code=\"STATUS_CODE_ERROR\"}[$__range])",
               "legendFormat": "errors",
               "refId": "A"
             }
