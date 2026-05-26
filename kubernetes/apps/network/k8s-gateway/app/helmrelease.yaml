@@ -11,11 +11,11 @@ spec:
   values:
     fullnameOverride: k8s-gateway
     domain: "${SECRET_LOCAL_DOMAIN}"
-    ttl: 1
+    ttl: 300
     service:
       type: LoadBalancer
       port: 53
       annotations:
         lbipam.cilium.io/ips: "192.168.1.54"
-      externalTrafficPolicy: Cluster
+      externalTrafficPolicy: Local
     watchedResources: ["HTTPRoute", "Service"]

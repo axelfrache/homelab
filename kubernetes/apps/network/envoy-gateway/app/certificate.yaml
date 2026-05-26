@@ -12,7 +12,7 @@ spec:
     - "*.getquestify.com"
     - "meowsik.com"
     - "*.meowsik.com"
-  duration: 160h
+  duration: 2160h
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer
