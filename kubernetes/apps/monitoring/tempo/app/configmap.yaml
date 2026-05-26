@@ -26,12 +26,17 @@ data:
         block_retention: 48h
 
     metrics_generator:
+      traces_storage:
+        path: /var/tempo/generator/traces
       storage:
         path: /var/tempo/generator/wal
         remote_write:
           - url: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090/api/v1/write
             send_exemplars: true
       processor:
+        local_blocks:
+          filter_server_spans: false
+          flush_to_storage: true
         span_metrics:
           dimensions:
             - questify.quest.difficulty
@@ -49,5 +54,5 @@ data:
     overrides:
       defaults:
         metrics_generator:
-          processors: [span-metrics]
+          processors: [span-metrics, local-blocks]
           generate_native_histograms: both
