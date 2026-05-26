@@ -48,7 +48,7 @@ data:
           "targets": [
             {
               "datasource": {"type": "prometheus", "uid": "prometheus"},
-              "expr": "rate(traces_spanmetrics_calls_total{service=\"questify-quest-service\", span_name=\"quest.complete\", status_code=\"STATUS_CODE_OK\"}[$__rate_interval])",
+              "expr": "rate(traces_spanmetrics_calls_total{service=\"questify-quest-service\", span_name=\"quest.complete\", status_code!=\"STATUS_CODE_ERROR\"}[$__rate_interval])",
               "legendFormat": "completed",
               "refId": "A"
             }
@@ -75,7 +75,7 @@ data:
           "targets": [
             {
               "datasource": {"type": "prometheus", "uid": "prometheus"},
-              "expr": "rate(traces_spanmetrics_calls_total{service=\"questify-quest-service\", span_name=\"quest.create\", status_code=\"STATUS_CODE_OK\"}[$__rate_interval])",
+              "expr": "rate(traces_spanmetrics_calls_total{service=\"questify-quest-service\", span_name=\"quest.create\", status_code!=\"STATUS_CODE_ERROR\"}[$__rate_interval])",
               "legendFormat": "created",
               "refId": "A"
             }
@@ -107,7 +107,7 @@ data:
           "targets": [
             {
               "datasource": {"type": "prometheus", "uid": "prometheus"},
-              "expr": "increase(traces_spanmetrics_calls_total{service=\"questify-quest-service\", span_name=\"quest.complete\", status_code=\"STATUS_CODE_OK\"}[$__range])",
+              "expr": "increase(traces_spanmetrics_calls_total{service=\"questify-quest-service\", span_name=\"quest.complete\", status_code!=\"STATUS_CODE_ERROR\"}[$__range])",
               "legendFormat": "completions",
               "refId": "A"
             }
@@ -139,7 +139,7 @@ data:
           "targets": [
             {
               "datasource": {"type": "prometheus", "uid": "prometheus"},
-              "expr": "increase(traces_spanmetrics_calls_total{service=\"questify-quest-service\", span_name=\"quest.create\", status_code=\"STATUS_CODE_OK\"}[$__range])",
+              "expr": "increase(traces_spanmetrics_calls_total{service=\"questify-quest-service\", span_name=\"quest.create\", status_code!=\"STATUS_CODE_ERROR\"}[$__range])",
               "legendFormat": "creations",
               "refId": "A"
             }
@@ -217,7 +217,7 @@ data:
           "targets": [
             {
               "datasource": {"type": "prometheus", "uid": "prometheus"},
-              "expr": "increase(traces_spanmetrics_calls_total{service=\"questify-quest-service\", span_name=\"quest.create\", status_code=\"STATUS_CODE_OK\"}[$__range]) > 0",
+              "expr": "increase(traces_spanmetrics_calls_total{service=\"questify-quest-service\", span_name=\"quest.create\", status_code!=\"STATUS_CODE_ERROR\"}[$__range]) > 0",
               "legendFormat": "{{questify_quest_difficulty}}",
               "refId": "A"
             }
@@ -242,7 +242,7 @@ data:
           "targets": [
             {
               "datasource": {"type": "prometheus", "uid": "prometheus"},
-              "expr": "increase(traces_spanmetrics_calls_total{service=\"questify-quest-service\", span_name=\"quest.create\", status_code=\"STATUS_CODE_OK\"}[$__range]) > 0",
+              "expr": "increase(traces_spanmetrics_calls_total{service=\"questify-quest-service\", span_name=\"quest.create\", status_code!=\"STATUS_CODE_ERROR\"}[$__range]) > 0",
               "legendFormat": "{{questify_quest_frequency}}",
               "refId": "A"
             }
@@ -274,7 +274,7 @@ data:
           "targets": [
             {
               "datasource": {"type": "prometheus", "uid": "prometheus"},
-              "expr": "increase(traces_spanmetrics_calls_total{service=\"questify-quest-service\", span_name=\"quest.complete\", status_code=\"STATUS_CODE_OK\"}[$__range]) > 0",
+              "expr": "increase(traces_spanmetrics_calls_total{service=\"questify-quest-service\", span_name=\"quest.complete\", status_code!=\"STATUS_CODE_ERROR\"}[$__range]) > 0",
               "legendFormat": "{{questify_xp_awarded}} XP",
               "refId": "A"
             }
@@ -336,7 +336,7 @@ data:
           "targets": [
             {
               "datasource": {"type": "prometheus", "uid": "prometheus"},
-              "expr": "rate(traces_spanmetrics_calls_total{service=\"questify-quest-service\", status_code=\"STATUS_CODE_OK\"}[$__rate_interval])",
+              "expr": "rate(traces_spanmetrics_calls_total{service=\"questify-quest-service\", status_code!=\"STATUS_CODE_ERROR\"}[$__rate_interval])",
               "legendFormat": "{{span_name}}",
               "refId": "A"
             }
