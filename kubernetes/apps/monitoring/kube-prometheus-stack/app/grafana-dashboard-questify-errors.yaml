@@ -11,7 +11,7 @@ data:
     {
       "id": null,
       "uid": "questify_errors",
-      "title": "Questify — Error Tracker",
+      "title": "Questify / Error Tracker",
       "description": "Error rates from span_metrics (Prometheus), direct links to Tempo traces, and Loki log correlation",
       "tags": ["questify", "errors", "otel", "tempo", "loki"],
       "timezone": "browser",

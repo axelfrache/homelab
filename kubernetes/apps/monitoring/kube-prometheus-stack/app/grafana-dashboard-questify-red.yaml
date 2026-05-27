@@ -11,7 +11,7 @@ data:
     {
       "id": null,
       "uid": "questify_red",
-      "title": "Questify — RED Metrics",
+      "title": "Questify / RED Metrics",
       "description": "Throughput, Error rate and Latency per service/endpoint from OTel Java agent metrics",
       "tags": ["questify", "red", "otel"],
       "timezone": "browser",
