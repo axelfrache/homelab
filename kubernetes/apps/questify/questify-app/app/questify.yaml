@@ -392,9 +392,9 @@ spec:
                   name: questify-secret
                   key: admin-bootstrap-password
             - name: FERRISKEY_ISSUER_URI
-              value: https://auth.getquestify.com/api/realms/questify
+              value: https://auth.getquestify.com/realms/questify
             - name: FERRISKEY_PASSWORD_RESET_URI
-              value: https://auth.getquestify.com/api/realms/questify/login-actions/forgot-password
+              value: https://auth.getquestify.com/realms/questify/login-actions/reset-credentials
             - name: OIDC_ROLE_CLAIM
               value: roles
             - name: MANAGEMENT_HEALTH_MAIL_ENABLED
