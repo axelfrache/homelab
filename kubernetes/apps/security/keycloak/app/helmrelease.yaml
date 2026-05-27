@@ -4,14 +4,9 @@ kind: HelmRelease
 metadata:
   name: keycloak
 spec:
-  chart:
-    spec:
-      chart: keycloak
-      version: "25.*"
-      sourceRef:
-        kind: HelmRepository
-        name: bitnami
-        namespace: security
+  chartRef:
+    kind: OCIRepository
+    name: keycloak
   interval: 1h
   install:
     disableWait: true
