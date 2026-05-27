@@ -60,8 +60,9 @@ spec:
         enabled: true
         trustCRDsExist: true
     rollOutCiliumPods: true
-    routingMode: tunnel
-    tunnelProtocol: vxlan
+    routingMode: native
+    autoDirectNodeRoutes: true
+    ipv4NativeRoutingCIDR: "10.42.0.0/16"
     securityContext:
       capabilities:
         ciliumAgent:

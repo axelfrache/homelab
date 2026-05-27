@@ -143,7 +143,7 @@ spec:
           jsonData:
             derivedFields:
               - name: trace_id
-                matcherRegex: "trace_id=(\\w+)"
+                matcherRegex: "trace=([0-9a-f]{32})"
                 datasourceUid: tempo
                 url: "$${__value.raw}"
       grafana.ini:
