@@ -28,7 +28,7 @@ spec:
         automountServiceAccountToken: false
     api:
       webapp:
-        url: https://app.getquestify.com
+        url: https://auth.getquestify.com
       admin:
         email: admin@getquestify.com
         username: admin
@@ -78,8 +78,4 @@ spec:
           memory: 256Mi
     gatewayAPI:
       httpRoute:
-        enabled: true
-        parentRefs:
-          - name: envoy-external
-            namespace: network
-            sectionName: https
+        enabled: false

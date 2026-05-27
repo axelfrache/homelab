@@ -5,4 +5,5 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./ferriskey/ks.yaml
+  - ./keycloak/ks.yaml
   - ./vaultwarden/ks.yaml
