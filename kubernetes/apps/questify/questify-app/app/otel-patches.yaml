@@ -20,6 +20,10 @@ spec:
               value: "5000"
             - name: MANAGEMENT_HEALTH_PROBES_ENABLED
               value: "true"
+            - name: SPRING_DATASOURCE_HIKARI_KEEPALIVE_TIME
+              value: "30000"
+            - name: SPRING_DATASOURCE_HIKARI_MAX_LIFETIME
+              value: "600000"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -42,6 +46,10 @@ spec:
               value: "5000"
             - name: MANAGEMENT_HEALTH_PROBES_ENABLED
               value: "true"
+            - name: SPRING_DATASOURCE_HIKARI_KEEPALIVE_TIME
+              value: "30000"
+            - name: SPRING_DATASOURCE_HIKARI_MAX_LIFETIME
+              value: "600000"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -64,6 +72,10 @@ spec:
               value: "5000"
             - name: MANAGEMENT_HEALTH_PROBES_ENABLED
               value: "true"
+            - name: SPRING_DATASOURCE_HIKARI_KEEPALIVE_TIME
+              value: "30000"
+            - name: SPRING_DATASOURCE_HIKARI_MAX_LIFETIME
+              value: "600000"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -86,6 +98,10 @@ spec:
               value: "5000"
             - name: MANAGEMENT_HEALTH_PROBES_ENABLED
               value: "true"
+            - name: SPRING_DATASOURCE_HIKARI_KEEPALIVE_TIME
+              value: "30000"
+            - name: SPRING_DATASOURCE_HIKARI_MAX_LIFETIME
+              value: "600000"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -108,6 +124,10 @@ spec:
               value: "5000"
             - name: MANAGEMENT_HEALTH_PROBES_ENABLED
               value: "true"
+            - name: SPRING_DATASOURCE_HIKARI_KEEPALIVE_TIME
+              value: "30000"
+            - name: SPRING_DATASOURCE_HIKARI_MAX_LIFETIME
+              value: "600000"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -130,6 +150,10 @@ spec:
               value: "5000"
             - name: MANAGEMENT_HEALTH_PROBES_ENABLED
               value: "true"
+            - name: SPRING_DATASOURCE_HIKARI_KEEPALIVE_TIME
+              value: "30000"
+            - name: SPRING_DATASOURCE_HIKARI_MAX_LIFETIME
+              value: "600000"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -152,3 +176,7 @@ spec:
               value: "5000"
             - name: MANAGEMENT_HEALTH_PROBES_ENABLED
               value: "true"
+            - name: SPRING_DATASOURCE_HIKARI_KEEPALIVE_TIME
+              value: "30000"
+            - name: SPRING_DATASOURCE_HIKARI_MAX_LIFETIME
+              value: "600000"
