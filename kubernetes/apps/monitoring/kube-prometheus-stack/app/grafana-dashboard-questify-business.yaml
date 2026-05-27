@@ -11,7 +11,7 @@ data:
     {
       "id": null,
       "uid": "questify_business",
-      "title": "Questify — Business Metrics",
+      "title": "Questify / Business Metrics",
       "description": "Quest activity and distributions from Tempo span_metrics (Prometheus). Requires span_metrics processor with questify.* dimensions.",
       "tags": [
         "questify",
@@ -321,7 +321,7 @@ data:
         {
           "id": 7,
           "type": "text",
-          "title": "XP total — note",
+          "title": "XP total / note",
           "gridPos": {
             "x": 12,
             "y": 9,
@@ -348,7 +348,7 @@ data:
         {
           "id": 9,
           "type": "piechart",
-          "title": "Quests created — by difficulty",
+          "title": "Quests created / by difficulty",
           "description": "Requires questify.quest.difficulty span attribute and span_metrics custom dimensions",
           "gridPos": {
             "x": 0,
@@ -397,7 +397,7 @@ data:
         {
           "id": 10,
           "type": "piechart",
-          "title": "Quests created — by frequency",
+          "title": "Quests created / by frequency",
           "description": "Requires questify.quest.frequency span attribute and span_metrics custom dimensions",
           "gridPos": {
             "x": 8,
@@ -446,7 +446,7 @@ data:
         {
           "id": 11,
           "type": "barchart",
-          "title": "XP awarded — distribution by tier",
+          "title": "XP awarded / distribution by tier",
           "description": "Requires questify.xp.awarded span attribute and span_metrics custom dimensions",
           "gridPos": {
             "x": 16,
@@ -500,7 +500,7 @@ data:
         {
           "id": 15,
           "type": "piechart",
-          "title": "Completions — by difficulty",
+          "title": "Completions / by difficulty",
           "description": "Requires questify.quest.difficulty span attribute and span_metrics custom dimensions",
           "gridPos": {
             "x": 0,
@@ -549,7 +549,7 @@ data:
         {
           "id": 16,
           "type": "piechart",
-          "title": "Completions — by frequency",
+          "title": "Completions / by frequency",
           "description": "Requires questify.quest.frequency span attribute and span_metrics custom dimensions",
           "gridPos": {
             "x": 12,
