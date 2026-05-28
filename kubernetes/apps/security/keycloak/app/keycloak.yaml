@@ -22,9 +22,9 @@ spec:
           args: ["start"]
           env:
             - name: KC_HOSTNAME
-              value: auth.getquestify.com
-            - name: KC_HOSTNAME_STRICT
-              value: "false"
+              value: https://auth.getquestify.com
+            - name: KC_HOSTNAME_BACKCHANNEL_DYNAMIC
+              value: "true"
             - name: KC_HTTP_ENABLED
               value: "true"
             - name: KC_PROXY_HEADERS
