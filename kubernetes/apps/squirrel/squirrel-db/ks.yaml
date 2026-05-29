@@ -1,0 +1,18 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: squirrel-db
+spec:
+  dependsOn:
+    - name: cnpg-operator
+      namespace: cnpg-system
+  interval: 1h
+  path: ./kubernetes/apps/squirrel/squirrel-db/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: squirrel
+  wait: true
