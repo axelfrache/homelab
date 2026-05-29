@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: ghcr.io/axelfrache/squirrel-backend:latest@sha256:153aa238d4d0f34ff34f97079128bd7be3d1c5d93f77e295dc7f54be3298b3c3 # {"$imagepolicy": "flux-system:squirrel-backend"}
+          image: ghcr.io/axelfrache/squirrel-backend:latest@sha256:2e7430cb4aaf37235d690e683c766838429c00f5a2aed9e0bb243c1f38d4cc2b # {"$imagepolicy": "flux-system:squirrel-backend"}
           ports:
             - name: http
               containerPort: 8080
