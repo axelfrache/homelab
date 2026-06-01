@@ -43,6 +43,10 @@ data:
             - questify.quest.frequency
             - questify.xp.awarded
 
+    query_frontend:
+      search:
+        max_duration: 48h
+
     storage:
       trace:
         backend: local
