@@ -296,48 +296,60 @@ data:
         {
           "id": 11,
           "type": "timeseries",
-          "title": "Latency p50 / p95 / p99 per service",
-          "gridPos": { "x": 0, "y": 31, "w": 24, "h": 9 },
+          "title": "p99 Latency per service",
+          "gridPos": { "x": 0, "y": 31, "w": 14, "h": 9 },
           "datasource": { "type": "prometheus", "uid": "prometheus" },
           "fieldConfig": {
             "defaults": {
               "unit": "ms",
-              "custom": { "lineWidth": 2, "fillOpacity": 5 }
+              "custom": { "lineWidth": 2, "fillOpacity": 8, "spanNulls": true }
             },
             "overrides": []
           },
           "options": {
-            "legend": { "displayMode": "table", "placement": "right", "calcs": ["mean", "max", "lastNotNull"] },
+            "legend": { "displayMode": "table", "placement": "bottom", "calcs": ["mean", "max", "lastNotNull"] },
             "tooltip": { "mode": "multi", "sort": "desc" }
           },
           "targets": [
             {
               "datasource": { "type": "prometheus", "uid": "prometheus" },
-              "expr": "histogram_quantile(0.50,\n  sum by (job, le) (\n    rate(http_server_duration_milliseconds_bucket{\n      job=~\"questify/.*\",\n      job=~\"questify/$service\"\n    }[$__rate_interval])\n  )\n)",
-              "legendFormat": "p50 — {{job}}",
-              "exemplar": true,
-              "refId": "P50"
-            },
-            {
-              "datasource": { "type": "prometheus", "uid": "prometheus" },
-              "expr": "histogram_quantile(0.95,\n  sum by (job, le) (\n    rate(http_server_duration_milliseconds_bucket{\n      job=~\"questify/.*\",\n      job=~\"questify/$service\"\n    }[$__rate_interval])\n  )\n)",
-              "legendFormat": "p95 — {{job}}",
-              "exemplar": true,
-              "refId": "P95"
-            },
-            {
-              "datasource": { "type": "prometheus", "uid": "prometheus" },
-              "expr": "histogram_quantile(0.99,\n  sum by (job, le) (\n    rate(http_server_duration_milliseconds_bucket{\n      job=~\"questify/.*\",\n      job=~\"questify/$service\"\n    }[$__rate_interval])\n  )\n)",
-              "legendFormat": "p99 — {{job}}",
+              "expr": "label_replace(\n  histogram_quantile(0.99,\n    sum by (job, le) (\n      rate(http_server_duration_milliseconds_bucket{\n        job=~\"questify/$service\",\n        http_route!~\"/actuator/.*\"\n      }[$__rate_interval])\n    )\n  ),\n  \"job\", \"$1\", \"job\", \"questify/questify-(.*)\"\n)",
+              "legendFormat": "{{job}}",
               "exemplar": true,
               "refId": "P99"
             }
           ]
         },
         {
+          "id": 15,
+          "type": "timeseries",
+          "title": "p50 Latency per service",
+          "gridPos": { "x": 14, "y": 31, "w": 10, "h": 9 },
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "fieldConfig": {
+            "defaults": {
+              "unit": "ms",
+              "custom": { "lineWidth": 1, "fillOpacity": 4, "spanNulls": true }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": { "displayMode": "list", "placement": "bottom", "calcs": [] },
+            "tooltip": { "mode": "multi", "sort": "desc" }
+          },
+          "targets": [
+            {
+              "datasource": { "type": "prometheus", "uid": "prometheus" },
+              "expr": "label_replace(\n  histogram_quantile(0.50,\n    sum by (job, le) (\n      rate(http_server_duration_milliseconds_bucket{\n        job=~\"questify/$service\",\n        http_route!~\"/actuator/.*\"\n      }[$__rate_interval])\n    )\n  ),\n  \"job\", \"$1\", \"job\", \"questify/questify-(.*)\"\n)",
+              "legendFormat": "{{job}}",
+              "refId": "P50"
+            }
+          ]
+        },
+        {
           "id": 12,
           "type": "timeseries",
-          "title": "Latency p99 per endpoint",
+          "title": "p99 Latency per endpoint",
           "gridPos": { "x": 0, "y": 40, "w": 24, "h": 9 },
           "datasource": { "type": "prometheus", "uid": "prometheus" },
           "fieldConfig": {
@@ -354,8 +366,8 @@ data:
           "targets": [
             {
               "datasource": { "type": "prometheus", "uid": "prometheus" },
-              "expr": "histogram_quantile(0.99,\n  sum by (job, http_method, http_route, le) (\n    rate(http_server_duration_milliseconds_bucket{\n      job=~\"questify/.*\",\n      job=~\"questify/$service\",\n      http_route=~\"$route\"\n    }[$__rate_interval])\n  )\n)",
-              "legendFormat": "p99 — {{job}} {{http_method}} {{http_route}}",
+              "expr": "label_replace(\n  histogram_quantile(0.99,\n    sum by (job, http_method, http_route, le) (\n      rate(http_server_duration_milliseconds_bucket{\n        job=~\"questify/$service\",\n        http_route=~\"$route\",\n        http_route!~\"/actuator/.*\"\n      }[$__rate_interval])\n    )\n  ),\n  \"job\", \"$1\", \"job\", \"questify/questify-(.*)\"\n)",
+              "legendFormat": "{{job}} {{http_method}} {{http_route}}",
               "exemplar": true,
               "refId": "A"
             }
@@ -369,7 +381,7 @@ data:
           "datasource": { "type": "prometheus", "uid": "prometheus" },
           "fieldConfig": {
             "defaults": {
-              "unit": "s",
+              "unit": "ms",
               "color": { "mode": "thresholds" },
               "thresholds": {
                 "mode": "absolute",
@@ -386,7 +398,7 @@ data:
           "targets": [
             {
               "datasource": { "type": "prometheus", "uid": "prometheus" },
-              "expr": "histogram_quantile(0.99,\n  sum by (le) (\n    rate(http_server_duration_milliseconds_bucket{\n      job=~\"questify/.*\",\n      job=~\"questify/$service\"\n    }[$__rate_interval])\n  )\n)",
+              "expr": "histogram_quantile(0.99,\n  sum by (le) (\n    rate(http_server_duration_milliseconds_bucket{\n      job=~\"questify/$service\",\n      http_route!~\"/actuator/.*\"\n    }[$__rate_interval])\n  )\n)",
               "legendFormat": "p99",
               "refId": "A"
             }
