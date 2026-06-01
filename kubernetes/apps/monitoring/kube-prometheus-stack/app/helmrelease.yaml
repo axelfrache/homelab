@@ -134,6 +134,16 @@ spec:
                   value: service_name
             serviceMap:
               datasourceUid: prometheus
+            tracesToMetrics:
+              datasourceUid: prometheus
+              tags:
+                - key: service.name
+                  value: service_name
+              queries:
+                - name: "Taux de requêtes"
+                  query: 'rate(http_server_duration_milliseconds_count{$$__tags}[5m])'
+                - name: "Latence P99"
+                  query: 'histogram_quantile(0.99, sum(rate(http_server_duration_milliseconds_bucket{$$__tags}[5m])) by (le))'
         - name: Loki
           type: loki
           uid: loki

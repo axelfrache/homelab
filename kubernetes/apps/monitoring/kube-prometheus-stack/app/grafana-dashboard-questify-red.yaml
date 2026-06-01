@@ -315,18 +315,21 @@ data:
               "datasource": { "type": "prometheus", "uid": "prometheus" },
               "expr": "histogram_quantile(0.50,\n  sum by (job, le) (\n    rate(http_server_duration_milliseconds_bucket{\n      job=~\"questify/.*\",\n      job=~\"questify/$service\"\n    }[$__rate_interval])\n  )\n)",
               "legendFormat": "p50 — {{job}}",
+              "exemplar": true,
               "refId": "P50"
             },
             {
               "datasource": { "type": "prometheus", "uid": "prometheus" },
               "expr": "histogram_quantile(0.95,\n  sum by (job, le) (\n    rate(http_server_duration_milliseconds_bucket{\n      job=~\"questify/.*\",\n      job=~\"questify/$service\"\n    }[$__rate_interval])\n  )\n)",
               "legendFormat": "p95 — {{job}}",
+              "exemplar": true,
               "refId": "P95"
             },
             {
               "datasource": { "type": "prometheus", "uid": "prometheus" },
               "expr": "histogram_quantile(0.99,\n  sum by (job, le) (\n    rate(http_server_duration_milliseconds_bucket{\n      job=~\"questify/.*\",\n      job=~\"questify/$service\"\n    }[$__rate_interval])\n  )\n)",
               "legendFormat": "p99 — {{job}}",
+              "exemplar": true,
               "refId": "P99"
             }
           ]
@@ -353,6 +356,7 @@ data:
               "datasource": { "type": "prometheus", "uid": "prometheus" },
               "expr": "histogram_quantile(0.99,\n  sum by (job, http_method, http_route, le) (\n    rate(http_server_duration_milliseconds_bucket{\n      job=~\"questify/.*\",\n      job=~\"questify/$service\",\n      http_route=~\"$route\"\n    }[$__rate_interval])\n  )\n)",
               "legendFormat": "p99 — {{job}} {{http_method}} {{http_route}}",
+              "exemplar": true,
               "refId": "A"
             }
           ]
