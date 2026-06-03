@@ -198,7 +198,7 @@ spec:
       enableServiceLinks: false
       containers:
         - name: garage
-          image: ghcr.io/axelfrache/questify-garage:latest@sha256:4bf34450b2c4bb6587f0e0d40660335e3c1166fbe39a4380a9c3061967d39271 # {"$imagepolicy": "flux-system:questify-garage"}
+          image: ghcr.io/axelfrache/questify-garage:latest@sha256:9ac400749f40a06da405e6120b85c1feea14489b719bfd8a7680d7389e3aa07a # {"$imagepolicy": "flux-system:questify-garage"}
           imagePullPolicy: Always
           command:
             - /bin/sh
