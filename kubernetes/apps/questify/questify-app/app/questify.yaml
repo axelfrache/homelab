@@ -915,7 +915,7 @@ spec:
             - until nc -w 5 -z questify-postgres-rw 5432; do sleep 2; done; until nc -w 5 -z rabbitmq 5672; do sleep 2; done; until nc -w 5 -z auth-service 8081; do sleep 2; done; until nc -w 5 -z quest-service 8082; do sleep 2; done; until nc -w 5 -z project-service 8083; do sleep 2; done; until nc -w 5 -z progression-service 8084; do sleep 2; done; until nc -w 5 -z stats-service 8085; do sleep 2; done
       containers:
         - name: admin-service
-          image: ghcr.io/axelfrache/questify-admin-service:latest@sha256:ab6f46cdb68308722fa4315e3370e937708108d59fbf8e6ea5e8bf7921fefdf5 # {"$imagepolicy": "flux-system:questify-admin-service"}
+          image: ghcr.io/axelfrache/questify-admin-service:latest@sha256:4a4a6e11aaa0477a006632157df57f48095880c447f54bdbece4e7d4f7f986fe # {"$imagepolicy": "flux-system:questify-admin-service"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8086
