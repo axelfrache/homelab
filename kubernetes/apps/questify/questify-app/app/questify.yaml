@@ -1230,6 +1230,15 @@ spec:
         - name: questify-frontend
           image: ghcr.io/axelfrache/questify-frontend:latest@sha256:e51e6cbd392536e070aa867619064472ca7c5d900f890cd82541195162ad780b # {"$imagepolicy": "flux-system:questify-frontend"}
           imagePullPolicy: Always
+          env:
+            - name: OIDC_ISSUER_URL
+              value: "https://auth.getquestify.com/realms/questify"
+            - name: OIDC_CLIENT_ID
+              value: "questify-frontend"
+            - name: OIDC_REDIRECT_URI
+              value: "https://app.getquestify.com/auth/callback"
+            - name: OIDC_SCOPES
+              value: "openid profile email roles"
           ports:
             - containerPort: 8080
               name: http
