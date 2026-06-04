@@ -802,7 +802,7 @@ spec:
             - until nc -w 5 -z questify-postgres-rw 5432; do sleep 2; done; until nc -w 5 -z rabbitmq 5672; do sleep 2; done; until nc -w 5 -z redis 6379; do sleep 2; done
       containers:
         - name: stats-service
-          image: ghcr.io/axelfrache/questify-stats-service:latest@sha256:4d48e0fd01f8b0e3039070a1bd61e1f4af9941fb0183cf3a955c4a26f66f09fd # {"$imagepolicy": "flux-system:questify-stats-service"}
+          image: ghcr.io/axelfrache/questify-stats-service:latest@sha256:a7db1c1a07788fae090fe7b469e15268ad0204ef94fc302c1e4e76954703f4c1 # {"$imagepolicy": "flux-system:questify-stats-service"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8085
