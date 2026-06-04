@@ -84,7 +84,7 @@ data:
           "targets": [
             {
               "datasource": { "type": "prometheus", "uid": "prometheus" },
-              "expr": "sum by (job) (\n  rate(http_server_duration_milliseconds_count{\n    job=~\"questify/$service\"\n  }[$__rate_interval])\n)",
+              "expr": "sum by (job) (\n  rate(http_server_duration_milliseconds_count{\n    job=~\"questify/$service\",\n    http_route!~\"/actuator/.*\"\n  }[$__rate_interval])\n)",
               "legendFormat": "{{job}}",
               "refId": "A"
             }
@@ -110,7 +110,7 @@ data:
           "targets": [
             {
               "datasource": { "type": "prometheus", "uid": "prometheus" },
-              "expr": "sum by (job, http_method, http_route) (\n  rate(http_server_duration_milliseconds_count{\n    job=~\"questify/$service\",\n    http_route=~\"$route\"\n  }[$__rate_interval])\n)",
+              "expr": "sum by (job, http_method, http_route) (\n  rate(http_server_duration_milliseconds_count{\n    job=~\"questify/$service\",\n    http_route=~\"$route\",\n    http_route!~\"/actuator/.*\"\n  }[$__rate_interval])\n)",
               "legendFormat": "{{job}} {{http_method}} {{http_route}}",
               "refId": "A"
             }
@@ -141,7 +141,7 @@ data:
           "targets": [
             {
               "datasource": { "type": "prometheus", "uid": "prometheus" },
-              "expr": "sum(\n  rate(http_server_duration_milliseconds_count{\n    job=~\"questify/$service\"\n  }[$__rate_interval])\n)",
+              "expr": "sum(\n  rate(http_server_duration_milliseconds_count{\n    job=~\"questify/$service\",\n    http_route!~\"/actuator/.*\"\n  }[$__rate_interval])\n)",
               "legendFormat": "RPS",
               "refId": "A"
             }
@@ -185,7 +185,7 @@ data:
           "targets": [
             {
               "datasource": { "type": "prometheus", "uid": "prometheus" },
-              "expr": "sum by (job) (\n  rate(http_server_duration_milliseconds_count{\n    job=~\"questify/$service\",\n    http_status_code=~\"5..\"\n  }[$__rate_interval])\n)\n/\nsum by (job) (\n  rate(http_server_duration_milliseconds_count{\n    job=~\"questify/$service\"\n  }[$__rate_interval])\n)",
+              "expr": "sum by (job) (\n  rate(http_server_duration_milliseconds_count{\n    job=~\"questify/$service\",\n    http_status_code=~\"5..\",\n    http_route!~\"/actuator/.*\"\n  }[$__rate_interval])\n)\n/\nsum by (job) (\n  rate(http_server_duration_milliseconds_count{\n    job=~\"questify/$service\",\n    http_route!~\"/actuator/.*\"\n  }[$__rate_interval])\n)",
               "legendFormat": "{{job}}",
               "refId": "A"
             }
@@ -222,7 +222,7 @@ data:
           "targets": [
             {
               "datasource": { "type": "prometheus", "uid": "prometheus" },
-              "expr": "sum by (job) (\n  rate(http_server_duration_milliseconds_count{\n    job=~\"questify/$service\",\n    http_status_code=~\"4..\"\n  }[$__rate_interval])\n)\n/\nsum by (job) (\n  rate(http_server_duration_milliseconds_count{\n    job=~\"questify/$service\"\n  }[$__rate_interval])\n)",
+              "expr": "sum by (job) (\n  rate(http_server_duration_milliseconds_count{\n    job=~\"questify/$service\",\n    http_status_code=~\"4..\",\n    http_route!~\"/actuator/.*\"\n  }[$__rate_interval])\n)\n/\nsum by (job) (\n  rate(http_server_duration_milliseconds_count{\n    job=~\"questify/$service\",\n    http_route!~\"/actuator/.*\"\n  }[$__rate_interval])\n)",
               "legendFormat": "{{job}}",
               "refId": "A"
             }
@@ -249,7 +249,7 @@ data:
           "targets": [
             {
               "datasource": { "type": "prometheus", "uid": "prometheus" },
-              "expr": "sum by (job, http_method, http_route) (\n  rate(http_server_duration_milliseconds_count{\n    job=~\"questify/$service\",\n    http_route=~\"$route\",\n    http_status_code=~\"5..\"\n  }[$__rate_interval])\n)\n/\nsum by (job, http_method, http_route) (\n  rate(http_server_duration_milliseconds_count{\n    job=~\"questify/$service\",\n    http_route=~\"$route\"\n  }[$__rate_interval])\n)",
+              "expr": "sum by (job, http_method, http_route) (\n  rate(http_server_duration_milliseconds_count{\n    job=~\"questify/$service\",\n    http_route=~\"$route\",\n    http_route!~\"/actuator/.*\",\n    http_status_code=~\"5..\"\n  }[$__rate_interval])\n)\n/\nsum by (job, http_method, http_route) (\n  rate(http_server_duration_milliseconds_count{\n    job=~\"questify/$service\",\n    http_route=~\"$route\",\n    http_route!~\"/actuator/.*\"\n  }[$__rate_interval])\n)",
               "legendFormat": "{{job}} {{http_method}} {{http_route}}",
               "refId": "A"
             }
@@ -280,7 +280,7 @@ data:
           "targets": [
             {
               "datasource": { "type": "prometheus", "uid": "prometheus" },
-              "expr": "sum(\n  rate(http_server_duration_milliseconds_count{\n    job=~\"questify/$service\",\n    http_status_code=~\"5..\"\n  }[$__rate_interval])\n)\n/\nsum(\n  rate(http_server_duration_milliseconds_count{\n    job=~\"questify/$service\"\n  }[$__rate_interval])\n)",
+              "expr": "sum(\n  rate(http_server_duration_milliseconds_count{\n    job=~\"questify/$service\",\n    http_status_code=~\"5..\",\n    http_route!~\"/actuator/.*\"\n  }[$__rate_interval])\n)\n/\nsum(\n  rate(http_server_duration_milliseconds_count{\n    job=~\"questify/$service\",\n    http_route!~\"/actuator/.*\"\n  }[$__rate_interval])\n)",
               "legendFormat": "5xx rate",
               "refId": "A"
             }
@@ -454,21 +454,21 @@ data:
           "targets": [
             {
               "datasource": { "type": "prometheus", "uid": "prometheus" },
-              "expr": "sum by (job) (\n  rate(http_server_duration_milliseconds_count{\n    job=~\"questify/$service\"\n  }[5m])\n)",
+              "expr": "sum by (job) (\n  rate(http_server_duration_milliseconds_count{\n    job=~\"questify/$service\",\n    http_route!~\"/actuator/.*\"\n  }[5m])\n)",
               "legendFormat": "{{job}}",
               "refId": "RPS",
               "instant": true
             },
             {
               "datasource": { "type": "prometheus", "uid": "prometheus" },
-              "expr": "sum by (job) (\n  rate(http_server_duration_milliseconds_count{\n    job=~\"questify/$service\",\n    http_status_code=~\"5..\"\n  }[5m])\n)\n/\nsum by (job) (\n  rate(http_server_duration_milliseconds_count{\n    job=~\"questify/$service\"\n  }[5m])\n)",
+              "expr": "sum by (job) (\n  rate(http_server_duration_milliseconds_count{\n    job=~\"questify/$service\",\n    http_status_code=~\"5..\",\n    http_route!~\"/actuator/.*\"\n  }[5m])\n)\n/\nsum by (job) (\n  rate(http_server_duration_milliseconds_count{\n    job=~\"questify/$service\",\n    http_route!~\"/actuator/.*\"\n  }[5m])\n)",
               "legendFormat": "{{job}}",
               "refId": "ERR",
               "instant": true
             },
             {
               "datasource": { "type": "prometheus", "uid": "prometheus" },
-              "expr": "histogram_quantile(0.99,\n  sum by (job, le) (\n    rate(http_server_duration_milliseconds_bucket{\n      job=~\"questify/.*\",\n      job=~\"questify/$service\"\n    }[5m])\n  )\n)",
+              "expr": "histogram_quantile(0.99,\n  sum by (job, le) (\n    rate(http_server_duration_milliseconds_bucket{\n      job=~\"questify/.*\",\n      job=~\"questify/$service\",\n      http_route!~\"/actuator/.*\"\n    }[5m])\n  )\n)",
               "legendFormat": "{{job}}",
               "refId": "P99",
               "instant": true
