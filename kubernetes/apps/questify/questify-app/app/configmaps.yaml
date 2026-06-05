@@ -15,6 +15,11 @@ data:
                          'rt=$request_time ut=$upstream_response_time';
         access_log /var/log/nginx/access.log timed;
 
+        map $arg_token $effective_authorization {
+            default $http_authorization;
+            ~^.+$   "Bearer $arg_token";
+        }
+
         proxy_connect_timeout  5s;
         proxy_next_upstream    error timeout;
         proxy_http_version     1.1;
@@ -39,7 +44,7 @@ data:
                 proxy_set_header        Content-Length  "";
                 proxy_set_header        Host            $host;
                 proxy_set_header        Cookie          $http_cookie;
-                proxy_set_header        Authorization   $http_authorization;
+                proxy_set_header        Authorization   $effective_authorization;
             }
 
             location /api/auth/ {
