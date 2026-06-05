@@ -23,7 +23,7 @@ data:
 
     compactor:
       compaction:
-        block_retention: 48h
+        block_retention: 24h
 
     metrics_generator:
       traces_storage:
@@ -45,7 +45,7 @@ data:
 
     query_frontend:
       search:
-        max_duration: 48h
+        max_duration: 24h
 
     storage:
       trace:
