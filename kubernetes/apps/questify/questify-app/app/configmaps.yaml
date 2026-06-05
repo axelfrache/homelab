@@ -131,7 +131,7 @@ data:
             }
 
             location /api/notifications/stream {
-                auth_request     /_auth/validate;
+                auth_request     "/_auth/validate?token=$arg_token";
                 auth_request_set $x_user_id   $upstream_http_x_user_id;
                 auth_request_set $x_user_role $upstream_http_x_user_role;
                 proxy_pass       http://notification_svc;
