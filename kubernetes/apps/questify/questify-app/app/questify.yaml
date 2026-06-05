@@ -483,7 +483,7 @@ spec:
             - until nc -w 5 -z questify-postgres-rw 5432; do sleep 2; done; until nc -w 5 -z rabbitmq 5672; do sleep 2; done
       containers:
         - name: quest-service
-          image: ghcr.io/axelfrache/questify-quest-service:latest@sha256:41b49dbbe8c6ecf05a6d8b082bca3d1fc09740ec0ad54ff43e5e22217bbadd5d # {"$imagepolicy": "flux-system:questify-quest-service"}
+          image: ghcr.io/axelfrache/questify-quest-service:latest@sha256:2572434a87321015a3c1760c410946c8e0e62b860553d505bb30f1417643ef0c # {"$imagepolicy": "flux-system:questify-quest-service"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8082
