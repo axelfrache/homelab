@@ -43,6 +43,18 @@ spec:
                   key: password
             - name: OTEL_EXPORTER_OTLP_ENDPOINT
               value: http://otel-collector.monitoring.svc.cluster.local:4318
+            - name: MINIO_ENDPOINT
+              value: http://squirrel-minio:9000
+            - name: MINIO_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: squirrel-minio-secret
+                  key: access-key
+            - name: MINIO_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: squirrel-minio-secret
+                  key: secret-key
             - name: OTEL_SERVICE_NAME
               value: squirrelvault
           resources:

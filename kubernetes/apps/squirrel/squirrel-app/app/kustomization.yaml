@@ -5,3 +5,5 @@ resources:
   - ./backend.yaml
   - ./frontend.yaml
   - ./httproute.yaml
+  - ./minio.yaml
+  - ./minio-secret.sops.yaml
