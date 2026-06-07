@@ -8,7 +8,6 @@ components:
 
 resources:
   - ./namespace.yaml
-  - ./anchor/ks.yaml
   - ./bentopdf/ks.yaml
   - ./echo/ks.yaml
   - ./homarr/ks.yaml
