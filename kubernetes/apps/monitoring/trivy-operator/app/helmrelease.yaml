@@ -24,6 +24,7 @@ spec:
       rbacAssessmentScannerEnabled: true
       infraAssessmentScannerEnabled: true
       builtInTrivyServer: false
+      metricsVulnIdEnabled: true
 
     serviceMonitor:
       enabled: true
