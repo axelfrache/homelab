@@ -20,5 +20,4 @@ resources:
   - ./plantuml
   - ./questify
   - ./security
-  - ./squirrel
   - ./storage
