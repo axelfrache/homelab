@@ -1033,7 +1033,7 @@ spec:
             - until nc -w 5 -z questify-postgres-rw 5432; do sleep 2; done; until nc -w 5 -z rabbitmq 5672; do sleep 2; done
       containers:
         - name: notification-service
-          image: ghcr.io/axelfrache/questify-notification-service:latest@sha256:2c1f11a54f66505a13f3341509d9e13d29385ab63f5724a3e9e1b5cec5ad4e6d # {"$imagepolicy": "flux-system:questify-notification-service"}
+          image: ghcr.io/axelfrache/questify-notification-service:latest@sha256:ae16aff730a92f446777d81b02d5030e282e822817300489d42f0192421a1556 # {"$imagepolicy": "flux-system:questify-notification-service"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8087
