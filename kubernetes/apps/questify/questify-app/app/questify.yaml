@@ -1228,7 +1228,7 @@ spec:
             - until nc -w 5 -z questify-gateway 8080; do sleep 2; done
       containers:
         - name: questify-frontend
-          image: ghcr.io/axelfrache/questify-frontend:latest@sha256:7230a654936a58910b30a13f674e31bf13937b4cd6a7587765f710a7ab38f71c # {"$imagepolicy": "flux-system:questify-frontend"}
+          image: ghcr.io/axelfrache/questify-frontend:latest@sha256:d7c3a516ce203f263dc1e2b418fca36fbd9f5b560401e26949747bfcbff7b98c # {"$imagepolicy": "flux-system:questify-frontend"}
           imagePullPolicy: Always
           env:
             - name: OIDC_ISSUER_URL
