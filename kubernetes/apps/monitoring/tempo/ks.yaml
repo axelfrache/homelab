@@ -13,3 +13,4 @@ spec:
     namespace: flux-system
   targetNamespace: monitoring
   wait: true
+  timeout: 5m
