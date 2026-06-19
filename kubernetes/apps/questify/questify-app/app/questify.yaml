@@ -689,7 +689,7 @@ spec:
             - until nc -w 5 -z questify-postgres-rw 5432; do sleep 2; done; until nc -w 5 -z rabbitmq 5672; do sleep 2; done; until nc -w 5 -z redis 6379; do sleep 2; done
       containers:
         - name: progression-service
-          image: ghcr.io/axelfrache/questify-progression-service:latest@sha256:03cf77b3229ea8b2505cb05af7f6e5055b81b0aefd65ec23d04b04f49fecef9c # {"$imagepolicy": "flux-system:questify-progression-service"}
+          image: ghcr.io/axelfrache/questify-progression-service:latest@sha256:2606bf65665fd5d63a2aa47cfb4e0c5d45242419b2869d54b5fe1ecc2dd655da # {"$imagepolicy": "flux-system:questify-progression-service"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8084
