@@ -22,7 +22,7 @@ spec:
       vulnerabilityScannerEnabled: true
       configAuditScannerEnabled: true
       rbacAssessmentScannerEnabled: true
-      infraAssessmentScannerEnabled: true
+      infraAssessmentScannerEnabled: false
       builtInTrivyServer: false
       metricsVulnIdEnabled: true
 
