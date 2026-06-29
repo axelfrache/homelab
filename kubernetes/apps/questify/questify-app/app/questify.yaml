@@ -319,7 +319,7 @@ spec:
             - until nc -w 5 -z questify-postgres-rw 5432; do sleep 2; done; until nc -w 5 -z rabbitmq 5672; do sleep 2; done; until nc -w 5 -z garage 3900; do sleep 2; done
       containers:
         - name: auth-service
-          image: ghcr.io/axelfrache/questify-auth-service:latest@sha256:fefb927751a0ae92ecbfc5410a409cd25b88316d9aff5f3dd8c9ba6a75a3c58c # {"$imagepolicy": "flux-system:questify-auth-service"}
+          image: ghcr.io/axelfrache/questify-auth-service:latest@sha256:0a8b996bc091191ac0c77026f067a193e1302992899b8c150bdaa17f0b0f14ad # {"$imagepolicy": "flux-system:questify-auth-service"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8081
@@ -483,7 +483,7 @@ spec:
             - until nc -w 5 -z questify-postgres-rw 5432; do sleep 2; done; until nc -w 5 -z rabbitmq 5672; do sleep 2; done
       containers:
         - name: quest-service
-          image: ghcr.io/axelfrache/questify-quest-service:latest@sha256:75744def2d4a8210b80f428cbe7650a98af319e93034a31db1497cfeda67318e # {"$imagepolicy": "flux-system:questify-quest-service"}
+          image: ghcr.io/axelfrache/questify-quest-service:latest@sha256:a170ab048c4f25e5a5467dede5fa8546e8a0e73bfbe3306aeb8de28956f203a0 # {"$imagepolicy": "flux-system:questify-quest-service"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8082
@@ -915,7 +915,7 @@ spec:
             - until nc -w 5 -z questify-postgres-rw 5432; do sleep 2; done; until nc -w 5 -z rabbitmq 5672; do sleep 2; done; until nc -w 5 -z auth-service 8081; do sleep 2; done; until nc -w 5 -z quest-service 8082; do sleep 2; done; until nc -w 5 -z project-service 8083; do sleep 2; done; until nc -w 5 -z progression-service 8084; do sleep 2; done; until nc -w 5 -z stats-service 8085; do sleep 2; done
       containers:
         - name: admin-service
-          image: ghcr.io/axelfrache/questify-admin-service:latest@sha256:06beeb11f035d8525d7a5aaed961cceae99ae0bbd57c37eaea43a3ac95e885fa # {"$imagepolicy": "flux-system:questify-admin-service"}
+          image: ghcr.io/axelfrache/questify-admin-service:latest@sha256:d619ca16cfe89f7de879a12403d282161f9c64b6a7ecb64cc70ffdd1d2d4d43a # {"$imagepolicy": "flux-system:questify-admin-service"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8086
