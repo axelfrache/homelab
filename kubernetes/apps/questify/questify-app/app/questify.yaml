@@ -915,7 +915,7 @@ spec:
             - until nc -w 5 -z questify-postgres-rw 5432; do sleep 2; done; until nc -w 5 -z rabbitmq 5672; do sleep 2; done; until nc -w 5 -z auth-service 8081; do sleep 2; done; until nc -w 5 -z quest-service 8082; do sleep 2; done; until nc -w 5 -z project-service 8083; do sleep 2; done; until nc -w 5 -z progression-service 8084; do sleep 2; done; until nc -w 5 -z stats-service 8085; do sleep 2; done
       containers:
         - name: admin-service
-          image: ghcr.io/axelfrache/questify-admin-service:latest@sha256:9fb11770488119bc066cf6178e9ae0aa4934dcc428004c2608d74ea5f64f132d # {"$imagepolicy": "flux-system:questify-admin-service"}
+          image: ghcr.io/axelfrache/questify-admin-service:latest@sha256:c078d3920d1593e7fa93bbafd058604c4af911fb9f218667ba9d1ab7f7d7cc98 # {"$imagepolicy": "flux-system:questify-admin-service"}
           imagePullPolicy: Always
           ports:
             - containerPort: 8086
@@ -1228,7 +1228,7 @@ spec:
             - until nc -w 5 -z questify-gateway 8080; do sleep 2; done
       containers:
         - name: questify-frontend
-          image: ghcr.io/axelfrache/questify-frontend:latest@sha256:56297ba5f85fe99ee235a57a24891aa1da924ef91b868a35a00ce63f60a909de # {"$imagepolicy": "flux-system:questify-frontend"}
+          image: ghcr.io/axelfrache/questify-frontend:latest@sha256:d0738755aaeadba5e2e2d35a474e081a603e229d434d83f3e6264dc74d19c011 # {"$imagepolicy": "flux-system:questify-frontend"}
           imagePullPolicy: Always
           env:
             - name: OIDC_ISSUER_URL
