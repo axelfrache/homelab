@@ -12,6 +12,7 @@ resources:
   - ./keel
   - ./kube-system
   - ./latex
+  - ./listle
   - ./media
   - ./monitoring
   - ./n8n

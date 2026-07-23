@@ -1,0 +1,70 @@
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: daydash-backend
+spec:
+  image: ghcr.io/axelfrache/daydash-backend
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: daydash-frontend
+spec:
+  image: ghcr.io/axelfrache/daydash-frontend
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: daydash-backend
+spec:
+  imageRepositoryRef:
+    name: daydash-backend
+  filterTags:
+    pattern: ^latest$
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImagePolicy
+metadata:
+  name: daydash-frontend
+spec:
+  imageRepositoryRef:
+    name: daydash-frontend
+  filterTags:
+    pattern: ^latest$
+  policy:
+    alphabetical:
+      order: asc
+  digestReflectionPolicy: Always
+  interval: 5m
+---
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageUpdateAutomation
+metadata:
+  name: listle
+spec:
+  interval: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  git:
+    checkout:
+      ref:
+        name: refs/heads/main
+    commit:
+      author:
+        name: fluxcdbot
+        email: fluxcdbot@users.noreply.github.com
+      messageTemplate: "chore(listle): update image digests"
+    push:
+      branch: main
+  update:
+    path: ./kubernetes/apps/listle
+    strategy: Setters

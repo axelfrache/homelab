@@ -1,0 +1,51 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: listle-db-backup
+spec:
+  schedule: "19 */12 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: backup
+              image: postgres:17-alpine
+              env:
+                - name: PGPASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: listle-postgres-app
+                      key: password
+              command:
+                - sh
+                - -ec
+                - |
+                  ts="$(date -u +%Y%m%dT%H%M%SZ)"
+                  mkdir -p /backup/db/listle
+
+                  pg_dump \
+                    -h listle-postgres-rw \
+                    -U daydash \
+                    -d daydash \
+                    --format=custom \
+                    --no-owner \
+                    --no-acl \
+                    --file="/backup/db/listle/listle-$ts.dump"
+
+                  gzip -9 "/backup/db/listle/listle-$ts.dump"
+                  find /backup/db/listle -type f -name '*.dump.gz' -mtime +14 -delete
+              volumeMounts:
+                - name: backup
+                  mountPath: /backup
+          volumes:
+            - name: backup
+              nfs:
+                server: 192.168.1.20
+                path: /mnt/tank/backups
