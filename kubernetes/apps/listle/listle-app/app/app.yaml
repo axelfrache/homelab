@@ -52,6 +52,8 @@ spec:
                   key: jwt-secret
             - name: JWT_EXPIRATION_MS
               value: "86400000"
+            - name: DAYDASH_WORDSYNC_ENABLED
+              value: "false"
           startupProbe:
             tcpSocket:
               port: http
