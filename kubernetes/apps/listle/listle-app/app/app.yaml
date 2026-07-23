@@ -154,8 +154,15 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - listle.${SECRET_DOMAIN}
+    - daydash.${SECRET_DOMAIN}
   rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /api
+      backendRefs:
+        - name: backend
+          port: 8080
     - backendRefs:
         - name: frontend
           port: 80
