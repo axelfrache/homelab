@@ -24,7 +24,7 @@ spec:
             - until nc -w 5 -z listle-postgres-rw 5432; do sleep 2; done
       containers:
         - name: backend
-          image: ghcr.io/axelfrache/daydash-backend:latest # {"$imagepolicy": "flux-system:daydash-backend"}
+          image: ghcr.io/axelfrache/daydash-backend:latest@sha256:197578ab53b1b8e48cbb7c72388fb98fe387ef43aa3ce8c2cdf1352b17043f5d # {"$imagepolicy": "flux-system:daydash-backend"}
           imagePullPolicy: Always
           ports:
             - name: http
