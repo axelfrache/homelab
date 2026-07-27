@@ -18,7 +18,7 @@ spec:
           image: ghcr.io/seanmorley15/adventurelog-frontend:latest
           env:
             - name: PUBLIC_SERVER_URL
-              value: "https://explore-api.axelfrache.com"
+              value: "http://adventurelog-backend:8000"
             - name: ORIGIN
               value: "https://explore.axelfrache.com"
             - name: BODY_SIZE_LIMIT
