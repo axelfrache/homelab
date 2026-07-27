@@ -11,12 +11,14 @@ spec:
   hostnames:
     - "explore.axelfrache.com"
   rules:
-    - filters:
-        - type: RequestHeaderModifier
-          requestHeaderModifier:
-            remove:
-              - transfer-encoding
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /api
       backendRefs:
+        - name: adventurelog-backend
+          port: 8000
+    - backendRefs:
         - name: adventurelog-frontend
           port: 3000
 ---
