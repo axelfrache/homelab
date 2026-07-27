@@ -1,0 +1,75 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adventurelog-backend
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: adventurelog-backend
+  template:
+    metadata:
+      labels:
+        app: adventurelog-backend
+    spec:
+      containers:
+        - name: backend
+          image: ghcr.io/seanmorley15/adventurelog-backend:latest
+          env:
+            - name: PGHOST
+              value: adventurelog-db
+            - name: PGDATABASE
+              value: database
+            - name: PGUSER
+              value: adventure
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: adventurelog-secret
+                  key: POSTGRES_PASSWORD
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: adventurelog-secret
+                  key: DJANGO_SECRET_KEY
+            - name: PUBLIC_URL
+              value: "https://explore-api.axelfrache.com"
+            - name: FRONTEND_URL
+              value: "https://explore.axelfrache.com"
+            - name: CSRF_TRUSTED_ORIGINS
+              value: "https://explore.axelfrache.com,https://explore-api.axelfrache.com"
+            - name: DJANGO_ADMIN_USERNAME
+              value: admin
+            - name: DJANGO_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: adventurelog-secret
+                  key: DJANGO_ADMIN_PASSWORD
+            - name: DJANGO_ADMIN_EMAIL
+              value: axelfrache@gmail.com
+            - name: TZ
+              value: Europe/Paris
+          ports:
+            - containerPort: 8000
+          volumeMounts:
+            - name: media
+              mountPath: /code/media
+          resources:
+            requests:
+              cpu: 50m
+              memory: 256Mi
+            limits:
+              memory: 512Mi
+          readinessProbe:
+            tcpSocket:
+              port: 8000
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            failureThreshold: 6
+      volumes:
+        - name: media
+          persistentVolumeClaim:
+            claimName: adventurelog-media
