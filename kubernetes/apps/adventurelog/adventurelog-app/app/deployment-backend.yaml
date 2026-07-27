@@ -50,6 +50,8 @@ spec:
                   key: DJANGO_ADMIN_PASSWORD
             - name: DJANGO_ADMIN_EMAIL
               value: axelfrache@gmail.com
+            - name: DISABLE_REGISTRATION
+              value: "True"
             - name: TZ
               value: Europe/Paris
           ports:
