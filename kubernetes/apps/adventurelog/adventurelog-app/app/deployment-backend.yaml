@@ -36,7 +36,7 @@ spec:
                   name: adventurelog-secret
                   key: DJANGO_SECRET_KEY
             - name: PUBLIC_URL
-              value: "https://explore-api.axelfrache.com"
+              value: "https://explore.axelfrache.com"
             - name: FRONTEND_URL
               value: "https://explore.axelfrache.com"
             - name: CSRF_TRUSTED_ORIGINS
