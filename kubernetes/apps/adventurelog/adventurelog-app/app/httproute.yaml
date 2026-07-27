@@ -11,7 +11,12 @@ spec:
   hostnames:
     - "explore.axelfrache.com"
   rules:
-    - backendRefs:
+    - filters:
+        - type: RequestHeaderModifier
+          requestHeaderModifier:
+            remove:
+              - transfer-encoding
+      backendRefs:
         - name: adventurelog-frontend
           port: 3000
 ---
